@@ -8,5 +8,6 @@ public class MainPruebas {
                 {"TRÉBOLES", "4"}
         };
         Util.pintarCartas(mano);
+        Util.printMenu();
     }
 }
