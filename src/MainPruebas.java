@@ -11,5 +11,8 @@ public class MainPruebas {
         Util.pintarCartas(mano);
         System.out.println(instrucciones.toString());
         Util.printMenu();
+        System.out.println();
+        JerarquiaDeManos jerarquiaDeManos = new JerarquiaDeManos();
+        jerarquiaDeManos.imprimir();
     }
 }
