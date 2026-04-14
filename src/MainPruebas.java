@@ -10,5 +10,6 @@ public class MainPruebas {
         };
         Util.pintarCartas(mano);
         System.out.println(instrucciones.toString());
+        Util.printMenu();
     }
 }

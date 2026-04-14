@@ -1,37 +1,4 @@
 public class Util {
-    /*public static void pintarCarta(String palo, String numero) {
-
-        System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "╭─────╮" + Color.RESET);
-
-        if (palo.equals("PICAS")) {
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + " ^  " + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "/ \\" + Color.PURPLE + " │" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_._)" + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵ " + numero + Color.PURPLE + "│" + Color.RESET);
-
-        } else if (palo.equals("TRÉBOLES")) {
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + "    " + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "(¯)" + Color.PURPLE + " │" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_'_)" + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵" + " " +  numero + Color.PURPLE + "│" + Color.RESET);
-
-        } else if (palo.equals("DIAMANTES")) {
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + " ^  " + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "/ \\" + Color.PURPLE + " │" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\ /" + Color.PURPLE + " │" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "v " + numero + Color.PURPLE + "│" + Color.RESET);
-
-        } else if (palo.equals("CORAZONES")) {
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + "    " + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "(¯v¯)" + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\ /" + Color.PURPLE + " │" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "v " + numero + Color.PURPLE + "│" + Color.RESET);
-        }
-        System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "╰─────╯" + Color.RESET);
-        System.out.println();
-
-    } */
-
     public static String[] obtenerLineasCarta(String palo, String numero) {
         String[] lineas = new String[7]; // 7 líneas por carta
 
@@ -86,5 +53,86 @@ public class Util {
             }
             System.out.println(sb);
         }
+    }
+
+    public static void printMenu() {
+        String[] menu = {
+                "╔══════════════════════════════╗",
+                "║      S E A L  F L U S H      ║",
+                "║                              ║",
+                "║    - by Ximena & Adrián -    ║",
+                "╚══════════════════════════════╝"
+        };
+
+        String[] foca = {
+                "               ..-=++=-.                                 ",
+                "          ..-+-.       ..=+:..                           ",
+                "         .=-.              .-=.                          ",
+                "       .-=.                  .--                         ",
+                "      .--    .          ....   :-.                       ",
+                "      :-. ....         ....     -.                       ",
+                "     .--..-%%++.       :+*@#.   :=.                      ",
+                "     .-:..-@@@+..=**-. :%@@%.   :=.                      ",
+                "     .-.....:...=@@@%:...::.... :=. .....                ",
+                "     .-:...:-#=-..==..=++-:..:. :-. .-..--:.   .-----.   ",
+                "     .-:-:..--===+:-===--:.:-. .+.  .=.  .--.:=:.  .=.   ",
+                "      .-:....     ..     ..  ..#.   .:..   =+:    .::.   ",
+                "        .==:.              .:=-     .:-.   ::    .:-.    ",
+                "        .=.      . ...     ...=.      .:-=-..:::=-:.     ",
+                "        -.                    .*..   .. :=...+...        ",
+                "       .+.                      .::--:..    :-           ",
+                "       .=                                  :-.           ",
+                "       .=.                               .--.            ",
+                "      .=.             ...  .::.         .-:              ",
+                "     .-:...           .+.  ..-.       .:=.               ",
+                " ..--:.               .-     .=:     .-:                 ",
+                ".--.      .-+:        .=      ..-+-.=:..                 ",
+                " .:=+===+=:.  .==-:....-:.     ....+.                    ",
+                "                       .:---:...:--:.                    ",
+                "                          ...::...                       "
+        };
+
+        String[] cartas = {
+                "⠀⠀⠀⠀⠀⠀⣀⣤⣴⣄⠀⢀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ",
+                "⠀⠀⣠⣴⣾⣿⣿⣿⣿⣿⣇⢸⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀",
+                "⠀⠀⢿⣿⣿⣿⠛⠿⣿⣿⣿⡀⢻⣿⣿⣿⣿⠀⣸⣿⣶⣦⣄⠀⠀⠀⠀⠀⠀⠀ ",
+                "⠀⠀⠘⣿⣿⠃⠀⠀⠀⠈⠙⣧⠈⢿⣿⣿⣿⠀⣿⣿⣿⣿⡟⢀⡀⠀⠀⠀⠀⠀ ",
+                "⠀⠀⠀⢹⡇⠀⠀⠀⠀⣀⣠⣿⣇⠘⣿⣿⣿⠀⣿⣿⣿⡿⠀⣾⣿⣷⣄⠀⠀⠀ ",
+                "⠀⠀⠀⠀⢿⣦⣤⣾⡆⣹⣿⣿⣿⡄⠹⣿⣿⠀⣿⣿⣿⠃⣸⣿⣿⣿⣿⣷⠀⠀",
+                "⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⠗⢀⣿⡏⠀⣿⣿⡏⢠⣿⣿⣿⣿⠟⠁⠀⠀",
+                "⠀⠀⠀⠀⠀⠸⢿⠿⠟⠋⠉⠁⠀⠐⠚⠛⠃⣰⣿⡿⠀⣾⣿⣿⡿⠃⠀⠀⠀⠀ ",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠻⠿⠿⠃⣸⣿⣿⠋⠀⠀⠀⠀⠀⠀  ",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠢⣤⣾⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀  ",
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀  "
+        };
+
+        // Centrado vertical: padding arriba y abajo para cartas
+        int altFoca   = foca.length;    // 25
+        int altCartas = cartas.length;  // 11
+        int altMenu   = menu.length;    // 5
+
+        int padCartas = (altFoca - altCartas) / 2;  // offset de cartas respecto a foca
+        int padMenu   = (altFoca - altMenu)   / 2;  // offset de menu respecto a foca
+
+        String vacioCarta = "                                              ";
+        String vacioMenu  = "                                ";
+
+        for (int i = 0; i < altFoca; i++) {
+            int cartaIdx = i - padCartas;
+            int menuIdx  = i - padMenu;
+
+            String colMenu  = (menuIdx  >= 0 && menuIdx  < altMenu)   ? menu[menuIdx]    : vacioMenu;
+            String colCarta = (cartaIdx >= 0 && cartaIdx < altCartas) ? cartas[cartaIdx] : vacioCarta;
+
+            System.out.println(foca[i] + "         " + colMenu + "         " + colCarta);
+        }
+
+        // Menú
+        System.out.println();
+        System.out.println("                                                     ════════════════════════════════════════════════════════════");
+        System.out.println("                                                       [ 1 ]  Nueva partida     [ 2 ]  Reglas     [ 0 ]  Salir");
+        System.out.println("                                                     ════════════════════════════════════════════════════════════");
+        System.out.println();
+        System.out.print("                                                      > Elige una opción: ");
     }
 }
