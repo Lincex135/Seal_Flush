@@ -4,29 +4,31 @@ public class Util {
 
         lineas[0] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "╭─────╮" + Color.RESET;
 
-        if (palo.equals("PICAS")) {
-            lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + " .  " + Color.PURPLE + "│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "/ \\" + Color.PURPLE + " │" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_._)" + Color.PURPLE + "│" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵ " + numero + Color.PURPLE + "│" + Color.RESET;
-
-        } else if (palo.equals("TRÉBOLES")) {
-            lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + "    " + Color.PURPLE + "│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "(¯)" + Color.PURPLE + " │" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_X_)" + Color.PURPLE + "│" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵ " + numero + Color.PURPLE + "│" + Color.RESET;
-
-        } else if (palo.equals("DIAMANTES")) {
-            lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + " /\\ " + Color.PURPLE + "│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "/  \\" + Color.PURPLE + "│" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\  /" + Color.PURPLE + "│" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "\\/" + numero + Color.PURPLE + "│" + Color.RESET;
-
-        } else if (palo.equals("CORAZONES")) {
-            lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + "    " + Color.PURPLE + "│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "(¯v¯)" + Color.PURPLE + "│" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\ /" + Color.PURPLE + " │" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "v " + numero + Color.PURPLE + "│" + Color.RESET;
+        switch (palo) {
+            case "PICAS" -> {
+                lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + " .  " + Color.PURPLE + "│" + Color.RESET;
+                lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "/ \\" + Color.PURPLE + " │" + Color.RESET;
+                lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_._)" + Color.PURPLE + "│" + Color.RESET;
+                lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵ " + numero + Color.PURPLE + "│" + Color.RESET;
+            }
+            case "TRÉBOLES" -> {
+                lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + "    " + Color.PURPLE + "│" + Color.RESET;
+                lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "(¯)" + Color.PURPLE + " │" + Color.RESET;
+                lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_X_)" + Color.PURPLE + "│" + Color.RESET;
+                lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵ " + numero + Color.PURPLE + "│" + Color.RESET;
+            }
+            case "DIAMANTES" -> {
+                lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + " /\\ " + Color.PURPLE + "│" + Color.RESET;
+                lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "/  \\" + Color.PURPLE + "│" + Color.RESET;
+                lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\  /" + Color.PURPLE + "│" + Color.RESET;
+                lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "\\/" + numero + Color.PURPLE + "│" + Color.RESET;
+            }
+            case "CORAZONES" -> {
+                lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + "    " + Color.PURPLE + "│" + Color.RESET;
+                lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "(¯v¯)" + Color.PURPLE + "│" + Color.RESET;
+                lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\ /" + Color.PURPLE + " │" + Color.RESET;
+                lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "v " + numero + Color.PURPLE + "│" + Color.RESET;
+            }
         }
 
         lineas[5] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "╰─────╯" + Color.RESET;
@@ -47,8 +49,8 @@ public class Util {
         int numLineas = todasLineas[0].length;
         for (int fila = 0; fila < numLineas; fila++) {
             StringBuilder sb = new StringBuilder();
-            for (int carta = 0; carta < todasLineas.length; carta++) {
-                sb.append(todasLineas[carta][fila]);
+            for (String[] todasLinea : todasLineas) {
+                sb.append(todasLinea[fila]);
                 sb.append("  "); // espacio entre cartas
             }
             System.out.println(sb);
@@ -56,83 +58,36 @@ public class Util {
     }
 
     public static void printMenu() {
-        String[] menu = {
-                "╔══════════════════════════════╗",
-                "║      S E A L  F L U S H      ║",
-                "║                              ║",
-                "║    - by Ximena & Adrián -    ║",
-                "╚══════════════════════════════╝"
-        };
-
-        String[] foca = {
-                "               ..-=++=-.                                 ",
-                "          ..-+-.       ..=+:..                           ",
-                "         .=-.              .-=.                          ",
-                "       .-=.                  .--                         ",
-                "      .--    .          ....   :-.                       ",
-                "      :-. ....         ....     -.                       ",
-                "     .--..-%%++.       :+*@#.   :=.                      ",
-                "     .-:..-@@@+..=**-. :%@@%.   :=.                      ",
-                "     .-.....:...=@@@%:...::.... :=. .....                ",
-                "     .-:...:-#=-..==..=++-:..:. :-. .-..--:.   .-----.   ",
-                "     .-:-:..--===+:-===--:.:-. .+.  .=.  .--.:=:.  .=.   ",
-                "      .-:....     ..     ..  ..#.   .:..   =+:    .::.   ",
-                "        .==:.              .:=-     .:-.   ::    .:-.    ",
-                "        .=.      . ...     ...=.      .:-=-..:::=-:.     ",
-                "        -.                    .*..   .. :=...+...        ",
-                "       .+.                      .::--:..    :-           ",
-                "       .=                                  :-.           ",
-                "       .=.                               .--.            ",
-                "      .=.             ...  .::.         .-:              ",
-                "     .-:...           .+.  ..-.       .:=.               ",
-                " ..--:.               .-     .=:     .-:                 ",
-                ".--.      .-+:        .=      ..-+-.=:..                 ",
-                " .:=+===+=:.  .==-:....-:.     ....+.                    ",
-                "                       .:---:...:--:.                    ",
-                "                          ...::...                       "
-        };
-
-        String[] cartas = {
-                "⠀⠀⠀⠀⠀⠀⣀⣤⣴⣄⠀⢀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ",
-                "⠀⠀⣠⣴⣾⣿⣿⣿⣿⣿⣇⢸⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀",
-                "⠀⠀⢿⣿⣿⣿⠛⠿⣿⣿⣿⡀⢻⣿⣿⣿⣿⠀⣸⣿⣶⣦⣄⠀⠀⠀⠀⠀⠀⠀ ",
-                "⠀⠀⠘⣿⣿⠃⠀⠀⠀⠈⠙⣧⠈⢿⣿⣿⣿⠀⣿⣿⣿⣿⡟⢀⡀⠀⠀⠀⠀⠀ ",
-                "⠀⠀⠀⢹⡇⠀⠀⠀⠀⣀⣠⣿⣇⠘⣿⣿⣿⠀⣿⣿⣿⡿⠀⣾⣿⣷⣄⠀⠀⠀ ",
-                "⠀⠀⠀⠀⢿⣦⣤⣾⡆⣹⣿⣿⣿⡄⠹⣿⣿⠀⣿⣿⣿⠃⣸⣿⣿⣿⣿⣷⠀⠀",
-                "⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⠗⢀⣿⡏⠀⣿⣿⡏⢠⣿⣿⣿⣿⠟⠁⠀⠀",
-                "⠀⠀⠀⠀⠀⠸⢿⠿⠟⠋⠉⠁⠀⠐⠚⠛⠃⣰⣿⡿⠀⣾⣿⣿⡿⠃⠀⠀⠀⠀ ",
-                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠻⠿⠿⠃⣸⣿⣿⠋⠀⠀⠀⠀⠀⠀  ",
-                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠢⣤⣾⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀  ",
-                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀  "
-        };
-
         // Centrado vertical: padding arriba y abajo para cartas
-        int altFoca   = foca.length;    // 25
-        int altCartas = cartas.length;  // 11
-        int altMenu   = menu.length;    // 5
+        int altFoca   = Ascii.FOCA.length;    // 25
+        int altCartas = Ascii.CARTAS.length;  // 11
+        int altMenu   = Ascii.MENU.length;    // 5
+        int altOpciones = Ascii.OPCIONES.length; // 4
 
         int padCartas = (altFoca - altCartas) / 2;  // offset de cartas respecto a foca
         int padMenu   = (altFoca - altMenu)   / 2;  // offset de menu respecto a foca
+        int padOpciones = (altFoca - altOpciones)  / 2; //offset de opciones respecto a foca
 
         String vacioCarta = "                                              ";
         String vacioMenu  = "                                ";
+        String vacioOpciones="                                              ";
 
         for (int i = 0; i < altFoca; i++) {
             int cartaIdx = i - padCartas;
             int menuIdx  = i - padMenu;
+            //int opcionesIdx = i - padOpciones;
 
-            String colMenu  = (menuIdx  >= 0 && menuIdx  < altMenu)   ? menu[menuIdx]    : vacioMenu;
-            String colCarta = (cartaIdx >= 0 && cartaIdx < altCartas) ? cartas[cartaIdx] : vacioCarta;
+            String colMenu  = (menuIdx  >= 0 && menuIdx  < altMenu)   ? Ascii.MENU[menuIdx]    : vacioMenu;
+            String colCarta = (cartaIdx >= 0 && cartaIdx < altCartas) ? Ascii.CARTAS[cartaIdx] : vacioCarta;
 
-            System.out.println(foca[i] + "         " + colMenu + "         " + colCarta);
+            System.out.println(Ascii.FOCA[i] + "         " + colMenu + "         " + colCarta);
         }
 
         // Menú
-        System.out.println();
-        System.out.println("                                                     ════════════════════════════════════════════════════════════");
-        System.out.println("                                                       [ 1 ]  Nueva partida     [ 2 ]  Reglas     [ 0 ]  Salir");
-        System.out.println("                                                     ════════════════════════════════════════════════════════════");
-        System.out.println();
-        System.out.print("                                                      > Elige una opción: ");
+        for (int i = 0; i < altOpciones; i++) {
+            int opcionesIdx = i - padOpciones;
+            String colOpciones =(opcionesIdx >= 0 && opcionesIdx < altOpciones) ? Ascii.OPCIONES[opcionesIdx] : vacioOpciones;
+            System.out.println(Ascii.OPCIONES[i] + "         " + colOpciones);
+        }
     }
 }
