@@ -1,10 +1,10 @@
 public class Instrucciones {
-    /**
-     * Instrucciones del juego Texas Hold'em Poker.
-     * Contiene todas las reglas y explicaciones del juego como constantes String,
-     * organizadas por secciones para facilitar su uso en la interfaz de usuario.
-     */
 
+    private Juego juego;
+
+    public Instrucciones(Juego juego) {
+        this.juego = juego;
+    }
     // -------------------------------------------------------------------------
     // OBJETIVO DEL JUEGO
     // -------------------------------------------------------------------------
@@ -130,24 +130,22 @@ public class Instrucciones {
                     "  5. Se revela la última carta y se apuesta (River). " +
                     "Si hay empate, el mejor jugador gana el bote.";
 
-    // -------------------------------------------------------------------------
-    // Constructor privado: clase de utilidad, no instanciable
-    // -------------------------------------------------------------------------
-
-    public Instrucciones() {
-        //throw new UnsupportedOperationException("Clase de utilidad, no instanciable.");
-    }
-
     @Override
     public String toString() {
-        return OBJETIVO + "\n \n" +
-                ESTRUCTURA_DE_UNA_MANO + " \n \n" +
-                CIEGAS + "\n \n" +
-                ACCIONES + "\n \n" +
-                JERARQUIA_DE_MANOS + "\n \n" +
-                DESEMPATES + "\n \n" +
-                VARIANTES + "\n \n" +
-                POSICIONES + "\n \n" +
-                RESUMEN;
+        if (juego.equals(Juego.POKER)) {
+            return OBJETIVO + "\n \n" +
+                    ESTRUCTURA_DE_UNA_MANO + " \n \n" +
+                    CIEGAS + "\n \n" +
+                    ACCIONES + "\n \n" +
+                    JERARQUIA_DE_MANOS + "\n \n" +
+                    DESEMPATES + "\n \n" +
+                    VARIANTES + "\n \n" +
+                    POSICIONES + "\n \n" +
+                    RESUMEN;
+        } else if (juego.equals(Juego.BLACKJACK)) {
+            return "Blackjack";
+        } else {
+            return "No válido";
+        }
     }
 }
