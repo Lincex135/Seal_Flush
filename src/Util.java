@@ -57,25 +57,21 @@ public class Util {
         }
     }
 
-    public static void printMenu() {
+    public static void printInicio() {
         // Centrado vertical: padding arriba y abajo para cartas
         int altFoca   = Ascii.FOCA.length;    // 25
         int altCartas = Ascii.CARTAS.length;  // 11
         int altMenu   = Ascii.MENU.length;    // 5
-        int altOpciones = Ascii.OPCIONES.length; // 4
 
         int padCartas = (altFoca - altCartas) / 2;  // offset de cartas respecto a foca
         int padMenu   = (altFoca - altMenu)   / 2;  // offset de menu respecto a foca
-        int padOpciones = (altFoca - altOpciones)  / 2; //offset de opciones respecto a foca
 
         String vacioCarta = "                                              ";
         String vacioMenu  = "                                ";
-        String vacioOpciones="                                              ";
 
         for (int i = 0; i < altFoca; i++) {
             int cartaIdx = i - padCartas;
             int menuIdx  = i - padMenu;
-            //int opcionesIdx = i - padOpciones;
 
             String colMenu  = (menuIdx  >= 0 && menuIdx  < altMenu)   ? Ascii.MENU[menuIdx]    : vacioMenu;
             String colCarta = (cartaIdx >= 0 && cartaIdx < altCartas) ? Ascii.CARTAS[cartaIdx] : vacioCarta;
@@ -83,11 +79,5 @@ public class Util {
             System.out.println(Ascii.FOCA[i] + "         " + colMenu + "         " + colCarta);
         }
 
-        // Menú
-        for (int i = 0; i < altOpciones; i++) {
-            int opcionesIdx = i - padOpciones;
-            String colOpciones =(opcionesIdx >= 0 && opcionesIdx < altOpciones) ? Ascii.OPCIONES[opcionesIdx] : vacioOpciones;
-            System.out.println(Ascii.OPCIONES[i] + "         " + colOpciones);
-        }
     }
 }
