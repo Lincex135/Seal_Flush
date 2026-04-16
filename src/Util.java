@@ -1,65 +1,34 @@
 public class Util {
-    /*public static void pintarCarta(String palo, String numero) {
-
-        System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "╭─────╮" + Color.RESET);
-
-        if (palo.equals("PICAS")) {
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + " ^  " + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "/ \\" + Color.PURPLE + " │" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_._)" + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵ " + numero + Color.PURPLE + "│" + Color.RESET);
-
-        } else if (palo.equals("TRÉBOLES")) {
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + "    " + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "(¯)" + Color.PURPLE + " │" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_'_)" + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵" + " " +  numero + Color.PURPLE + "│" + Color.RESET);
-
-        } else if (palo.equals("DIAMANTES")) {
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + " ^  " + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "/ \\" + Color.PURPLE + " │" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\ /" + Color.PURPLE + " │" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "v " + numero + Color.PURPLE + "│" + Color.RESET);
-
-        } else if (palo.equals("CORAZONES")) {
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + "    " + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "(¯v¯)" + Color.PURPLE + "│" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\ /" + Color.PURPLE + " │" + Color.RESET);
-            System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "v " + numero + Color.PURPLE + "│" + Color.RESET);
-        }
-        System.out.println(Color.PURPLE + Color.LIGHT_YELLOW_BG + "╰─────╯" + Color.RESET);
-        System.out.println();
-
-    } */
-
     public static String[] obtenerLineasCarta(String palo, String numero) {
         String[] lineas = new String[7]; // 7 líneas por carta
 
         lineas[0] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "╭─────╮" + Color.RESET;
 
-        if (palo.equals("PICAS")) {
-            lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + " .  " + Color.PURPLE + "│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "/ \\" + Color.PURPLE + " │" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_._)" + Color.PURPLE + "│" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵ " + numero + Color.PURPLE + "│" + Color.RESET;
-
-        } else if (palo.equals("TRÉBOLES")) {
-            lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + "    " + Color.PURPLE + "│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "(¯)" + Color.PURPLE + " │" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_X_)" + Color.PURPLE + "│" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵ " + numero + Color.PURPLE + "│" + Color.RESET;
-
-        } else if (palo.equals("DIAMANTES")) {
-            lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + " /\\ " + Color.PURPLE + "│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "/  \\" + Color.PURPLE + "│" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\  /" + Color.PURPLE + "│" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "\\/" + numero + Color.PURPLE + "│" + Color.RESET;
-
-        } else if (palo.equals("CORAZONES")) {
-            lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + "    " + Color.PURPLE + "│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "(¯v¯)" + Color.PURPLE + "│" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\ /" + Color.PURPLE + " │" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "v " + numero + Color.PURPLE + "│" + Color.RESET;
+        switch (palo) {
+            case "PICAS" -> {
+                lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + " .  " + Color.PURPLE + "│" + Color.RESET;
+                lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "/ \\" + Color.PURPLE + " │" + Color.RESET;
+                lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_._)" + Color.PURPLE + "│" + Color.RESET;
+                lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵ " + numero + Color.PURPLE + "│" + Color.RESET;
+            }
+            case "TRÉBOLES" -> {
+                lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + "    " + Color.PURPLE + "│" + Color.RESET;
+                lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.BLACK + "(¯)" + Color.PURPLE + " │" + Color.RESET;
+                lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_X_)" + Color.PURPLE + "│" + Color.RESET;
+                lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.BLACK + "╵ " + numero + Color.PURPLE + "│" + Color.RESET;
+            }
+            case "DIAMANTES" -> {
+                lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + " /\\ " + Color.PURPLE + "│" + Color.RESET;
+                lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "/  \\" + Color.PURPLE + "│" + Color.RESET;
+                lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\  /" + Color.PURPLE + "│" + Color.RESET;
+                lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "\\/" + numero + Color.PURPLE + "│" + Color.RESET;
+            }
+            case "CORAZONES" -> {
+                lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + "    " + Color.PURPLE + "│" + Color.RESET;
+                lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "(¯v¯)" + Color.PURPLE + "│" + Color.RESET;
+                lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│ " + Color.RED + "\\ /" + Color.PURPLE + " │" + Color.RESET;
+                lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│  " + Color.RED + "v " + numero + Color.PURPLE + "│" + Color.RESET;
+            }
         }
 
         lineas[5] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "╰─────╯" + Color.RESET;
@@ -80,11 +49,35 @@ public class Util {
         int numLineas = todasLineas[0].length;
         for (int fila = 0; fila < numLineas; fila++) {
             StringBuilder sb = new StringBuilder();
-            for (int carta = 0; carta < todasLineas.length; carta++) {
-                sb.append(todasLineas[carta][fila]);
+            for (String[] todasLinea : todasLineas) {
+                sb.append(todasLinea[fila]);
                 sb.append("  "); // espacio entre cartas
             }
             System.out.println(sb);
         }
+    }
+
+    public static void printInicio() {
+        // Centrado vertical: padding arriba y abajo para cartas
+        int altFoca   = Ascii.FOCA.length;    // 25
+        int altCartas = Ascii.CARTAS.length;  // 11
+        int altMenu   = Ascii.MENU.length;    // 5
+
+        int padCartas = (altFoca - altCartas) / 2;  // offset de cartas respecto a foca
+        int padMenu   = (altFoca - altMenu)   / 2;  // offset de menu respecto a foca
+
+        String vacioCarta = "                                              ";
+        String vacioMenu  = "                                ";
+
+        for (int i = 0; i < altFoca; i++) {
+            int cartaIdx = i - padCartas;
+            int menuIdx  = i - padMenu;
+
+            String colMenu  = (menuIdx  >= 0 && menuIdx  < altMenu)   ? Ascii.MENU[menuIdx]    : vacioMenu;
+            String colCarta = (cartaIdx >= 0 && cartaIdx < altCartas) ? Ascii.CARTAS[cartaIdx] : vacioCarta;
+
+            System.out.println(Ascii.FOCA[i] + "         " + colMenu + "         " + colCarta);
+        }
+
     }
 }
