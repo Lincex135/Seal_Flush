@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Util {
     public static String[] obtenerLineasCarta(String palo, String numero) {
         String[] lineas = new String[7]; // 7 líneas por carta
@@ -78,6 +80,19 @@ public class Util {
 
             System.out.println(Ascii.FOCA[i] + "         " + colMenu + "         " + colCarta);
         }
+    }
 
+    public static boolean nombreRepetido(ArrayList<Jugador> listaJugadores, String nombre) {
+        boolean esRepetido = false;
+        for (int i = 0; i < listaJugadores.size(); i++) {
+            if (i != 0){
+                for(Jugador jugador :  listaJugadores){
+                    if (jugador.getNomJugador().equals(nombre)){
+                        esRepetido = true;
+                    }
+                }
+            }
+        }
+        return esRepetido;
     }
 }

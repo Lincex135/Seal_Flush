@@ -51,11 +51,17 @@ public class MainPruebasMenu {
                                             System.out.println("Introduce los nombres de los jugadores");
                                             System.out.println();
                                             ArrayList<Jugador> listaJugadores = new ArrayList<Jugador>();
-                                            for (int i = 1; i <= numJugadores; i++) {
+                                            boolean nombreRepetido = false;
+                                            for (int i = 1; i <= numJugadores && !nombreRepetido; i++) {
                                                 System.out.print("  - Jugador " + i + ": ");
                                                 String nombreJugador = teclado.nextLine();
                                                 System.out.println();
-                                                listaJugadores.add(new Jugador(i, nombreJugador));
+                                                nombreRepetido = Util.nombreRepetido(listaJugadores, nombreJugador);
+                                                if (nombreRepetido) {
+                                                    System.out.println("ERROR! nombre del jugador repetido");
+                                                }else{
+                                                    listaJugadores.add(new Jugador(i, nombreJugador));
+                                                }
                                             }
                                             break;
 

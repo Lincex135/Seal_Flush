@@ -1,0 +1,1 @@
+public enum Accion {APOSTAR, IGUALAR, SUBIR, RETIRARSE, PASAR}
