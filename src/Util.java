@@ -83,16 +83,11 @@ public class Util {
     }
 
     public static boolean nombreRepetido(ArrayList<Jugador> listaJugadores, String nombre) {
-        boolean esRepetido = false;
-        for (int i = 0; i < listaJugadores.size(); i++) {
-            if (i != 0){
-                for(Jugador jugador :  listaJugadores){
-                    if (jugador.getNomJugador().equals(nombre)){
-                        esRepetido = true;
-                    }
-                }
+        for (Jugador jugador : listaJugadores) {
+            if (jugador.getNomJugador().equals(nombre)) {
+                return true;
             }
         }
-        return esRepetido;
+        return false;
     }
 }
