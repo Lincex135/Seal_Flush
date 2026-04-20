@@ -9,10 +9,10 @@ public class MainPruebas {
                 {"TRÉBOLES", "4"}
         };
         Util.pintarCartas(mano);
-        System.out.println(instrucciones);
-        Util.printInicio();
+        Carta cartaVuelta = new Carta (1, 1, true);
+        Carta[] cartas = new Carta[1];
+        cartas[0] = cartaVuelta;
+        Util.pintarCartas(cartas);
         System.out.println();
-        JerarquiaDeManos jerarquiaDeManos = new JerarquiaDeManos();
-        jerarquiaDeManos.imprimir();
     }
 }
