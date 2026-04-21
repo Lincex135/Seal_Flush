@@ -48,13 +48,22 @@ public class MainPruebasMenu {
                                                     System.out.println("ERROR. El número de jugadores debe estar entre 2 y 10");
                                                 }
                                             } while (numJugadores < 2 || numJugadores > 10);
-                                            System.out.println("Introduce los nombres de los jugadores");
+                                            System.out.println("Introduce los nombres de los jugadores (en minúsculas)");
                                             System.out.println();
                                             ArrayList<Jugador> listaJugadores = new ArrayList<Jugador>();
                                             for (int i = 1; i <= numJugadores; i++) {
-                                                System.out.print("  - Jugador " + i + ": ");
-                                                String nombreJugador = teclado.nextLine();
-                                                System.out.println();
+                                                String nombreJugador;
+                                                boolean nombreRepetido;
+                                                do {
+                                                    System.out.print("  - Jugador " + i + ": ");
+                                                    nombreJugador = teclado.nextLine().toLowerCase();
+                                                    System.out.println();
+                                                    nombreRepetido = Util.nombreRepetido(listaJugadores, nombreJugador);
+                                                    if (nombreRepetido) {
+                                                        System.out.println("ERROR. Nombre del jugador repetido");
+                                                        System.out.println();
+                                                    }
+                                                } while (nombreRepetido);
                                                 listaJugadores.add(new Jugador(i, nombreJugador));
                                             }
                                             break;
