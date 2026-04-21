@@ -9,6 +9,7 @@ public class Color {
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
     public static final String ANSI_GRAY = "\u001B[90m";
+    public static final String ORANGE = "\u001B[38;5;208m";
 
     public static final String BLACK_BG = "\u001B[40m";
     public static final String RED_BG = "\u001B[41m";
@@ -23,4 +24,5 @@ public class Color {
     public static final String DARK_GRAY_BG = "\u001B[48;5;237m";
     public static final String LIGHT_YELLOW_BG = "\u001B[48;5;230m";
     public static final String DARK_GREEN_BG = "\u001B[48;2;0;100;0m";
+    public static final String BROWN_BG = "\u001B[48;2;101;67;33m";
 }

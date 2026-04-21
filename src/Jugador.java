@@ -87,11 +87,32 @@ public class Jugador {
         if (fichas == 0) {
             estado = Estado.ALL_IN;
         } else if (!puedeApostar(cantidad)) {
-           estado = Estado.ELIMINADO;
+            estado = Estado.ELIMINADO;
         }else {
             estado = Estado.ACTIVO;
         }
     }
+
+
+    public void printNomJugador(){
+        String colorJugador = Color.RESET;
+        switch (this.estado){
+            case ACTIVO -> {
+                colorJugador = Color.GREEN;
+            }
+            case  RETIRADO -> {
+                colorJugador = Color.ORANGE;
+            }
+            case ELIMINADO -> {
+                colorJugador = Color.RED;
+            }
+            case ALL_IN -> {
+                colorJugador = Color.YELLOW;
+            }
+        }
+        System.out.println(colorJugador + this.nomJugador + ": " + this.fichas);
+    }
+
 
     public boolean estaActivo() {
         return estado == Estado.ACTIVO;
@@ -136,4 +157,6 @@ public class Jugador {
     public void setEsDealerActual(boolean esDealerActual) {
         this.esDealerActual = esDealerActual;
     }
+
+    public void setFichas(int fichas) {this.fichas = fichas;}
 }
