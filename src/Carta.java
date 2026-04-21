@@ -1,11 +1,17 @@
 public class Carta {
-
+    /** The rank. */
     private final int rango;
-    private final int palo;
-    public static final int NUM_DE_RANGOS = 13;
-    public static final int NUM_DE_PALOS = 4;
-    public static boolean vuelta;
 
+    /** The suit. */
+    private final int palo;
+
+    /** El número de rangos en una baraja. */
+    public static final int NUM_DE_RANGOS = 13;
+
+    /** El número de palos en una baraja. */
+    public static final int NUM_DE_PALOS = 4;
+
+    // Los rangos.
     public static final int AS = 12;
     public static final int REY = 11;
     public static final int REINA = 10;
@@ -20,6 +26,7 @@ public class Carta {
     public static final int TRES = 1;
     public static final int DOS = 0;
 
+    // Los palos.
     public static final int PICAS = 3;
     public static final int CORAZONES = 2;
     public static final int TREBOLES = 1;
@@ -37,11 +44,6 @@ public class Carta {
      * s - picas */
     public static final char[] SIMB_PALO = {'d', 'c', 'h', 's'};
 
-    public Carta(int rango, int palo, boolean vuelta) {
-        this(rango, palo);
-        this.vuelta = vuelta;
-    }
-
     public Carta(int rango, int palo) {
         if (rango < 0 || rango > NUM_DE_RANGOS - 1) {
             throw new IllegalArgumentException("Número inválido");
@@ -51,7 +53,6 @@ public class Carta {
         }
         this.rango = rango;
         this.palo = palo;
-        this.vuelta = false;
     }
 
     public Carta(String s) {
@@ -97,10 +98,6 @@ public class Carta {
 
     public int getRango() {
         return rango;
-    }
-
-    public boolean isVuelta() {
-        return vuelta;
     }
 
     @Override

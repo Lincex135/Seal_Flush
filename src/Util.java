@@ -39,28 +39,6 @@ public class Util {
         return lineas;
     }
 
-    public static String[] obtenerLineasCarta(Carta carta) {
-        if (carta.isVuelta()) {
-            // Carta boca abajo - diseño genérico con reverso
-            String[] lineas = new String[7];
-            lineas[0] = Color.PURPLE + Color.BLUE_BG + "╭─────╮" + Color.RESET;
-            lineas[1] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[5] = Color.PURPLE + Color.BLUE_BG + "╰─────╯" + Color.RESET;
-            lineas[6] = "";
-            return lineas;
-        }
-
-        // Traduce los ints de Carta a los strings que ya usa tu método existente
-        String[] NOMBRES_PALO = {"DIAMANTES", "TRÉBOLES", "CORAZONES", "PICAS"};
-        String palo   = NOMBRES_PALO[carta.getPalo()];
-        String numero = Carta.SIMB_RANGO[carta.getRango()];
-
-        return obtenerLineasCarta(palo, numero); // llama al método original
-    }
-
     // Imprime varias cartas horizontalmente, tu mano
     public static void pintarCartas(String[][] cartas) {
         // cartas[i] = { palo, numero } de la carta i
@@ -76,21 +54,6 @@ public class Util {
             for (String[] todasLinea : todasLineas) {
                 sb.append(todasLinea[fila]);
                 sb.append("  "); // espacio entre cartas
-            }
-            System.out.println(sb);
-        }
-    }
-
-    public static void pintarCartas(Carta[] cartas) {
-        String[][] todasLineas = new String[cartas.length][];
-        for (int i = 0; i < cartas.length; i++) {
-            todasLineas[i] = obtenerLineasCarta(cartas[i]); // usa el nuevo sobrecargado
-        }
-        int numLineas = todasLineas[0].length;
-        for (int fila = 0; fila < numLineas; fila++) {
-            StringBuilder sb = new StringBuilder();
-            for (String[] lineas : todasLineas) {
-                sb.append(lineas[fila]).append("  ");
             }
             System.out.println(sb);
         }
