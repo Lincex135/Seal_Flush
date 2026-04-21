@@ -93,7 +93,6 @@ public class Jugador {
         }
     }
 
-
     public void printNomJugador(){
         String colorJugador = Color.RESET;
         switch (this.estado){
@@ -112,7 +111,6 @@ public class Jugador {
         }
         System.out.println(colorJugador + this.nomJugador + ": " + this.fichas);
     }
-
 
     public boolean estaActivo() {
         return estado == Estado.ACTIVO;

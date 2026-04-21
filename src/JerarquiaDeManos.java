@@ -1,93 +1,104 @@
 public class JerarquiaDeManos {
-    public static final String[][] ESCALERA_REAL= {
-            {"PICAS", "D"},
-            {"PICAS", "J"},
-            {"PICAS", "Q"},
-            {"PICAS", "K"},
-            {"PICAS", "A"},
+
+    public static final Carta[] ESCALERA_REAL = {
+            new Carta(Carta.DIEZ, Carta.PICAS),
+            new Carta(Carta.JOTA, Carta.PICAS),
+            new Carta(Carta.REINA, Carta.PICAS),
+            new Carta(Carta.REY, Carta.PICAS),
+            new Carta(Carta.AS, Carta.PICAS),
     };
 
-    public static final String[][] ESCALERA_DE_COLOR = {
-            {"CORAZONES", "6"},
-            {"CORAZONES", "7"},
-            {"CORAZONES", "8"},
-            {"CORAZONES", "9"},
-            {"CORAZONES", "D"},
+    public static final Carta[] ESCALERA_DE_COLOR = {
+            new Carta(Carta.SEIS, Carta.CORAZONES),
+            new Carta(Carta.SIETE, Carta.CORAZONES),
+            new Carta(Carta.OCHO, Carta.CORAZONES),
+            new Carta(Carta.NUEVE, Carta.CORAZONES),
+            new Carta(Carta.DIEZ, Carta.CORAZONES),
     };
 
-    public static final String[][] POKER = {
-            {"CORAZONES", "D"},
-            {"PICAS", "D"},
-            {"DIAMANTES", "D"},
-            {"TRÉBOLES", "D"},
+    public static final Carta[] POKER = {
+            new Carta(Carta.DIEZ, Carta.CORAZONES),
+            new Carta(Carta.DIEZ, Carta.PICAS),
+            new Carta(Carta.DIEZ, Carta.DIAMANTES),
+            new Carta(Carta.DIEZ, Carta.TREBOLES),
     };
 
-    public static final String[][] FULL_HOUSE = {
-            {"DIAMANTES", "A"},
-            {"PICAS", "A"},
-            {"CORAZONES", "A"},
-            {"TRÉBOLES", "7"},
-            {"DIAMANTES", "7"},
+    public static final Carta[] FULL_HOUSE = {
+            new Carta(Carta.AS, Carta.DIAMANTES),
+            new Carta(Carta.AS, Carta.PICAS),
+            new Carta(Carta.AS, Carta.CORAZONES),
+            new Carta(Carta.SIETE, Carta.TREBOLES),
+            new Carta(Carta.SIETE, Carta.DIAMANTES),
     };
 
-    public static final String[][] COLOR = {
-            {"DIAMANTES", "A"},
-            {"DIAMANTES", "J"},
-            {"DIAMANTES", "8"},
-            {"DIAMANTES", "5"},
-            {"DIAMANTES", "7"},
+    public static final Carta[] COLOR = {
+            new Carta(Carta.AS, Carta.DIAMANTES),
+            new Carta(Carta.JOTA, Carta.DIAMANTES),
+            new Carta(Carta.OCHO, Carta.DIAMANTES),
+            new Carta(Carta.CINCO, Carta.DIAMANTES),
+            new Carta(Carta.SIETE, Carta.DIAMANTES),
     };
 
-    public static final String[][] ESCALERA = {
-            {"PICAS", "6"},
-            {"TRÉBOLES", "7"},
-            {"DIAMANTES", "8"},
-            {"PICAS", "9"},
-            {"CORAZONES", "D"},
+    public static final Carta[] ESCALERA = {
+            new Carta(Carta.SEIS, Carta.PICAS),
+            new Carta(Carta.SIETE, Carta.TREBOLES),
+            new Carta(Carta.OCHO, Carta.DIAMANTES),
+            new Carta(Carta.NUEVE, Carta.PICAS),
+            new Carta(Carta.DIEZ, Carta.CORAZONES),
     };
 
-    public static final String[][] TRIO = {
-            {"CORAZONES", "Q"},
-            {"PICAS", "Q"},
-            {"DIAMANTES", "Q"},
+    public static final Carta[] TRIO = {
+            new Carta(Carta.REINA, Carta.CORAZONES),
+            new Carta(Carta.REINA, Carta.PICAS),
+            new Carta(Carta.REINA, Carta.DIAMANTES),
     };
 
-    public static final String[][] DOBLE_PAREJA = {
-            {"CORAZONES", "J"},
-            {"TRÉBOLES", "J"},
-            {"DIAMANTES", "9"},
-            {"TRÉBOLES", "9"},
+    public static final Carta[] DOBLE_PAREJA = {
+            new Carta(Carta.JOTA, Carta.CORAZONES),
+            new Carta(Carta.JOTA, Carta.TREBOLES),
+            new Carta(Carta.NUEVE, Carta.DIAMANTES),
+            new Carta(Carta.NUEVE, Carta.TREBOLES),
     };
 
-    public static final String[][] PAREJA = {
-            {"PICAS", "Q"},
-            {"CORAZONES", "Q"},
+    public static final Carta[] PAREJA = {
+            new Carta(Carta.REINA, Carta.PICAS),
+            new Carta(Carta.REINA, Carta.CORAZONES),
     };
 
-    public static final String[][] CARTA_ALTA = {
-            {"CORAZONES", "A"},
+    public static final Carta[] CARTA_ALTA = {
+            new Carta(Carta.AS, Carta.CORAZONES),
     };
 
     public void imprimir() {
         System.out.println("Escalera Real: 5 cartas D, J, Q, K y A del mismo palo");
         Util.pintarCartas(ESCALERA_REAL);
+        System.out.println();
         System.out.println("Escalera de color: 5 cartas del mismo palo en orden");
         Util.pintarCartas(ESCALERA_DE_COLOR);
+        System.out.println();
         System.out.println("Poker: 4 cartas del mismo valor");
         Util.pintarCartas(POKER);
+        System.out.println();
         System.out.println("Full house: Un trío y una pareja");
         Util.pintarCartas(FULL_HOUSE);
+        System.out.println();
         System.out.println("Color: 5 cartas del mismo palo");
         Util.pintarCartas(COLOR);
+        System.out.println();
         System.out.println("Escalera: 5 cartas en orden");
         Util.pintarCartas(ESCALERA);
+        System.out.println();
         System.out.println("Trío: 3 cartas del mismo valor");
         Util.pintarCartas(TRIO);
+        System.out.println();
         System.out.println("Doble pareja: 2 parejas diferentes");
         Util.pintarCartas(DOBLE_PAREJA);
+        System.out.println();
         System.out.println("Pareja: 2 cartas del mismo valor");
         Util.pintarCartas(PAREJA);
+        System.out.println();
         System.out.println("Carta alta: la carta más alta de la mesa");
         Util.pintarCartas(CARTA_ALTA);
+        System.out.println();
     }
 }

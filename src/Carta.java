@@ -57,7 +57,6 @@ public class Carta {
             throw new IllegalArgumentException("String vacío o longitud inválida");
         }
 
-        // Parsea el caracter del rango.
         String simb_rango = s.substring(0, 1);
         char simb_palo = s.charAt(1);
         int rango = -1;
@@ -70,7 +69,6 @@ public class Carta {
         if (rango == -1) {
             throw new IllegalArgumentException("Rango desconocido: " + simb_rango);
         }
-        // Parse the suit character.
         int palo = -1;
         for (int i = 0; i < Carta.NUM_DE_PALOS; i++) {
             if (simb_palo == SIMB_PALO[i]) {
