@@ -1,24 +1,6 @@
-import java.util.ArrayList;
-
 public class Util {
-
-    public static String [] obtenerLineasCarta (Carta carta) {
-        String[] lineas = new String[6];
-        if (carta.isVuelta()) {
-            lineas[0] = Color.PURPLE + Color.BLUE_BG + "╭─────╮" + Color.RESET;
-            lineas[1] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[5] = Color.PURPLE + Color.BLUE_BG + "╰─────╯" + Color.RESET;
-            lineas[6] = "";
-        } else {
-            lineas = obtenerLineasCarta(carta.getPaloString(), String.valueOf(carta.getRango()));
-        }
-        return lineas;
-    }
     public static String[] obtenerLineasCarta(String palo, String numero) {
-        String[] lineas = new String[6]; // 6 líneas por carta
+        String[] lineas = new String[7]; // 7 líneas por carta
 
         lineas[0] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "╭─────╮" + Color.RESET;
 
@@ -96,14 +78,6 @@ public class Util {
 
             System.out.println(Ascii.FOCA[i] + "         " + colMenu + "         " + colCarta);
         }
-    }
 
-    public static boolean nombreRepetido(ArrayList<Jugador> listaJugadores, String nombre) {
-        for (Jugador jugador : listaJugadores) {
-            if (jugador.getNomJugador().equals(nombre)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
