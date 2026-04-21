@@ -22,4 +22,5 @@ public class Color {
     public static final String GRAY_BG = "\u001B[100m";
     public static final String DARK_GRAY_BG = "\u001B[48;5;237m";
     public static final String LIGHT_YELLOW_BG = "\u001B[48;5;230m";
+    public static final String DARK_GREEN_BG = "\u001B[48;2;0;100;0m";
 }

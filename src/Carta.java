@@ -1,17 +1,11 @@
 public class Carta {
-    /** The rank. */
+
     private final int rango;
-
-    /** The suit. */
     private final int palo;
-
-    /** El número de rangos en una baraja. */
+    private boolean vuelta = false;
     public static final int NUM_DE_RANGOS = 13;
-
-    /** El número de palos en una baraja. */
     public static final int NUM_DE_PALOS = 4;
 
-    // Los rangos.
     public static final int AS = 12;
     public static final int REY = 11;
     public static final int REINA = 10;
@@ -26,7 +20,6 @@ public class Carta {
     public static final int TRES = 1;
     public static final int DOS = 0;
 
-    // Los palos.
     public static final int PICAS = 3;
     public static final int CORAZONES = 2;
     public static final int TREBOLES = 1;
@@ -92,12 +85,30 @@ public class Carta {
         this.palo = palo;
     }
 
+    public String getPaloString() {
+        return switch (this.palo) {
+            case 0 -> "DIAMANTES";
+            case 1 -> "TRÉBOLES";
+            case 2 -> "CORAZONES";
+            case 3 -> "PICAS";
+            default -> "";
+        };
+    }
+
     public int getPalo() {
-        return palo;
+        return this.palo;
     }
 
     public int getRango() {
         return rango;
+    }
+
+    public boolean isVuelta() {
+        return vuelta;
+    }
+
+    public void setVuelta(boolean vuelta) {
+        this.vuelta = vuelta;
     }
 
     @Override
