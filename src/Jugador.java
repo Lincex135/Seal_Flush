@@ -157,4 +157,6 @@ public class Jugador {
     }
 
     public void setFichas(int fichas) {this.fichas = fichas;}
+    
+    public void setEstado(Estado estado) {this.estado = estado;}
 }
