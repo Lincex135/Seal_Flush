@@ -6,17 +6,17 @@ public class Util {
         String[] lineas = new String[6];
 
         if (carta.isVuelta()) {
-            lineas[0] = Color.PURPLE + Color.BLUE_BG + "╭─────╮" + Color.RESET;
-            lineas[1] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[2] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[3] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[4] = Color.PURPLE + Color.BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
-            lineas[5] = Color.PURPLE + Color.BLUE_BG + "╰─────╯" + Color.RESET;
+            lineas[0] = Color.PURPLE + Color.LIGHT_BLUE_BG + "┌─────┐" + Color.RESET;
+            lineas[1] = Color.PURPLE + Color.LIGHT_BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
+            lineas[2] = Color.PURPLE + Color.LIGHT_BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
+            lineas[3] = Color.PURPLE + Color.LIGHT_BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
+            lineas[4] = Color.PURPLE + Color.LIGHT_BLUE_BG + "│▓▓▓▓▓│" + Color.RESET;
+            lineas[5] = Color.PURPLE + Color.LIGHT_BLUE_BG + "└─────┘" + Color.RESET;
         } else {
             String palo = carta.getPaloString();
             String numero = Carta.SIMB_RANGO[carta.getRango()];
-            lineas[0] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "╭─────╮" + Color.RESET;
-            lineas[5] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "╰─────╯" + Color.RESET;
+            lineas[0] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "┌─────┐" + Color.RESET;
+            lineas[5] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "└─────┘" + Color.RESET;
             switch (palo) {
                 case "PICAS" -> {
                     lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + " .  " + Color.PURPLE + "│" + Color.RESET;

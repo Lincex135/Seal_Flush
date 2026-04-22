@@ -109,7 +109,7 @@ public class Jugador {
                 colorJugador = Color.YELLOW;
             }
         }
-        System.out.println(colorJugador + this.nomJugador + ": " + this.fichas);
+        System.out.println(colorJugador + this.nomJugador + ": " + this.fichas + Color.RESET);
     }
 
     public boolean estaActivo() {

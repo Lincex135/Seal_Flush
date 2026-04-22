@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MainPruebasMenu {
+public class Main {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
         Util.printInicio();
         System.out.println();
         int respuesta1;
         boolean empezar = false;
+        ArrayList<Jugador> listaJugadores = new ArrayList<Jugador>();
         do {
             System.out.print(Ascii.MENU1);
             respuesta1 = Integer.parseInt(teclado.nextLine());
@@ -50,7 +51,6 @@ public class MainPruebasMenu {
                                             } while (numJugadores < 2 || numJugadores > 10);
                                             System.out.println("Introduce los nombres de los jugadores (en minúsculas)");
                                             System.out.println();
-                                            ArrayList<Jugador> listaJugadores = new ArrayList<Jugador>();
                                             for (int i = 1; i <= numJugadores; i++) {
                                                 String nombreJugador;
                                                 boolean nombreRepetido;
@@ -96,7 +96,16 @@ public class MainPruebasMenu {
         } while (respuesta1 != 0 && !empezar);
 
         if (empezar) { // Esto es importante porque si por ejemplo, nos salimos a la primera vez que se printea el menú, el código de dentro de este bloque se ejecutaría igualmente
-            System.out.println("Empezando la partida de poker...");
+            Carta[] cartasTablero = new Carta[5];
+            for (int i = 0; i < cartasTablero.length; i++) {
+                cartasTablero[i] = new Carta(i, 2);
+            }
+            cartasTablero[3].setVuelta(true);
+            cartasTablero[4].setVuelta(true);
+            System.out.println(new Tablero(cartasTablero, listaJugadores));
+            for (Jugador jugador : listaJugadores) {
+                jugador.printNomJugador();
+            }
         }
 
     }

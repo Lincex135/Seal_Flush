@@ -4,25 +4,25 @@ public class Tablero {
     private Carta[] cartas;
     private ArrayList<Jugador> jugadores;
 
-    private String[] tablero = {
-            Color.BROWN_BG + " ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ " + Color.RESET + "\n",
-            Color.BROWN_BG + " |                                                                                                                                                         | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                              " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                                                                                                             " + Color.BROWN_BG + " |    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |    └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘    | " + Color.RESET + "\n",
-            Color.BROWN_BG + " |                                                                                                                                                         | " + Color.RESET + "\n",
-            Color.BROWN_BG + " └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ " + Color.RESET + "\n"
+    private final String[] tablero = {
+            Color.BROWN_BG + " ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │                                                                                                                                                       │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                                                                                                                           " + Color.BROWN_BG + " │    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │    └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘    │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " │                                                                                                                                                       │ " + Color.RESET + "\n",
+            Color.BROWN_BG + " └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ " + Color.RESET + "\n"
     };
 
     public Tablero(Carta[] cartas, ArrayList<Jugador> jugadores) {
@@ -51,12 +51,12 @@ public class Tablero {
 
                 StringBuilder cartasSb = new StringBuilder();
                 for (String[] lineas : lineasCartas) {
-                    cartasSb.append(lineas[lineaCarta]).append("  ");
+                    cartasSb.append(lineas[lineaCarta]).append(Color.DARK_GREEN_BG + "    ");
                 }
 
-                String lineaTablero = Color.BROWN_BG + " |    | " + Color.DARK_GREEN_BG + "                                                "
-                        + cartasSb + Color.DARK_GREEN_BG + "                                                "
-                        + Color.BROWN_BG + " |    | " + Color.RESET + "\n";
+                String lineaTablero = Color.BROWN_BG + " │    │ " + Color.DARK_GREEN_BG + "                                            "
+                        + cartasSb + Color.DARK_GREEN_BG + "                                        "
+                        + Color.BROWN_BG + " │    │ " + Color.RESET + "\n";
                 sb.append(lineaTablero);
             } else {
                 sb.append(tablero[fila]);
