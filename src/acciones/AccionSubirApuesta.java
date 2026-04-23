@@ -1,4 +1,4 @@
-package Acciones;
+package acciones;
 
 public class AccionSubirApuesta extends Accion {
     public AccionSubirApuesta(int cantidad) {

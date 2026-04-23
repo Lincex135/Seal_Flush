@@ -1,9 +1,14 @@
+import objetos.Carta;
+import objetos.Jugador;
+import objetos.Tablero;
+import util.Util;
+
 import java.util.ArrayList;
 
 public class MainPruebas {
     public static void main(String[] args) {
-        // Instrucciones instrucciones = new Instrucciones(Juego.POKER);
-        // new JerarquiaDeManos().imprimir();
+        // util.Instrucciones instrucciones = new util.Instrucciones(util.Juego.POKER);
+        // new util.JerarquiaDeManos().imprimir();
 
         ArrayList<Jugador> jugadores = new ArrayList<>();
 

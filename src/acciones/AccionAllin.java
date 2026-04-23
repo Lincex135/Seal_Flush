@@ -1,7 +1,7 @@
-package Acciones;
+package acciones;
 
 public class AccionAllin extends Accion{
     public AccionAllin() {
-        super("All-in", "hace all-in");
+        super("All-in", "Hace all-in");
     }
 }

@@ -1,4 +1,4 @@
-package Acciones;
+package acciones;
 
 public abstract class Accion {
 

@@ -1,4 +1,4 @@
-package Acciones;
+package acciones;
 
 public class AccionCiegaGrande extends Accion {
     public AccionCiegaGrande() {

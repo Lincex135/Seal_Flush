@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import util.*;
+import objetos.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,7 +10,7 @@ public class Main {
         System.out.println();
         int respuesta1;
         boolean empezar = false;
-        ArrayList<Jugador> listaJugadores = new ArrayList<Jugador>();
+        ArrayList<Jugador> listaJugadores = new ArrayList<>();
         do {
             System.out.print(Ascii.MENU1);
             respuesta1 = Integer.parseInt(teclado.nextLine());
@@ -55,7 +57,7 @@ public class Main {
                                                 String nombreJugador;
                                                 boolean nombreRepetido;
                                                 do {
-                                                    System.out.print("  - Jugador " + i + ": ");
+                                                    System.out.print("  - objetos.Jugador " + i + ": ");
                                                     nombreJugador = teclado.nextLine().toLowerCase();
                                                     System.out.println();
                                                     nombreRepetido = Util.nombreRepetido(listaJugadores, nombreJugador);

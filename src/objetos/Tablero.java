@@ -1,3 +1,8 @@
+package objetos;
+
+import util.Color;
+import util.Util;
+
 import java.util.ArrayList;
 
 public class Tablero {

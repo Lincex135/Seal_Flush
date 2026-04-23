@@ -1,4 +1,4 @@
-package Acciones;
+package acciones;
 
 public class AccionRendirse extends Accion {
     public AccionRendirse() {

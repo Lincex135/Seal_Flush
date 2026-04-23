@@ -1,8 +1,8 @@
-package Acciones;
+package acciones;
 
 public class AccionApostar extends Accion {
     public AccionApostar(int cantidad) {
-        super("Apustar", "El jugador Apuesta", cantidad);
+        super("Apostar", "El jugador Apuesta", cantidad);
     }
 
     @Override

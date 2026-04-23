@@ -1,3 +1,7 @@
+package util;
+
+import objetos.Carta;
+
 public class JerarquiaDeManos {
 
     public static final Carta[] ESCALERA_REAL = {
@@ -82,7 +86,7 @@ public class JerarquiaDeManos {
         System.out.println("Full house: Un trío y una pareja");
         Util.pintarCartas(FULL_HOUSE);
         System.out.println();
-        System.out.println("Color: 5 cartas del mismo palo");
+        System.out.println("util.Color: 5 cartas del mismo palo");
         Util.pintarCartas(COLOR);
         System.out.println();
         System.out.println("Escalera: 5 cartas en orden");
@@ -97,7 +101,7 @@ public class JerarquiaDeManos {
         System.out.println("Pareja: 2 cartas del mismo valor");
         Util.pintarCartas(PAREJA);
         System.out.println();
-        System.out.println("Carta alta: la carta más alta de la mesa");
+        System.out.println("objetos.Carta alta: la carta más alta de la mesa");
         Util.pintarCartas(CARTA_ALTA);
         System.out.println();
     }

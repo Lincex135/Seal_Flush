@@ -1,3 +1,5 @@
+package objetos;
+
 public class Carta {
 
     private final int rango;
@@ -42,7 +44,7 @@ public class Carta {
             throw new IllegalArgumentException("Número inválido");
         }
         if (palo < 0 || palo > NUM_DE_PALOS - 1) {
-            throw new IllegalArgumentException("Palo inválido");
+            throw new IllegalArgumentException("objetos.Palo inválido");
         }
         this.rango = rango;
         this.palo = palo;
@@ -77,7 +79,7 @@ public class Carta {
             }
         }
         if (palo == -1) {
-            throw new IllegalArgumentException("Palo desconocido: " + simb_palo);
+            throw new IllegalArgumentException("objetos.Palo desconocido: " + simb_palo);
         }
         this.rango = rango;
         this.palo = palo;

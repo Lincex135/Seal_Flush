@@ -1,7 +1,7 @@
-package Acciones;
+package acciones;
 
 public class AccionContinuar extends Accion {
     public AccionContinuar() {
-        super("Continuar", "Continua la partida");
+        super("Continuar", "Continúa la partida");
     }
 }

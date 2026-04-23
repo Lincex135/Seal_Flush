@@ -1,3 +1,7 @@
+package objetos;
+
+import util.Color;
+
 public class Jugador {
     private int numJugador;
     private String nomJugador;
@@ -96,16 +100,16 @@ public class Jugador {
     public void printNomJugador(){
         String colorJugador = Color.RESET;
         switch (this.estado){
-            case ACTIVO -> {
+            case Estado.ACTIVO -> {
                 colorJugador = Color.GREEN;
             }
-            case  RETIRADO -> {
+            case Estado.RETIRADO -> {
                 colorJugador = Color.ORANGE;
             }
-            case ELIMINADO -> {
+            case Estado.ELIMINADO -> {
                 colorJugador = Color.RED;
             }
-            case ALL_IN -> {
+            case Estado.ALL_IN -> {
                 colorJugador = Color.YELLOW;
             }
         }
