@@ -77,7 +77,7 @@ public class Ascii {
 
     public static final String MENU3 =
             "                    ═════════════════════════════════════════════════════════════════\n" +
-                    "                      [ 1 ]  Nueva partida    [ 2 ]  util.Instrucciones    [ 0 ]  Volver\n" +
+                    "                      [ 1 ]  Nueva partida    [ 2 ]  Instrucciones    [ 0 ]  Volver\n" +
                     "                    ═════════════════════════════════════════════════════════════════\n" +
                     "                     > Elige una opción: ";
 }

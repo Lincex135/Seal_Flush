@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import util.*;
 import objetos.*;
 
@@ -57,7 +58,7 @@ public class Main {
                                                 String nombreJugador;
                                                 boolean nombreRepetido;
                                                 do {
-                                                    System.out.print("  - objetos.Jugador " + i + ": ");
+                                                    System.out.print("  - Jugador " + i + ": ");
                                                     nombreJugador = teclado.nextLine().toLowerCase();
                                                     System.out.println();
                                                     nombreRepetido = Util.nombreRepetido(listaJugadores, nombreJugador);
@@ -98,17 +99,47 @@ public class Main {
         } while (respuesta1 != 0 && !empezar);
 
         if (empezar) { // Esto es importante porque si por ejemplo, nos salimos a la primera vez que se printea el menú, el código de dentro de este bloque se ejecutaría igualmente
-            Carta[] cartasTablero = new Carta[5];
-            for (int i = 0; i < cartasTablero.length; i++) {
-                cartasTablero[i] = new Carta(i, 2);
-            }
-            cartasTablero[3].setVuelta(true);
-            cartasTablero[4].setVuelta(true);
-            System.out.println(new Tablero(cartasTablero, listaJugadores));
-            for (Jugador jugador : listaJugadores) {
-                jugador.printNomJugador();
-            }
-        }
+            Mazo mazo = new Mazo();
+            boolean partidaAcabada = false;
+            do {
+                boolean rondaAcabada = false;
+                for (int ronda = 1; !rondaAcabada; ronda++) {
+                    System.out.println("----------  RONDA " + ronda + "  ----------");
+                    mazo.barajar();
 
+                    Carta[] cartasTablero = new Carta[5];
+                    for (int i = 0; i < cartasTablero.length; i++) {
+                        cartasTablero[i] = mazo.devolverCarta();
+                        cartasTablero[i].setVuelta(true);
+                    }
+
+                    for (Jugador jugador : listaJugadores) {
+                        Carta carta1 = mazo.devolverCarta();
+                        Carta carta2 = mazo.devolverCarta();
+                        jugador.recibirCarta(carta1);
+                        jugador.recibirCarta(carta2);
+                    }
+
+                    boolean faseAcabada = false;
+                    for (int numFase = 1; !faseAcabada; numFase++) {
+                        String fase = switch (numFase) {
+                            case 1 -> "Pre-Flop";
+                            case 2 -> "Flop";
+                            case 3 -> "Turno";
+                            case 4 -> "River";
+                            default -> "";
+                        };
+                        System.out.println(new Tablero(cartasTablero, listaJugadores));
+                        System.out.println("-----  " + fase + "  -----");
+                        for (Jugador jugador : listaJugadores) {
+                            jugador.printNomJugador();
+                        }
+                        faseAcabada = true;
+                    }
+                    rondaAcabada = true;
+                }
+                partidaAcabada = true;
+            } while (!partidaAcabada);
+        }
     }
 }
