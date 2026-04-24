@@ -27,7 +27,7 @@ public class Jugador {
         }
         if (this.mano[0] == null) {
             this.mano[0] = carta;
-        }else {
+        } else {
             this.mano[1] = carta;
         }
     }
@@ -49,11 +49,11 @@ public class Jugador {
         fichas += cantidad;
         if (estado == Estado.ALL_IN && fichas > 0) {
             estado = Estado.ACTIVO;
-        }else if (fichas > 0) {
+        } else if (fichas > 0) {
             estado = Estado.ACTIVO;
-        }else if ( estado == Estado.RETIRADO) {
+        } else if (estado == Estado.RETIRADO) {
             estado = Estado.RETIRADO;
-        }else{
+        } else {
             estado = Estado.ELIMINADO;
         }
     }
@@ -69,10 +69,10 @@ public class Jugador {
     }
 
     public boolean apostar(int cantidad) {
-        if(cantidad <=0) {
+        if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
         }
-        if(!puedeApostar(cantidad)) {
+        if (!puedeApostar(cantidad)) {
             estado = Estado.RETIRADO;
             return false;
         }
@@ -82,7 +82,7 @@ public class Jugador {
         return true;
     }
 
-    public boolean puedeApostar(int cantidad){
+    public boolean puedeApostar(int cantidad) {
         return fichas >= cantidad;
     }
 
@@ -92,14 +92,18 @@ public class Jugador {
             estado = Estado.ALL_IN;
         } else if (!puedeApostar(cantidad)) {
             estado = Estado.ELIMINADO;
-        }else {
+        } else {
             estado = Estado.ACTIVO;
         }
     }
 
-    public void printNomJugador(){
+    public void printNomJugador() {
         String colorJugador = Color.RESET;
-        switch (this.estado){
+        String subrayado = "";
+        if (esDealerActual) {
+            subrayado = Color.SUBRAYADO;
+        }
+        switch (this.estado) {
             case Estado.ACTIVO -> {
                 colorJugador = Color.GREEN;
             }
@@ -113,7 +117,7 @@ public class Jugador {
                 colorJugador = Color.YELLOW;
             }
         }
-        System.out.println(colorJugador + this.nomJugador + ": " + this.fichas + Color.RESET);
+        System.out.print(colorJugador +  subrayado + this.nomJugador + ": " + this.fichas + Color.RESET + "    ");
     }
 
     public boolean estaActivo() {
@@ -160,7 +164,11 @@ public class Jugador {
         this.esDealerActual = esDealerActual;
     }
 
-    public void setFichas(int fichas) {this.fichas = fichas;}
-    
-    public void setEstado(Estado estado) {this.estado = estado;}
+    public void setFichas(int fichas) {
+        this.fichas = fichas;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
 }

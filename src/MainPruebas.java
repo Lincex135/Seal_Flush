@@ -13,14 +13,12 @@ public class MainPruebas {
         ArrayList<Jugador> jugadores = new ArrayList<>();
 
         Carta[] cartas = new Carta[5];
-        Carta cartaVuelta = new Carta(1, 1);
-        cartaVuelta.setVuelta(true);
-        cartas[0] = cartaVuelta;
-        cartas[1] = cartaVuelta;
-        cartas[2] = cartaVuelta;
-        cartas[3] = cartaVuelta;
-        cartas[4] = cartaVuelta;
-
+        Carta cartaP = new Carta(1, 0);
+        cartas[0] = cartaP;
+        cartas[1] = cartaP;
+        cartas[2] = cartaP;
+        cartas[3] = cartaP;
+        cartas[4] = cartaP;
         Util.pintarCartas(cartas);
 
         System.out.println();

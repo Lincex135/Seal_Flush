@@ -83,14 +83,4 @@ public class Mazo {
         }
         return carta;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Carta carta : cartas) {
-            sb.append(carta);
-            sb.append(' ');
-        }
-        return sb.toString().trim();
-    }
 }
