@@ -11,8 +11,9 @@ public class Mazo {
     private Carta[] cartas;
     private int nextCardIndex = 0;
     private Random random = new SecureRandom();
+    private static Mazo instancia;
 
-    public Mazo() {
+    private Mazo(){
         cartas = new Carta[NUM_DE_CARTAS];
         int index = 0;
         for (int palo = Carta.NUM_DE_PALOS - 1; palo >= 0; palo--) {
@@ -20,6 +21,13 @@ public class Mazo {
                 cartas[index++] = new Carta(rango, palo);
             }
         }
+    }
+
+    public static Mazo getInstancia(){
+        if(instancia == null){
+            instancia = new Mazo();
+        }
+        return instancia;
     }
 
     public void barajar() {
