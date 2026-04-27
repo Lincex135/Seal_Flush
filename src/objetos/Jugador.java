@@ -171,4 +171,6 @@ public class Jugador {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+
+    public Carta[] getMano() {return mano;}
 }
