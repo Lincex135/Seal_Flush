@@ -20,7 +20,7 @@ public class MainPruebas {
         Util.pintarCartas(cartas);
 
         System.out.println();
-        System.out.println(new Tablero(cartas, jugadores));
+        Tablero tablero = Tablero.getInstancia(cartas, jugadores);
         Jugador ximena = new Jugador(1, "Ximena");
         jugadores.add(ximena);
         ximena.printNomJugador();

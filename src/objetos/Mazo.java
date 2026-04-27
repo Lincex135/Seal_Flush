@@ -13,7 +13,7 @@ public class Mazo {
     private Random random = new SecureRandom();
     private static Mazo instancia;
 
-    private Mazo(){
+    private Mazo() {
         cartas = new Carta[NUM_DE_CARTAS];
         int index = 0;
         for (int palo = Carta.NUM_DE_PALOS - 1; palo >= 0; palo--) {
@@ -23,8 +23,8 @@ public class Mazo {
         }
     }
 
-    public static Mazo getInstancia(){
-        if(instancia == null){
+    public static Mazo getInstancia() {
+        if (instancia == null) {
             instancia = new Mazo();
         }
         return instancia;

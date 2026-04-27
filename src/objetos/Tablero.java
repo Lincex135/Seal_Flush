@@ -1,11 +1,12 @@
 package objetos;
 
-import util.Color;
-import util.Util;
+import util.*;
 
 import java.util.ArrayList;
 
 public class Tablero {
+    private static Tablero instancia;
+
     private Carta[] cartas;
     private ArrayList<Jugador> jugadores;
 
@@ -30,16 +31,32 @@ public class Tablero {
             Color.BROWN_BG + " └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ " + Color.RESET + "\n"
     };
 
-    public Tablero(Carta[] cartas, ArrayList<Jugador> jugadores) {
+    // Constructor privado: impide instanciación externa
+    private Tablero(Carta[] cartas, ArrayList<Jugador> jugadores) {
         this.cartas = cartas;
         this.jugadores = jugadores;
+    }
+
+    // Método de acceso a la única instancia
+    public static Tablero getInstancia(Carta[] cartas, ArrayList<Jugador> jugadores) {
+        if (instancia == null) {
+            instancia = new Tablero(cartas, jugadores);
+        }
+        return instancia;
+    }
+
+    // Sobrecarga sin parámetros para cuando la instancia ya existe
+    public static Tablero getInstancia() {
+        if (instancia == null) {
+            throw new IllegalStateException("El Tablero no ha sido inicializado. Llama primero a getInstancia(cartas, jugadores).");
+        }
+        return instancia;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        // Obtenemos todas las líneas de todas las cartas
         String[][] lineasCartas = null;
         if (cartas != null) {
             lineasCartas = new String[cartas.length][];
@@ -69,5 +86,13 @@ public class Tablero {
         }
 
         return sb.toString();
+    }
+
+    public void setCartas(Carta[] cartas) {
+        this.cartas = cartas;
+    }
+
+    public void setJugadores(ArrayList<Jugador> jugadores) {
+        this.jugadores = jugadores;
     }
 }

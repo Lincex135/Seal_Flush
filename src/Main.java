@@ -11,6 +11,7 @@ public class Main {
         System.out.println();
         int respuesta1;
         boolean empezar = false;
+        boolean primeraPartida = false;
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
         do {
             System.out.print(Ascii.MENU1);
@@ -99,14 +100,33 @@ public class Main {
         } while (respuesta1 != 0 && !empezar);
 
         if (empezar) { // Esto es importante porque si por ejemplo, nos salimos a la primera vez que se printea el menú, el código de dentro de este bloque se ejecutaría igualmente
-            Mazo mazo = new Mazo();
+            Mazo mazo = Mazo.getInstancia();
             boolean partidaAcabada = false;
             do {
                 boolean rondaAcabada = false;
                 for (int ronda = 1; !rondaAcabada; ronda++) {
-                    System.out.println("----------  RONDA " + ronda + "  ----------");
-                    mazo.barajar();
+                    System.out.println("                                                               ----------  RONDA " + ronda + "  ----------");
 
+                    for (Jugador jugador : listaJugadores) {
+                        jugador.setEsDealerActual(false);
+                    }
+                    int min = 0, max = listaJugadores.size() - 1;
+                    int aleatorio = (int) (Math.random() * (max - min + 1)) + min;
+                    listaJugadores.get(aleatorio).setEsDealerActual(true);
+                    System.out.println("El dealer en la ronda " + ronda + " es " + listaJugadores.get(aleatorio).getNomJugador());
+
+                    boolean faseAcabada = false;
+                    for (int numFase = 1; !faseAcabada; numFase++) {
+                        String fase = switch (numFase) {
+                            case 1 -> "Pre-Flop";
+                            case 2 -> "Flop";
+                            case 3 -> "Turno";
+                            case 4 -> "River";
+                            default -> "";
+                        };
+                        System.out.println("                                                                    -----  " + fase + "  -----");
+
+                    mazo.barajar();
                     Carta[] cartasTablero = new Carta[5];
                     for (int i = 0; i < cartasTablero.length; i++) {
                         cartasTablero[i] = mazo.devolverCarta();
@@ -120,17 +140,13 @@ public class Main {
                         jugador.recibirCarta(carta2);
                     }
 
-                    boolean faseAcabada = false;
-                    for (int numFase = 1; !faseAcabada; numFase++) {
-                        String fase = switch (numFase) {
-                            case 1 -> "Pre-Flop";
-                            case 2 -> "Flop";
-                            case 3 -> "Turno";
-                            case 4 -> "River";
-                            default -> "";
-                        };
-                        System.out.println(new Tablero(cartasTablero, listaJugadores));
-                        System.out.println("-----  " + fase + "  -----");
+                        Tablero tablero = Tablero.getInstancia(cartasTablero, listaJugadores);
+                        tablero.setCartas(cartasTablero);
+                        if (!primeraPartida) {
+                            tablero.setJugadores(listaJugadores);
+                        }
+                        System.out.println(tablero);
+
                         for (Jugador jugador : listaJugadores) {
                             jugador.printNomJugador();
                         }
