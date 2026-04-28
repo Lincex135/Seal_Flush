@@ -27,7 +27,7 @@ public class Bote {
 
     @Override
     public String toString() {
-        return "Bote: " + cantidad;
+        return "BOTE: " + cantidad;
     }
 
     public int getCantidad() {
@@ -36,5 +36,9 @@ public class Bote {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public void actualizarCantidad(int cantidad) {
+        this.cantidad = this.cantidad + cantidad;
     }
 }

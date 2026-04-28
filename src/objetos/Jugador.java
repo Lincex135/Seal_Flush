@@ -14,7 +14,7 @@ public class Jugador {
     public Jugador(int numJugador, String nomJugador) {
         this.numJugador = numJugador;
         this.nomJugador = nomJugador;
-        this.fichas = 20;
+        this.fichas = 500;
         this.mano = new Carta[2];
         this.apuestaActual = 0;
         this.estado = Estado.ACTIVO;

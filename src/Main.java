@@ -57,17 +57,23 @@ public class Main {
                                             System.out.println();
                                             for (int i = 1; i <= numJugadores; i++) {
                                                 String nombreJugador;
-                                                boolean nombreRepetido;
+                                                boolean nombreRepetido, longitudInvalida;
                                                 do {
                                                     System.out.print("  - Jugador " + i + ": ");
                                                     nombreJugador = teclado.nextLine().toLowerCase();
-                                                    System.out.println();
                                                     nombreRepetido = Util.nombreRepetido(listaJugadores, nombreJugador);
-                                                    if (nombreRepetido) {
+                                                    longitudInvalida = false;
+                                                    System.out.println();
+                                                    if (nombreJugador.length() < 3 || nombreJugador.length() > 10) {
+                                                        longitudInvalida = true;
+                                                        System.out.println("ERROR. Longitud del nombre inválida");
+                                                        System.out.println();
+                                                    } else if (nombreRepetido) {
                                                         System.out.println("ERROR. Nombre del jugador repetido");
                                                         System.out.println();
                                                     }
-                                                } while (nombreRepetido);
+                                                } while (nombreRepetido || longitudInvalida);
+
                                                 listaJugadores.add(new Jugador(i, nombreJugador));
                                             }
                                             break;
@@ -101,30 +107,15 @@ public class Main {
 
         if (empezar) { // Esto es importante porque si por ejemplo, nos salimos a la primera vez que se printea el menú, el código de dentro de este bloque se ejecutaría igualmente
             Mazo mazo = Mazo.getInstancia();
+            Bote bote = Bote.getInstancia();
             boolean partidaAcabada = false;
-
             boolean rondaAcabada = false;
-            for (int ronda = 1; !partidaAcabada; ronda++) {
-                System.out.println("                                                               ----------  RONDA " + ronda + "  ----------");
 
-                for (Jugador jugador : listaJugadores) {
-                    jugador.setEsDealerActual(false);
-                }
+            for (int ronda = 1; !partidaAcabada; ronda++) {
+
                 int min = 0, max = listaJugadores.size() - 1;
                 int aleatorio = (int) (Math.random() * (max - min + 1)) + min;
-                listaJugadores.get(aleatorio).setEsDealerActual(true);
-                System.out.println("El dealer en la ronda " + ronda + " es " + listaJugadores.get(aleatorio).getNomJugador());
-
-                boolean faseAcabada = false;
-                for (int numFase = 1; !rondaAcabada; numFase++) {
-                    String fase = switch (numFase) {
-                        case 1 -> "Pre-Flop";
-                        case 2 -> "Flop";
-                        case 3 -> "Turno";
-                        case 4 -> "River";
-                        default -> "";
-                    };
-                    System.out.println("                                                                    -----  " + fase + "  -----");
+                Util.establecerDealer(listaJugadores, aleatorio);
 
                 mazo.barajar();
                 Carta[] cartasTablero = new Carta[5];
@@ -140,21 +131,114 @@ public class Main {
                     jugador.recibirCarta(carta2);
                 }
 
-                    Tablero tablero = Tablero.getInstancia(cartasTablero, listaJugadores);
-                    tablero.setCartas(cartasTablero);
-                    if (!primeraPartida) {
-                        tablero.setJugadores(listaJugadores);
-                    }
-                    System.out.println(tablero);
-
-                    for (Jugador jugador : listaJugadores) {
-                        jugador.printNomJugador();
-                    }
-                    faseAcabada = true;
-                    rondaAcabada = true;
+                Tablero tablero = Tablero.getInstancia(cartasTablero, listaJugadores);
+                tablero.setCartas(cartasTablero);
+                if (!primeraPartida) {
+                    tablero.setJugadores(listaJugadores);
                 }
-                partidaAcabada = true;
+
+                boolean faseAcabada = false;
+                for (int numFase = 1; !rondaAcabada; numFase++) {
+                    int apuestaMax = 10;
+                    String fase = switch (numFase) {
+                        case 1 -> "Pre-Flop";
+                        case 2 -> "Flop";
+                        case 3 -> "Turn";
+                        case 4 -> "River";
+                        default -> "";
+                    };
+
+                    switch (numFase) {
+                        case 2 -> { // Flop: revelar cartas 0, 1, 2
+                            cartasTablero[0].setVuelta(false);
+                            cartasTablero[1].setVuelta(false);
+                            cartasTablero[2].setVuelta(false);
+                        }
+                        case 3 -> cartasTablero[3].setVuelta(false);  // Turno: revelar carta 3
+                        case 4 -> cartasTablero[4].setVuelta(false);  // River: revelar carta 4
+                    }
+
+                    System.out.println("                                                               ----------  RONDA " + ronda + "  ----------");
+                    System.out.println("El dealer en la ronda " + ronda + " es " + listaJugadores.get(aleatorio).getNomJugador() + " (el jugador subrayado)");
+                    System.out.println("                                                                    -----  " + fase + "  -----");
+
+                    Util.printEstadoPartida(tablero, bote, listaJugadores);
+
+                    ArrayList<Jugador> ordenJugadores = Util.reordenar(listaJugadores, aleatorio);
+
+                    boolean ciegasJugadas = false;
+                    boolean ajusteCiegasAplicado = false;
+
+                    for (int i = 0; i < ordenJugadores.size(); i++) {
+                        if (numFase == 1 && !ciegasJugadas) {
+                            Util.apostarCiegas(ordenJugadores, bote);
+                            ciegasJugadas = true;
+                            i = i + 2;
+                            Util.printEstadoPartida(tablero, bote, listaJugadores);
+                        }
+
+                        Jugador jugadorActual = ordenJugadores.get(i);
+
+                        System.out.print("Pulse enter para empezar el turno de " + jugadorActual.getNomJugador() + " ");
+                        teclado.nextLine();
+                        System.out.println();
+                        Util.limpiar();
+                        System.out.println("Turno de " + jugadorActual.getNomJugador());
+
+                        int respuestaJ;
+                        do {
+                            System.out.print(Ascii.MENU_JUGADOR);
+                            respuestaJ = Integer.parseInt(teclado.nextLine());
+                            System.out.println();
+
+                            switch (respuestaJ) {
+                                case 1 -> {
+                                    int respuestaAcc;
+                                    boolean turnoAcabado = false;
+                                    do {
+                                        System.out.print(Ascii.MENU_ACCIONES);
+                                        respuestaAcc = Integer.parseInt(teclado.nextLine());
+                                        System.out.println();
+                                        switch (respuestaAcc) {
+                                            case 1 -> { // Igualar
+                                                System.out.println("Igualando");
+                                                turnoAcabado = true;
+                                            }
+                                            case 2 -> { // Subir
+                                                System.out.println("Subiendo");
+                                                turnoAcabado = true;
+                                            }
+                                            case 3 -> { // Retirarse
+                                                System.out.println("Retirándose");
+                                                jugadorActual.setEstado(Estado.RETIRADO);
+                                                turnoAcabado = true;
+                                            }
+                                            case 0 -> { //Volver
+                                            }
+                                        }
+                                    } while (!turnoAcabado && respuestaAcc != 0);
+                                }
+                                case 2 -> {
+                                    Util.printEstadoPartida(tablero, bote, listaJugadores);
+                                    System.out.println("Tu mano:");
+                                    System.out.println();
+                                    Util.pintarCartas(ordenJugadores.get(i).getMano());
+                                    System.out.println();
+                                }
+                                default -> {
+                                    System.out.println("ERROR. Elige una opción válida");
+                                }
+                            }
+                        } while (respuestaJ != 1);
+                        if (numFase == 1 && ciegasJugadas && !ajusteCiegasAplicado) {
+                            i = i - 2;
+                            ajusteCiegasAplicado = true;
+                        }
+                    }
+                }
+                rondaAcabada = true;
             }
+            partidaAcabada = true;
         }
     }
 }

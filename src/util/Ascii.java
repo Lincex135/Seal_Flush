@@ -80,4 +80,16 @@ public class Ascii {
                     "                      [ 1 ]  Nueva partida    [ 2 ]  Instrucciones    [ 0 ]  Volver\n" +
                     "                    ═════════════════════════════════════════════════════════════════\n" +
                     "                     > Elige una opción: ";
+
+    public static final String MENU_JUGADOR =
+            "════════════════════════════════════════════════════\n" +
+                    "  [ 1 ]  Jugar     [ 2 ]  Ver estado de la partida\n" +
+                    "════════════════════════════════════════════════════\n" +
+                    " > Elige una opción: ";
+
+    public static final String MENU_ACCIONES =
+            "          ═════════════════════════════════════════════════════════════════════════\n" +
+                    "            [ 1 ]  Igualar     [ 2 ]  Subir     [ 3 ]  Retirarse    [ 0 ]  Volver\n" +
+                    "          ═════════════════════════════════════════════════════════════════════════\n" +
+                    "           > Elige una opción: ";
 }

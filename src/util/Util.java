@@ -1,18 +1,13 @@
 package util;
 
-
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-
 import objetos.*;
-
 
 public class Util {
 
-
     public static String[] obtenerLineasCarta(Carta carta) {
         String[] lineas = new String[6];
-
 
         if (carta.isVuelta()) {
             lineas[0] = Color.PURPLE + Color.LIGHT_BLUE_BG + "┌─────┐" + Color.RESET;
@@ -58,7 +53,6 @@ public class Util {
         return lineas;
     }
 
-
     // Imprime varias cartas horizontalmente, tu mano
     public static void pintarCartas(Carta[] cartas) {
         String[][] todasLineas = new String[cartas.length][];
@@ -67,7 +61,6 @@ public class Util {
         for (int i = 0; i < cartas.length; i++) {
             todasLineas[i] = obtenerLineasCarta(cartas[i]);
         }
-
 
         for (int fila = 0; fila < todasLineas[0].length; fila++) {
             StringBuilder sb = new StringBuilder();
@@ -79,21 +72,17 @@ public class Util {
         }
     }
 
-
     public static void printInicio() {
         // Centrado vertical: padding arriba y abajo para cartas
         int altFoca = Ascii.FOCA.length;    // 25
         int altCartas = Ascii.CARTAS.length;  // 11
         int altMenu = Ascii.MENU.length;    // 5
 
-
         int padCartas = (altFoca - altCartas) / 2;  // offset de cartas respecto a foca
         int padMenu = (altFoca - altMenu) / 2;  // offset de menu respecto a foca
 
-
         String vacioCarta = "                                              ";
         String vacioMenu = "                                ";
-
 
         for (int i = 0; i < altFoca; i++) {
             int cartaIdx = i - padCartas;
@@ -108,7 +97,6 @@ public class Util {
         }
     }
 
-
     public static boolean nombreRepetido(ArrayList<Jugador> listaJugadores, String nombre) {
         for (Jugador jugador : listaJugadores) {
             if (jugador.getNomJugador().equals(nombre)) {
@@ -117,7 +105,6 @@ public class Util {
         }
         return false;
     }
-
 
     public static void limpiar() {
         try {
@@ -142,5 +129,47 @@ public class Util {
             System.out.print("\033[H\033[2J");
             System.out.flush();
         }
+    }
+
+    public static void printEstadoPartida (Tablero tablero, Bote bote, ArrayList<Jugador> listaJugadores) {
+        System.out.println(tablero);
+        System.out.println("                                                               ----------  " + bote + "  ----------");
+        System.out.println();
+        for (Jugador jugador : listaJugadores) {
+            jugador.printNomJugador();
+        }
+        System.out.println();
+        System.out.println();
+    }
+
+    public static ArrayList<Jugador> reordenar(ArrayList<Jugador> listaJugadores, int aleatorio) {
+        int n = listaJugadores.size();
+        ArrayList<Jugador> ordenJugadores = new ArrayList<Jugador>();
+
+        for (int i = 0; i < n; i++) {
+            if (i < aleatorio) {
+                ordenJugadores.add(listaJugadores.get(aleatorio - 1 - i));
+            } else {
+                ordenJugadores.add(listaJugadores.get(n - 1 - (i - aleatorio)));
+            }
+        }
+
+        return ordenJugadores;
+    }
+
+    public static void apostarCiegas (ArrayList<Jugador> ordenJugadores, Bote bote) {
+        System.out.println("Apostando las ciegas:");
+        System.out.println("La ciega pequeña (" + ordenJugadores.get(0).getNomJugador() + ") son 5 fichas y la ciega grande (" + ordenJugadores.get(1).getNomJugador() + ") son 10 fichas.");
+        System.out.println();
+        ordenJugadores.get(0).actualizarFichas(5);
+        ordenJugadores.get(1).actualizarFichas(10);
+        bote.actualizarCantidad(15);
+    }
+
+    public static void establecerDealer (ArrayList<Jugador> listaJugadores, int aleatorio) {
+        for (Jugador jugador : listaJugadores) {
+            jugador.setEsDealerActual(false);
+        }
+        listaJugadores.get(aleatorio).setEsDealerActual(true);
     }
 }
