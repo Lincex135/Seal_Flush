@@ -66,10 +66,10 @@ public class Main {
                                                     System.out.println();
                                                     if (nombreJugador.length() < 3 || nombreJugador.length() > 10) {
                                                         longitudInvalida = true;
-                                                        System.out.println("ERROR. Longitud del nombre inválida");
+                                                        System.out.println(Color.RED + "ERROR. Longitud del nombre inválida" + Color.RESET);
                                                         System.out.println();
                                                     } else if (nombreRepetido) {
-                                                        System.out.println("ERROR. Nombre del jugador repetido");
+                                                        System.out.println(Color.RED + "ERROR. Nombre del jugador repetido" + Color.RESET);
                                                         System.out.println();
                                                     }
                                                 } while (nombreRepetido || longitudInvalida);
@@ -85,13 +85,15 @@ public class Main {
                                             break;
 
                                         default:
-                                            System.out.println("ERROR. Introduzca una opción válida");
+                                            System.out.println(Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET);
+                                            System.out.println();
                                     }
                                 } while (respuesta3 != 0 && !empezar);
                                 break;
 
                             default:
-                                System.out.println("ERROR. Introduzca una opción válida");
+                                System.out.println(Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET);
+                                System.out.println();
                         }
                     } while (respuestaJuego != 0 && !empezar);
                     break;
@@ -101,7 +103,8 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("ERROR. Introduzca una opción válida");
+                    System.out.println(Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET);
+                    System.out.println();
             }
         } while (respuesta1 != 0 && !empezar);
 
@@ -186,38 +189,59 @@ public class Main {
                         System.out.println("Turno de " + jugadorActual.getNomJugador());
 
                         int respuestaJ;
+                        boolean turnoJugado;
+
                         do {
+                            turnoJugado = false;
+
                             System.out.print(Ascii.MENU_JUGADOR);
                             respuestaJ = Integer.parseInt(teclado.nextLine());
                             System.out.println();
 
                             switch (respuestaJ) {
+
                                 case 1 -> {
                                     int respuestaAcc;
-                                    boolean turnoAcabado = false;
+                                    boolean turnoAcabado;
+
                                     do {
+                                        turnoAcabado = false;
+
                                         System.out.print(Ascii.MENU_ACCIONES);
                                         respuestaAcc = Integer.parseInt(teclado.nextLine());
                                         System.out.println();
+
                                         switch (respuestaAcc) {
-                                            case 1 -> { // Igualar
+
+                                            case 0 -> turnoAcabado = true;
+
+                                            case 1 -> {
                                                 System.out.println("Igualando");
                                                 turnoAcabado = true;
+                                                turnoJugado = true;
                                             }
-                                            case 2 -> { // Subir
+
+                                            case 2 -> {
                                                 System.out.println("Subiendo");
                                                 turnoAcabado = true;
+                                                turnoJugado = true;
                                             }
-                                            case 3 -> { // Retirarse
+
+                                            case 3 -> {
                                                 System.out.println("Retirándose");
                                                 jugadorActual.setEstado(Estado.RETIRADO);
                                                 turnoAcabado = true;
+                                                turnoJugado = true;
                                             }
-                                            case 0 -> { //Volver
+
+                                            default -> {
+                                                System.out.println(Color.RED + "ERROR. Elige una opción válida" + Color.RESET);
+                                                System.out.println();
                                             }
                                         }
-                                    } while (!turnoAcabado && respuestaAcc != 0);
+                                    } while (!turnoAcabado);
                                 }
+
                                 case 2 -> {
                                     Util.printEstadoPartida(tablero, bote, listaJugadores);
                                     System.out.println("Tu mano:");
@@ -225,12 +249,16 @@ public class Main {
                                     Util.pintarCartas(ordenJugadores.get(i).getMano());
                                     System.out.println();
                                 }
+
                                 default -> {
-                                    System.out.println("ERROR. Elige una opción válida");
+                                    System.out.println(Color.RED + "ERROR. Elige una opción válida" + Color.RESET);
+                                    System.out.println();
                                 }
                             }
-                        } while (respuestaJ != 1);
-                        if (numFase == 1 && ciegasJugadas && !ajusteCiegasAplicado) {
+
+                        } while (!turnoJugado);
+
+                        if (numFase == 1 && !ajusteCiegasAplicado) {
                             i = i - 2;
                             ajusteCiegasAplicado = true;
                         }
