@@ -9,6 +9,7 @@ public class Tablero {
     private static Tablero instancia;
     private Carta[] cartas;
     private ArrayList<Jugador> jugadores;
+    private int apuestaRonda = 0;
 
     private final String[] tablero = {
             Color.BROWN_BG + " ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ " + Color.RESET + "\n",
@@ -99,5 +100,13 @@ public class Tablero {
 
     public void setJugadores(ArrayList<Jugador> jugadores) {
         this.jugadores = jugadores;
+    }
+
+    public int getApuestaRonda() {
+        return apuestaRonda;
+    }
+
+    public void setApuestaRonda(int apuestaRonda) {
+        this.apuestaRonda = apuestaRonda;
     }
 }

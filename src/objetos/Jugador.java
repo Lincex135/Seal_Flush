@@ -42,22 +42,6 @@ public class Jugador {
         descartarMano();
     }
 
-    public void recibirFichas(int cantidad) {
-        if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
-        }
-        fichas += cantidad;
-        if (estado == Estado.ALL_IN && fichas > 0) {
-            estado = Estado.ACTIVO;
-        } else if (fichas > 0) {
-            estado = Estado.ACTIVO;
-        } else if (estado == Estado.RETIRADO) {
-            estado = Estado.RETIRADO;
-        } else {
-            estado = Estado.ELIMINADO;
-        }
-    }
-
     public void reiniciarRonda() {
         apuestaActual = 0;
         if (estado == Estado.RETIRADO) {
@@ -90,10 +74,8 @@ public class Jugador {
         this.fichas -= cantidad;
         if (fichas == 0) {
             estado = Estado.ALL_IN;
-        } else if (!puedeApostar(cantidad)) {
-            estado = Estado.ELIMINADO;
         } else {
-            estado = Estado.ACTIVO;
+            estado = Estado.ACTIVO;  // Si tiene fichas, está activo
         }
     }
 

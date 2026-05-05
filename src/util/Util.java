@@ -1,7 +1,8 @@
 package util;
 
-import java.lang.reflect.Array;
+import java.util.Scanner;
 import java.util.ArrayList;
+
 import objetos.*;
 
 public class Util {
@@ -21,30 +22,34 @@ public class Util {
             String numero = Carta.SIMB_RANGO[carta.getRango()];
             lineas[0] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "┌─────┐" + Color.RESET;
             lineas[5] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "└─────┘" + Color.RESET;
+            String espacio = " ";
+            if (carta.getRango() == 8) {
+                espacio = "";
+            }
             switch (palo) {
                 case "PICAS" -> {
-                    lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + " .  " + Color.PURPLE + "│" + Color.RESET;
+                    lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + espacio + ".  " + Color.PURPLE + "│" + Color.RESET;
                     lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + " / \\" + Color.PURPLE + " │" + Color.RESET;
                     lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_._)" + Color.PURPLE + "│" + Color.RESET;
-                    lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "  | " + numero + Color.PURPLE + "│" + Color.RESET;
+                    lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "  |" + espacio + numero + Color.PURPLE + "│" + Color.RESET;
                 }
                 case "TRÉBOLES" -> {
-                    lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + "    " + Color.PURPLE + "│" + Color.RESET;
+                    lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + numero + espacio + "   " + Color.PURPLE + "│" + Color.RESET;
                     lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + " (¯)" + Color.PURPLE + " │" + Color.RESET;
                     lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "(_X_)" + Color.PURPLE + "│" + Color.RESET;
-                    lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "  Y " + numero + Color.PURPLE + "│" + Color.RESET;
+                    lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.BLACK + "  Y" + espacio + numero + Color.PURPLE + "│" + Color.RESET;
                 }
                 case "DIAMANTES" -> {
-                    lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + " ^  " + Color.PURPLE + "│" + Color.RESET;
+                    lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + espacio + "^  " + Color.PURPLE + "│" + Color.RESET;
                     lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + " / \\ " + Color.PURPLE + "│" + Color.RESET;
                     lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + " \\ / " + Color.PURPLE + "│" + Color.RESET;
-                    lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "  v " + numero + Color.PURPLE + "│" + Color.RESET;
+                    lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "  v" + espacio + numero + Color.PURPLE + "│" + Color.RESET;
                 }
                 case "CORAZONES" -> {
-                    lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + "    " + Color.PURPLE + "│" + Color.RESET;
+                    lineas[1] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + numero + espacio + "   " + Color.PURPLE + "│" + Color.RESET;
                     lineas[2] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "(¯v¯)" + Color.PURPLE + "│" + Color.RESET;
-                    lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + " \\ /" + Color.PURPLE + " │" + Color.RESET;
-                    lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "  v " + numero + Color.PURPLE + "│" + Color.RESET;
+                    lineas[3] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + " \\ / " + Color.PURPLE + "│" + Color.RESET;
+                    lineas[4] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "│" + Color.RED + "  v" + espacio + numero + Color.PURPLE + "│" + Color.RESET;
                 }
             }
         }
@@ -131,7 +136,7 @@ public class Util {
         }
     }
 
-    public static void printEstadoPartida (Tablero tablero, Bote bote, ArrayList<Jugador> listaJugadores) {
+    public static void printEstadoPartida(Tablero tablero, Bote bote, ArrayList<Jugador> listaJugadores) {
         System.out.println(tablero);
         System.out.println("                                                               ----------  " + bote + "  ----------");
         System.out.println();
@@ -140,6 +145,15 @@ public class Util {
         }
         System.out.println();
         System.out.println();
+        if (bote.getCantidad() > 0) {
+            System.out.println("                                                           ----------  APUESTAS ACTUALES  ----------");
+        }
+        for (Jugador jugador : listaJugadores) {
+            if (jugador.getApuestaActual() > 0) {
+                System.out.println(jugador.getNomJugador() + " ha apostado " +  jugador.getApuestaActual() + " fichas.");
+                System.out.println();
+            }
+        }
     }
 
     public static ArrayList<Jugador> reordenar(ArrayList<Jugador> listaJugadores, int aleatorio) {
@@ -157,19 +171,123 @@ public class Util {
         return ordenJugadores;
     }
 
-    public static void apostarCiegas (ArrayList<Jugador> ordenJugadores, Bote bote) {
+    public static void apostarCiegas(ArrayList<Jugador> ordenJugadores, Bote bote, Tablero tablero) {
         System.out.println("Apostando las ciegas:");
-        System.out.println("La ciega pequeña (" + ordenJugadores.get(0).getNomJugador() + ") son 5 fichas y la ciega grande (" + ordenJugadores.get(1).getNomJugador() + ") son 10 fichas.");
+        System.out.println("La ciega pequeña (" + ordenJugadores.get(0).getNomJugador() + ") son 5 fichas " +
+                "y la ciega grande (" + ordenJugadores.get(1).getNomJugador() + ") son 10 fichas.");
         System.out.println();
-        ordenJugadores.get(0).actualizarFichas(5);
-        ordenJugadores.get(1).actualizarFichas(10);
+        ordenJugadores.get(0).apostar(5);
+        ordenJugadores.get(1).apostar(10);
         bote.actualizarCantidad(15);
+        tablero.setApuestaRonda(10);
     }
 
-    public static void establecerDealer (ArrayList<Jugador> listaJugadores, int aleatorio) {
+    public static void establecerDealer(ArrayList<Jugador> listaJugadores, int aleatorio) {
         for (Jugador jugador : listaJugadores) {
             jugador.setEsDealerActual(false);
         }
         listaJugadores.get(aleatorio).setEsDealerActual(true);
+    }
+
+    public static boolean ejecutarAccion(int opcion, Jugador jugador, Bote bote,
+                                         Tablero tablero, Scanner teclado) {
+        switch (opcion) {
+            case 1 -> { // Igualar
+                int diferencia = tablero.getApuestaRonda() - jugador.getApuestaActual();
+                if (diferencia <= 0) {
+                    System.out.println(jugador.getNomJugador() + " pasa.");
+                } else if (!jugador.puedeApostar(diferencia)) {
+                    System.out.println("No tienes fichas suficientes para igualar (" + diferencia + "). Elige otra opción.");
+                    return false;
+                } else {
+                    jugador.apostar(diferencia);
+                    bote.actualizarCantidad(diferencia);
+                    System.out.println(jugador.getNomJugador() + " iguala " + diferencia + " fichas. Fichas restantes: " + jugador.getFichas());
+                    System.out.println();
+                }
+                return true;
+            }
+            case 2 -> { // Subir apuesta
+                System.out.print("¿Cuánto quieres subir sobre la apuesta actual (" + tablero.getApuestaRonda() + ")? ");
+                int subida;
+                try {
+                    subida = Integer.parseInt(teclado.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Cantidad no válida.");
+                    return false;
+                }
+                System.out.println();
+                if (subida <= 0) {
+                    System.out.println("La subida debe ser mayor a 0.");
+                    return false;
+                }
+                int total = tablero.getApuestaRonda() - jugador.getApuestaActual() + subida;
+                if (!jugador.puedeApostar(total)) {
+                    System.out.println("No tienes fichas suficientes. Necesitas " + total + " y tienes " + jugador.getFichas() + ".");
+                    return false;
+                }   
+                jugador.apostar(total);
+                bote.actualizarCantidad(total);
+                tablero.setApuestaRonda(tablero.getApuestaRonda() + subida);
+                System.out.println(jugador.getNomJugador() + " sube la apuesta. Nueva apuesta más alta de la ronda: " + tablero.getApuestaRonda() + ". Fichas restantes: " + jugador.getFichas());
+                System.out.println();
+                return true;
+            }
+            case 3 -> { // Retirarse
+                jugador.retirarse();
+                System.out.println(jugador.getNomJugador() + " se retira.");
+                System.out.println();
+                return true;
+            }
+            default -> {
+                System.out.println("Opción no válida.");
+                return false;
+            }
+        }
+    }
+
+    public static void ejecutarTurno(Jugador jugador, Bote bote, Tablero tablero,
+                                     ArrayList<Jugador> listaJugadores, Scanner teclado) {
+        if (!jugador.estaActivo()) {
+            return;
+        }
+
+        System.out.print("Pulse enter para empezar el turno de " + jugador.getNomJugador() + " ");
+        teclado.nextLine();
+        Util.limpiar();
+        System.out.println("Turno de " + jugador.getNomJugador());
+
+        int respuestaJ;
+        do {
+            System.out.print(Ascii.MENU_JUGADOR);
+            respuestaJ = Integer.parseInt(teclado.nextLine());
+            System.out.println();
+            switch (respuestaJ) {
+                case 1 -> {
+                    boolean turnoAcabado = false;
+                    int respuestaAcc;
+                    do {
+                        System.out.print(Ascii.MENU_ACCIONES);
+                        respuestaAcc = Integer.parseInt(teclado.nextLine());
+                        System.out.println();
+                        if (respuestaAcc != 0) {
+                            turnoAcabado = Util.ejecutarAccion(respuestaAcc, jugador, bote, tablero, teclado);
+                        }
+                    } while (!turnoAcabado && respuestaAcc != 0);
+
+                    if (!turnoAcabado) respuestaJ = 0; // volvió con 0, repetir MENU_JUGADOR
+                }
+                case 2 -> {
+                    Util.printEstadoPartida(tablero, bote, listaJugadores);
+                    Util.pintarCartas(jugador.getMano());
+                    System.out.println();
+                    respuestaJ = 0; // ver estado no termina el turno
+                }
+                case 0 -> {
+                    // Vacío, caso de volver
+                }
+                default -> System.out.println(Color.RED + "ERROR. Elija una opción válida" + Color.RESET);
+            }
+        } while (respuestaJ != 1);
     }
 }

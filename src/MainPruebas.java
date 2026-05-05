@@ -11,7 +11,7 @@ public class MainPruebas {
         ArrayList<Jugador> jugadores = new ArrayList<>();
 
         Carta[] cartas = new Carta[5];
-        Carta cartaP = new Carta(1, 0);
+        Carta cartaP = new Carta(8, 0);
         cartas[0] = cartaP;
         cartas[1] = cartaP;
         cartas[2] = cartaP;

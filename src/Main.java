@@ -50,7 +50,7 @@ public class Main {
                                                 numJugadores = Integer.parseInt(teclado.nextLine());
                                                 System.out.println();
                                                 if (numJugadores < 2 || numJugadores > 10) {
-                                                    System.out.println("ERROR. El número de jugadores debe estar entre 2 y 10");
+                                                    System.out.println(Color.RED + "ERROR. El número de jugadores debe estar entre 2 y 10" + Color.RESET);
                                                 }
                                             } while (numJugadores < 2 || numJugadores > 10);
                                             System.out.println("Introduce los nombres de los jugadores (en minúsculas)");
@@ -142,6 +142,7 @@ public class Main {
 
                 boolean faseAcabada = false;
                 for (int numFase = 1; !rondaAcabada; numFase++) {
+                    tablero.setApuestaRonda(0);
                     int apuestaMax = 10;
                     String fase = switch (numFase) {
                         case 1 -> "Pre-Flop";
@@ -169,98 +170,22 @@ public class Main {
 
                     ArrayList<Jugador> ordenJugadores = Util.reordenar(listaJugadores, aleatorio);
 
-                    boolean ciegasJugadas = false;
-                    boolean ajusteCiegasAplicado = false;
+                    // Pagar ciegas (solo Pre-Flop)
+                    if (numFase == 1) {
+                        Util.apostarCiegas(ordenJugadores, bote, tablero);
+                        Util.printEstadoPartida(tablero, bote, listaJugadores);
+                    }
 
-                    for (int i = 0; i < ordenJugadores.size(); i++) {
-                        if (numFase == 1 && !ciegasJugadas) {
-                            Util.apostarCiegas(ordenJugadores, bote);
-                            ciegasJugadas = true;
-                            i = i + 2;
-                            Util.printEstadoPartida(tablero, bote, listaJugadores);
-                        }
+                    // Jugadores que deciden primero (desde índice 2 en Pre-Flop, desde 0 en el resto)
+                    int indiceInicio = (numFase == 1) ? 2 : 0;
+                    for (int i = indiceInicio; i < ordenJugadores.size(); i++) {
+                        Util.ejecutarTurno(ordenJugadores.get(i), bote, tablero, listaJugadores, teclado);
+                    }
 
-                        Jugador jugadorActual = ordenJugadores.get(i);
-
-                        System.out.print("Pulse enter para empezar el turno de " + jugadorActual.getNomJugador() + " ");
-                        teclado.nextLine();
-                        System.out.println();
-                        Util.limpiar();
-                        System.out.println("Turno de " + jugadorActual.getNomJugador());
-
-                        int respuestaJ;
-                        boolean turnoJugado;
-
-                        do {
-                            turnoJugado = false;
-
-                            System.out.print(Ascii.MENU_JUGADOR);
-                            respuestaJ = Integer.parseInt(teclado.nextLine());
-                            System.out.println();
-
-                            switch (respuestaJ) {
-
-                                case 1 -> {
-                                    int respuestaAcc;
-                                    boolean turnoAcabado;
-
-                                    do {
-                                        turnoAcabado = false;
-
-                                        System.out.print(Ascii.MENU_ACCIONES);
-                                        respuestaAcc = Integer.parseInt(teclado.nextLine());
-                                        System.out.println();
-
-                                        switch (respuestaAcc) {
-
-                                            case 0 -> turnoAcabado = true;
-
-                                            case 1 -> {
-                                                System.out.println("Igualando");
-                                                turnoAcabado = true;
-                                                turnoJugado = true;
-                                            }
-
-                                            case 2 -> {
-                                                System.out.println("Subiendo");
-                                                turnoAcabado = true;
-                                                turnoJugado = true;
-                                            }
-
-                                            case 3 -> {
-                                                System.out.println("Retirándose");
-                                                jugadorActual.setEstado(Estado.RETIRADO);
-                                                turnoAcabado = true;
-                                                turnoJugado = true;
-                                            }
-
-                                            default -> {
-                                                System.out.println(Color.RED + "ERROR. Elige una opción válida" + Color.RESET);
-                                                System.out.println();
-                                            }
-                                        }
-                                    } while (!turnoAcabado);
-                                }
-
-                                case 2 -> {
-                                    Util.printEstadoPartida(tablero, bote, listaJugadores);
-                                    System.out.println("Tu mano:");
-                                    System.out.println();
-                                    Util.pintarCartas(ordenJugadores.get(i).getMano());
-                                    System.out.println();
-                                }
-
-                                default -> {
-                                    System.out.println(Color.RED + "ERROR. Elige una opción válida" + Color.RESET);
-                                    System.out.println();
-                                }
-                            }
-
-                        } while (!turnoJugado);
-
-                        if (numFase == 1 && !ajusteCiegasAplicado) {
-                            i = i - 2;
-                            ajusteCiegasAplicado = true;
+                    // En Pre-Flop, las ciegas juegan al final
+                    if (numFase == 1) {
+                        for (int i = 0; i < 2; i++) {
+                            Util.ejecutarTurno(ordenJugadores.get(i), bote, tablero, listaJugadores, teclado);
                         }
                     }
                 }
