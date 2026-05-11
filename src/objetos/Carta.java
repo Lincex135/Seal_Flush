@@ -27,9 +27,8 @@ public class Carta {
     public static final int TREBOLES = 1;
     public static final int DIAMANTES = 0;
 
-    // Los símbolos de los rangos. Tener en cuenta que T es el 10.
     public static final String[] SIMB_RANGO = {
-            "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"
+            "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"
     };
 
     /** Los símbolos de los palos.

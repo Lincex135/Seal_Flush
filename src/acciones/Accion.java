@@ -8,7 +8,7 @@ public abstract class Accion {
     public static final Accion CONTESTAR = new AccionContestar();
     public static final Accion PASAR = new AccionPasar();
     public static final Accion CONTINUAR = new AccionContinuar();
-    public static final Accion RENDIRSE = new AccionRendirse();
+    public static final Accion RENDIRSE = new AccionRetirarse();
     public static final Accion SUBIR_APUESTA = new AccionSubirApuesta(0);
     public static final Accion CIEGA_PEQUENA = new AccionCiegaPequena();
 

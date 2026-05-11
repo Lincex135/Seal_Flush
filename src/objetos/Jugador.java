@@ -14,7 +14,7 @@ public class Jugador {
     public Jugador(int numJugador, String nomJugador) {
         this.numJugador = numJugador;
         this.nomJugador = nomJugador;
-        this.fichas = 20;
+        this.fichas = 500;
         this.mano = new Carta[2];
         this.apuestaActual = 0;
         this.estado = Estado.ACTIVO;
@@ -42,22 +42,6 @@ public class Jugador {
         descartarMano();
     }
 
-    public void recibirFichas(int cantidad) {
-        if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
-        }
-        fichas += cantidad;
-        if (estado == Estado.ALL_IN && fichas > 0) {
-            estado = Estado.ACTIVO;
-        } else if (fichas > 0) {
-            estado = Estado.ACTIVO;
-        } else if (estado == Estado.RETIRADO) {
-            estado = Estado.RETIRADO;
-        } else {
-            estado = Estado.ELIMINADO;
-        }
-    }
-
     public void reiniciarRonda() {
         apuestaActual = 0;
         if (estado == Estado.RETIRADO) {
@@ -69,9 +53,6 @@ public class Jugador {
     }
 
     public boolean apostar(int cantidad) {
-        if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
-        }
         if (!puedeApostar(cantidad)) {
             estado = Estado.RETIRADO;
             return false;
@@ -90,10 +71,8 @@ public class Jugador {
         this.fichas -= cantidad;
         if (fichas == 0) {
             estado = Estado.ALL_IN;
-        } else if (!puedeApostar(cantidad)) {
-            estado = Estado.ELIMINADO;
         } else {
-            estado = Estado.ACTIVO;
+            estado = Estado.ACTIVO;  // Si tiene fichas, está activo
         }
     }
 
@@ -172,5 +151,7 @@ public class Jugador {
         this.estado = estado;
     }
 
-    public Carta[] getMano() {return mano;}
+    public Carta[] getMano() {
+        return mano;
+    }
 }
