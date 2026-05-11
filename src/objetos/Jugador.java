@@ -53,9 +53,6 @@ public class Jugador {
     }
 
     public boolean apostar(int cantidad) {
-        if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
-        }
         if (!puedeApostar(cantidad)) {
             estado = Estado.RETIRADO;
             return false;
@@ -154,5 +151,7 @@ public class Jugador {
         this.estado = estado;
     }
 
-    public Carta[] getMano() {return mano;}
+    public Carta[] getMano() {
+        return mano;
+    }
 }

@@ -23,7 +23,7 @@ public class Util {
             lineas[0] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "┌─────┐" + Color.RESET;
             lineas[5] = Color.PURPLE + Color.LIGHT_YELLOW_BG + "└─────┘" + Color.RESET;
             String espacio = " ";
-            if (carta.getRango() == 8) {
+            if (numero.length() == 2) {
                 espacio = "";
             }
             switch (palo) {
@@ -136,7 +136,9 @@ public class Util {
         }
     }
 
-    public static void printEstadoPartida(Tablero tablero, Bote bote, ArrayList<Jugador> listaJugadores) {
+    public static void printEstadoPartida(Tablero tablero, Bote bote, ArrayList<Jugador> listaJugadores, String fase) {
+        System.out.println("                                                                    -----  " + fase + "  -----");
+        System.out.println();
         System.out.println(tablero);
         System.out.println("                                                               ----------  " + bote + "  ----------");
         System.out.println();
@@ -150,7 +152,7 @@ public class Util {
         }
         for (Jugador jugador : listaJugadores) {
             if (jugador.getApuestaActual() > 0) {
-                System.out.println(jugador.getNomJugador() + " ha apostado " +  jugador.getApuestaActual() + " fichas.");
+                System.out.println(jugador.getNomJugador() + " ha apostado " + jugador.getApuestaActual() + " fichas.");
                 System.out.println();
             }
         }
@@ -208,24 +210,30 @@ public class Util {
                 return true;
             }
             case 2 -> { // Subir apuesta
-                System.out.print("¿Cuánto quieres subir sobre la apuesta actual (" + tablero.getApuestaRonda() + ")? ");
                 int subida;
-                try {
-                    subida = Integer.parseInt(teclado.nextLine());
-                } catch (NumberFormatException e) {
-                    System.out.println("Cantidad no válida.");
-                    return false;
-                }
-                System.out.println();
-                if (subida <= 0) {
-                    System.out.println("La subida debe ser mayor a 0.");
-                    return false;
-                }
+                do {
+                    System.out.print("¿Cuánto quieres subir sobre la apuesta actual (" + tablero.getApuestaRonda() + ")? ");
+                    try {
+                        subida = Integer.parseInt(teclado.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println(Color.RED + "ERROR. Formato no válido. Escriba un número" + Color.RESET);
+                        System.out.println();
+                        subida = -1;
+                    }
+                    System.out.println();
+                    if (subida <= 0) {
+                        System.out.println("La subida debe ser mayor a 0.");
+                    } else if (subida % 5 != 0) {
+                        System.out.println(Color.RED + "ERROR. La cantidad debe ser múltiplo de 5" + Color.RESET);
+                        System.out.println();
+                    }
+                } while (subida <= 0 || subida % 5 != 0);
+
                 int total = tablero.getApuestaRonda() - jugador.getApuestaActual() + subida;
                 if (!jugador.puedeApostar(total)) {
                     System.out.println("No tienes fichas suficientes. Necesitas " + total + " y tienes " + jugador.getFichas() + ".");
                     return false;
-                }   
+                }
                 jugador.apostar(total);
                 bote.actualizarCantidad(total);
                 tablero.setApuestaRonda(tablero.getApuestaRonda() + subida);
@@ -246,10 +254,15 @@ public class Util {
         }
     }
 
-    public static void ejecutarTurno(Jugador jugador, Bote bote, Tablero tablero,
-                                     ArrayList<Jugador> listaJugadores, Scanner teclado) {
-        if (!jugador.estaActivo()) {
-            return;
+    public static boolean ejecutarTurno(Jugador jugador, Bote bote, Tablero tablero,
+                                        ArrayList<Jugador> listaJugadores, String fase, Scanner teclado) {
+
+        int activos = 0;
+        for (Jugador j : listaJugadores) {
+            if (j.estaActivo()) activos++;
+        }
+        if (!jugador.estaActivo() || activos == 1) {
+            return false;
         }
 
         System.out.print("Pulse enter para empezar el turno de " + jugador.getNomJugador() + " ");
@@ -261,6 +274,7 @@ public class Util {
         do {
             System.out.print(Ascii.MENU_JUGADOR);
             respuestaJ = Integer.parseInt(teclado.nextLine());
+
             System.out.println();
             switch (respuestaJ) {
                 case 1 -> {
@@ -278,8 +292,15 @@ public class Util {
                     if (!turnoAcabado) respuestaJ = 0; // volvió con 0, repetir MENU_JUGADOR
                 }
                 case 2 -> {
-                    Util.printEstadoPartida(tablero, bote, listaJugadores);
+                    System.out.println("---- Tu mano ----");
+                    System.out.println();
                     Util.pintarCartas(jugador.getMano());
+                    System.out.println();
+                    respuestaJ = 0; // ver mano no termina el turno
+                }
+
+                case 3 -> {
+                    Util.printEstadoPartida(tablero, bote, listaJugadores, fase);
                     System.out.println();
                     respuestaJ = 0; // ver estado no termina el turno
                 }
@@ -289,5 +310,24 @@ public class Util {
                 default -> System.out.println(Color.RED + "ERROR. Elija una opción válida" + Color.RESET);
             }
         } while (respuestaJ != 1);
+        return true;
     }
+
+    public static boolean soloQuedaUnJugador(ArrayList<Jugador> listaJugadores) {
+        int jugadoresActivos = 0;
+        String nomGanador = "";
+
+        for (Jugador jugador : listaJugadores) {
+            if (jugador.estaActivo()) {
+                nomGanador = jugador.getNomJugador();
+                jugadoresActivos++;
+            }
+        }
+        boolean quedaUno = jugadoresActivos == 1;
+        if (quedaUno) {
+            System.out.println("Enhorabuena gana " + nomGanador);
+        }
+        return quedaUno;
+    }
+
 }

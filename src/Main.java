@@ -115,10 +115,17 @@ public class Main {
             boolean rondaAcabada = false;
 
             for (int ronda = 1; !partidaAcabada; ronda++) {
+                rondaAcabada = false;
 
                 int min = 0, max = listaJugadores.size() - 1;
                 int aleatorio = (int) (Math.random() * (max - min + 1)) + min;
                 Util.establecerDealer(listaJugadores, aleatorio);
+
+                for (Jugador jugador : listaJugadores) {
+                    jugador.setEstado(Estado.ACTIVO);
+                }
+
+                bote.setCantidad(0);
 
                 mazo.barajar();
                 Carta[] cartasTablero = new Carta[5];
@@ -140,10 +147,11 @@ public class Main {
                     tablero.setJugadores(listaJugadores);
                 }
 
-                boolean faseAcabada = false;
                 for (int numFase = 1; !rondaAcabada; numFase++) {
-                    tablero.setApuestaRonda(0);
-                    int apuestaMax = 10;
+                    if (numFase == 1) {
+                        tablero.setApuestaRonda(0);
+                    }
+
                     String fase = switch (numFase) {
                         case 1 -> "Pre-Flop";
                         case 2 -> "Flop";
@@ -164,32 +172,32 @@ public class Main {
 
                     System.out.println("                                                               ----------  RONDA " + ronda + "  ----------");
                     System.out.println("El dealer en la ronda " + ronda + " es " + listaJugadores.get(aleatorio).getNomJugador() + " (el jugador subrayado)");
-                    System.out.println("                                                                    -----  " + fase + "  -----");
-
-                    Util.printEstadoPartida(tablero, bote, listaJugadores);
+                    Util.printEstadoPartida(tablero, bote, listaJugadores, fase);
 
                     ArrayList<Jugador> ordenJugadores = Util.reordenar(listaJugadores, aleatorio);
 
                     // Pagar ciegas (solo Pre-Flop)
                     if (numFase == 1) {
                         Util.apostarCiegas(ordenJugadores, bote, tablero);
-                        Util.printEstadoPartida(tablero, bote, listaJugadores);
+                        Util.printEstadoPartida(tablero, bote, listaJugadores, fase);
                     }
 
                     // Jugadores que deciden primero (desde índice 2 en Pre-Flop, desde 0 en el resto)
                     int indiceInicio = (numFase == 1) ? 2 : 0;
                     for (int i = indiceInicio; i < ordenJugadores.size(); i++) {
-                        Util.ejecutarTurno(ordenJugadores.get(i), bote, tablero, listaJugadores, teclado);
+                        Util.ejecutarTurno(ordenJugadores.get(i), bote, tablero, listaJugadores, fase, teclado);
                     }
 
                     // En Pre-Flop, las ciegas juegan al final
                     if (numFase == 1) {
                         for (int i = 0; i < 2; i++) {
-                            Util.ejecutarTurno(ordenJugadores.get(i), bote, tablero, listaJugadores, teclado);
+                            Util.ejecutarTurno(ordenJugadores.get(i), bote, tablero, listaJugadores, fase, teclado);
                         }
                     }
+                    if (Util.soloQuedaUnJugador(listaJugadores)) {
+                        rondaAcabada = true;
+                    }
                 }
-                rondaAcabada = true;
             }
             partidaAcabada = true;
         }
