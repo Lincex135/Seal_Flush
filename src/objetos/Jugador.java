@@ -47,9 +47,11 @@ public class Jugador {
         if (estado == Estado.RETIRADO) {
             estado = Estado.ACTIVO;
         }
-        if (fichas == 0) {
+        if (fichas == 0 || estado == Estado.ELIMINADO) {
             estado = Estado.ELIMINADO;
         }
+        descartarMano();
+        setApuestaActual(0);
     }
 
     public boolean apostar(int cantidad) {
@@ -145,6 +147,10 @@ public class Jugador {
 
     public void setFichas(int fichas) {
         this.fichas = fichas;
+    }
+
+    public void setApuestaActual(int apuestaActual) {
+        this.apuestaActual = apuestaActual;
     }
 
     public void setEstado(Estado estado) {

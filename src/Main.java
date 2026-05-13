@@ -116,16 +116,27 @@ public class Main {
 
             for (int ronda = 1; !partidaAcabada; ronda++) {
                 rondaAcabada = false;
-
-                int min = 0, max = listaJugadores.size() - 1;
-                int aleatorio = (int) (Math.random() * (max - min + 1)) + min;
-                Util.establecerDealer(listaJugadores, aleatorio);
+                int aleatorio = 0;
+                if (ronda == 1) {
+                    int min = 0, max = listaJugadores.size() - 1;
+                    aleatorio = (int) (Math.random() * (max - min + 1)) + min;
+                    Util.establecerDealer(listaJugadores, aleatorio);
+                } else {
+                    aleatorio = (aleatorio - 1 + listaJugadores.size()) % listaJugadores.size();
+                    Util.establecerDealer(listaJugadores, aleatorio);
+                    for (Jugador jugador : listaJugadores) {
+                        jugador.reiniciarRonda();
+                    }
+                }
 
                 for (Jugador jugador : listaJugadores) {
                     jugador.setEstado(Estado.ACTIVO);
+                    jugador.setApuestaActual(0);
                 }
 
-                bote.setCantidad(0);
+                if (bote.getCantidad() != 5) {
+                    bote.setCantidad(0);
+                }
 
                 mazo.barajar();
                 Carta[] cartasTablero = new Carta[5];
@@ -194,7 +205,8 @@ public class Main {
                             Util.ejecutarTurno(ordenJugadores.get(i), bote, tablero, listaJugadores, fase, teclado);
                         }
                     }
-                    if (Util.soloQuedaUnJugador(listaJugadores)) {
+                    if (Util.soloQuedaUnJugador(listaJugadores) || numFase == 4) {
+                        Util.resolverShowdown(listaJugadores, tablero, bote);
                         rondaAcabada = true;
                     }
                 }

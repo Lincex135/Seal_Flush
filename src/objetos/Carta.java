@@ -38,47 +38,12 @@ public class Carta {
      * s - picas */
     public static final char[] SIMB_PALO = {'d', 'c', 'h', 's'};
 
-    public Carta(int rango, int palo) {
+    public Carta (int rango, int palo) {
         if (rango < 0 || rango > NUM_DE_RANGOS - 1) {
             throw new IllegalArgumentException("Número inválido");
         }
         if (palo < 0 || palo > NUM_DE_PALOS - 1) {
             throw new IllegalArgumentException("Palo inválido");
-        }
-        this.rango = rango;
-        this.palo = palo;
-    }
-
-    public Carta(String s) {
-        if (s == null) {
-            throw new IllegalArgumentException("String nulo o longitud inválida");
-        }
-        s = s.trim();
-        if (s.length() != 2) {
-            throw new IllegalArgumentException("String vacío o longitud inválida");
-        }
-
-        String simb_rango = s.substring(0, 1);
-        char simb_palo = s.charAt(1);
-        int rango = -1;
-        for (int i = 0; i < Carta.NUM_DE_RANGOS; i++) {
-            if (simb_rango.equals(SIMB_RANGO[i])) {
-                rango = i;
-                break;
-            }
-        }
-        if (rango == -1) {
-            throw new IllegalArgumentException("Rango desconocido: " + simb_rango);
-        }
-        int palo = -1;
-        for (int i = 0; i < Carta.NUM_DE_PALOS; i++) {
-            if (simb_palo == SIMB_PALO[i]) {
-                palo = i;
-                break;
-            }
-        }
-        if (palo == -1) {
-            throw new IllegalArgumentException("Palo desconocido: " + simb_palo);
         }
         this.rango = rango;
         this.palo = palo;

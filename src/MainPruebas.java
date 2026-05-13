@@ -1,4 +1,5 @@
 import objetos.*;
+import util.Color;
 import util.Util;
 
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ public class MainPruebas {
     public static void main(String[] args) {
         // util.Instrucciones instrucciones = new util.Instrucciones(util.Juego.POKER);
         // new util.JerarquiaDeManos().imprimir();
+
+        System.out.println(Color.PINK + "Color Rosa");
 
         ArrayList<Jugador> jugadores = new ArrayList<>();
 
