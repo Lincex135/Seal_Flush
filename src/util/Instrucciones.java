@@ -2,10 +2,7 @@ package util;
 
 public class Instrucciones {
 
-    private Juego juego;
-
-    public Instrucciones(Juego juego) {
-        this.juego = juego;
+    public Instrucciones() {
     }
     // -------------------------------------------------------------------------
     // OBJETIVO DEL JUEGO
@@ -134,20 +131,14 @@ public class Instrucciones {
 
     @Override
     public String toString() {
-        if (juego.equals(Juego.POKER)) {
-            return OBJETIVO + "\n \n" +
-                    ESTRUCTURA_DE_UNA_MANO + " \n \n" +
-                    CIEGAS + "\n \n" +
-                    ACCIONES + "\n \n" +
-                    JERARQUIA_DE_MANOS + "\n \n" +
-                    DESEMPATES + "\n \n" +
-                    VARIANTES + "\n \n" +
-                    POSICIONES + "\n \n" +
-                    RESUMEN;
-        } else if (juego.equals(Juego.BLACKJACK)) {
-            return "Blackjack";
-        } else {
-            return "No válido";
-        }
+        return OBJETIVO + "\n \n" +
+                ESTRUCTURA_DE_UNA_MANO + " \n \n" +
+                CIEGAS + "\n \n" +
+                ACCIONES + "\n \n" +
+                JERARQUIA_DE_MANOS + "\n \n" +
+                DESEMPATES + "\n \n" +
+                VARIANTES + "\n \n" +
+                POSICIONES + "\n \n" +
+                RESUMEN;
     }
 }

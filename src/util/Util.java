@@ -199,6 +199,7 @@ public class Util {
                 int diferencia = tablero.getApuestaRonda() - jugador.getApuestaActual();
                 if (diferencia <= 0) {
                     System.out.println(jugador.getNomJugador() + " pasa.");
+                    System.out.println();
                 } else if (!jugador.puedeApostar(diferencia)) {
                     System.out.println("No tienes fichas suficientes para igualar (" + diferencia + "). Elige otra opción.");
                     return false;
@@ -354,7 +355,7 @@ public class Util {
         // Caso especial: todos se retiraron menos uno (hay que entregarle el bote)
         if (jugadoresActivos.size() == 1) {
             Jugador jugadorGanador = jugadoresActivos.getFirst();
-            System.out.println(Color.GREEN + "Enhorabuena gana " + Color.PINK + jugadorGanador.getNomJugador() + " porque el resto de jugadores se han retirado" + Color.RESET);
+            System.out.println(Color.GREEN + "Enhorabuena gana " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN + " porque el resto de jugadores se han retirado" + Color.RESET);
             Util.pintarCartas(jugadorGanador.getMano());
             System.out.println();
             jugadorGanador.setFichas(jugadorGanador.getFichas() + bote.getCantidad());
@@ -372,7 +373,7 @@ public class Util {
             System.out.println(Color.PINK + jugadorActual.getNomJugador() + ":" + Color.RESET);
             System.out.println();
             pintarCartas(jugadorActual.getMano());
-            System.out.println(" → " + Color.YELLOW + evaluacionJugador.getTipo().getDescripcion() + Color.RESET);
+            System.out.println(Color.YELLOW + evaluacionJugador.getTipo().getDescripcion() + Color.RESET);
         }
 
         // Buscar el valor más alto entre todos los jugadores

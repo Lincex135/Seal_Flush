@@ -89,18 +89,6 @@ public class Carta {
         }
     }
 
-    public int compareTo(Carta carta) {
-        int thisValue = hashCode();
-        int otherValue = carta.hashCode();
-        if (thisValue < otherValue) {
-            return -1;
-        } else if (thisValue > otherValue) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
     @Override
     public String toString() {
         return SIMB_RANGO[rango] + SIMB_PALO[palo];
