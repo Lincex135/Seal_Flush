@@ -1,6 +1,6 @@
 # ♠️ Seal Flush
 
-Proyecto de Java — util.Juego de póker Texas Hold'em en consola desarrollado por **Ximena López** y **Adrián**
+Proyecto de Java — Juego de póker Texas Hold'em en consola desarrollado por **Ximena López** y **Adrián**
 
 ## 🧾 Descripción
 
@@ -28,7 +28,7 @@ Cada carta se representa con una caja de 7 líneas en ASCII, con **fondo amarill
 | ♦ Diamantes | Rojo |
 | ♥ Corazones | Rojo |
 
-Las cartas se renderizan **en horizontal** lado a lado, mostrando manos completas de golpe gracias a `util.Util.pintarCartas()`.
+Las cartas se renderizan **en horizontal** lado a lado, mostrando manos completas de golpe gracias a `Util.pintarCartas()`.
 
 ## 🗺️ Navegación por los Menús
 
@@ -39,14 +39,14 @@ Menú Principal
 ├── [1] Elegir juego
 │    └── [1] Póker
 │         ├── [1] Nueva partida  →  pide nº de jugadores (2-10) y sus nombres
-│         └── [2] util.Instrucciones  →  muestra las instrucciones completas del Texas Hold'em
+│         └── [2] Instrucciones  →  muestra las instrucciones completas del Texas Hold'em
 ├── [2] Estadísticas
 └── [0] Salir
 ```
 
-## 📖 util.Instrucciones del juego incluidas
+## 📖 Instrucciones del juego incluidas
 
-La clase `util.Instrucciones` contiene los textos completos de las siguientes secciones, accesibles desde el menú:
+La clase `Instrucciones` contiene los textos completos de las siguientes secciones, accesibles desde el menú:
 
 - **Objetivo** del juego
 - **Estructura de una mano** — Pre-Flop, Flop, Turn, River y Showdown

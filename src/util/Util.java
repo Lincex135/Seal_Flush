@@ -152,7 +152,7 @@ public class Util {
         }
         for (Jugador jugador : listaJugadores) {
             if (jugador.getApuestaActual() > 0) {
-                System.out.println(jugador.getNomJugador() + " ha apostado " + jugador.getApuestaActual() + " fichas.");
+                System.out.println(Color.PINK + jugador.getNomJugador() + Color.RESET + " ha apostado " + Color.YELLOW + jugador.getApuestaActual() + " fichas." + Color.RESET);
                 System.out.println();
             }
         }
@@ -175,6 +175,7 @@ public class Util {
 
     public static void apostarCiegas(ArrayList<Jugador> ordenJugadores, Bote bote, Tablero tablero) {
         System.out.println("Apostando las ciegas:");
+        System.out.println();
         System.out.println("La ciega pequeña (" + ordenJugadores.get(0).getNomJugador() + ") son 5 fichas " +
                 "y la ciega grande (" + ordenJugadores.get(1).getNomJugador() + ") son 10 fichas.");
         System.out.println();
@@ -198,6 +199,7 @@ public class Util {
                 int diferencia = tablero.getApuestaRonda() - jugador.getApuestaActual();
                 if (diferencia <= 0) {
                     System.out.println(jugador.getNomJugador() + " pasa.");
+                    System.out.println();
                 } else if (!jugador.puedeApostar(diferencia)) {
                     System.out.println("No tienes fichas suficientes para igualar (" + diferencia + "). Elige otra opción.");
                     return false;
@@ -234,7 +236,12 @@ public class Util {
                     System.out.println("No tienes fichas suficientes. Necesitas " + total + " y tienes " + jugador.getFichas() + ".");
                     return false;
                 }
+                if (total == jugador.getFichas()) {
+                    System.out.println(Color.YELLOW + "¡¡¡" + jugador.getNomJugador() + " hace ALL-IN!!!" + Color.RESET);
+                    jugador.setEstado(Estado.ALL_IN);
+                }
                 jugador.apostar(total);
+
                 bote.actualizarCantidad(total);
                 tablero.setApuestaRonda(tablero.getApuestaRonda() + subida);
                 System.out.println(jugador.getNomJugador() + " sube la apuesta. Nueva apuesta más alta de la ronda: " + tablero.getApuestaRonda() + ". Fichas restantes: " + jugador.getFichas());
@@ -315,19 +322,116 @@ public class Util {
 
     public static boolean soloQuedaUnJugador(ArrayList<Jugador> listaJugadores) {
         int jugadoresActivos = 0;
-        String nomGanador = "";
-
         for (Jugador jugador : listaJugadores) {
             if (jugador.estaActivo()) {
-                nomGanador = jugador.getNomJugador();
                 jugadoresActivos++;
             }
         }
-        boolean quedaUno = jugadoresActivos == 1;
-        if (quedaUno) {
-            System.out.println("Enhorabuena gana " + nomGanador);
+        return jugadoresActivos == 1;
+    }
+
+    /**
+     * Determina quién gana la ronda entre los jugadores que no se han retirado,
+     * muestra el resultado por pantalla y entrega el bote al ganador.
+     * En caso de empate, el bote se reparte a partes iguales.
+     */
+    public static void resolverShowdown(ArrayList<Jugador> listaJugadores,
+                                        Tablero tablero, Bote bote) {
+        int resto = 0; // El resto del bote puede ser 0 o 5
+        // Recopilar solo los jugadores que siguen activos (no se han retirado)
+        ArrayList<Jugador> jugadoresActivos = new ArrayList<Jugador>();
+        for (Jugador jugadorActual : listaJugadores) {
+            if (jugadorActual.estaActivo()) {
+                jugadoresActivos.add(jugadorActual);
+            }
         }
-        return quedaUno;
+
+        System.out.println();
+        System.out.println(Color.CYAN + "══════════════  SHOWDOWN  ══════════════" + Color.RESET);
+        System.out.println();
+        System.out.println(tablero);
+        System.out.println();
+
+        // Caso especial: todos se retiraron menos uno (hay que entregarle el bote)
+        if (jugadoresActivos.size() == 1) {
+            Jugador jugadorGanador = jugadoresActivos.getFirst();
+            System.out.println(Color.GREEN + "Enhorabuena gana " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN + " porque el resto de jugadores se han retirado" + Color.RESET);
+            Util.pintarCartas(jugadorGanador.getMano());
+            System.out.println();
+            jugadorGanador.setFichas(jugadorGanador.getFichas() + bote.getCantidad());
+            bote.setCantidad(0);
+            return;
+        }
+
+        // Evaluar la mano de cada jugador activo y mostrar sus cartas
+        ArrayList<EvaluadorMano> listaEvaluaciones = new ArrayList<EvaluadorMano>();
+        for (Jugador jugadorActual : jugadoresActivos) {
+            Mano manoJugador = new Mano(jugadorActual, tablero);
+            EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
+            listaEvaluaciones.add(evaluacionJugador);
+
+            System.out.println(Color.PINK + jugadorActual.getNomJugador() + ":" + Color.RESET);
+            System.out.println();
+            pintarCartas(jugadorActual.getMano());
+            System.out.println(Color.YELLOW + evaluacionJugador.getTipo().getDescripcion() + Color.RESET);
+        }
+
+        // Buscar el valor más alto entre todos los jugadores
+        int valorManoGanadora = -1;
+        for (EvaluadorMano evaluacionActual : listaEvaluaciones) {
+            if (evaluacionActual.getValor() > valorManoGanadora) {
+                valorManoGanadora = evaluacionActual.getValor();
+            }
+        }
+
+        // Recopilar los jugadores que tienen ese valor máximo (puede haber empate)
+        ArrayList<Jugador> listaGanadores = new ArrayList<Jugador>();
+        for (int posicion = 0; posicion < jugadoresActivos.size(); posicion++) {
+            if (listaEvaluaciones.get(posicion).getValor() == valorManoGanadora) {
+                listaGanadores.add(jugadoresActivos.get(posicion));
+            }
+        }
+
+        // Entregar el bote y mostrar el resultado
+        System.out.println();
+        int cantidadDelBote = bote.getCantidad();
+
+        if (listaGanadores.size() == 1) {
+            Jugador jugadorGanador = listaGanadores.getFirst();
+            int posicionGanador = jugadoresActivos.indexOf(jugadorGanador);
+            TipoMano tipoManoGanadora = listaEvaluaciones.get(posicionGanador).getTipo();
+
+            System.out.println(Color.GREEN + "Ganador: " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN
+                    + " gana " + cantidadDelBote + " fichas con "
+                    + Color.YELLOW + tipoManoGanadora.getDescripcion() + Color.RESET);
+            jugadorGanador.setFichas(jugadorGanador.getFichas() + cantidadDelBote);
+
+        } else {
+            // Empate: repartir el bote a partes iguales
+            int numGanadores = listaGanadores.size();
+            if (cantidadDelBote % numGanadores != 0) {
+                resto = 5;
+                bote.setCantidad(bote.getCantidad() - 5);
+            }
+            int fichasPorJugador = cantidadDelBote / numGanadores;
+
+            System.out.print(Color.GREEN + "Empate entre: ");
+            for (int posicion = 0; posicion < listaGanadores.size(); posicion++) {
+                System.out.print(listaGanadores.get(posicion).getNomJugador());
+                if (posicion < listaGanadores.size() - 1) {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println();
+            System.out.println("Cada uno recibe " + fichasPorJugador + " fichas." + Color.RESET);
+
+            for (Jugador jugadorGanador : listaGanadores) {
+                jugadorGanador.setFichas(jugadorGanador.getFichas() + fichasPorJugador);
+            }
+        }
+
+        bote.setCantidad(resto);
+        System.out.println();
     }
 
 }

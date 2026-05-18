@@ -65,14 +65,14 @@ public class Ascii {
     };
     public static final String MENU1 =
             "═════════════════════════════════════════════════════════════════\n" +
-                    "  [ 1 ]  Elegir juego     [ 2 ]  Estadísticas     [ 0 ]  Salir\n" +
+                    "  [ 1 ]  Empezar Partida     [ 2 ]  Estadísticas     [ 0 ]  Salir\n" +
                     "═════════════════════════════════════════════════════════════════\n" +
                     " > Elige una opción: ";
 
     public static final String MENU2 =
-            "          ═════════════════════════════════════════════════════════════════\n" +
-                    "            [ 1 ]  Poker                                    [ 0 ]  Volver\n" +
-                    "          ═════════════════════════════════════════════════════════════════\n" +
+            "          ════════════════════════════════════════════════════════════════════════════════════\n" +
+                    "            [ 1 ] Número limitado de rondas     [ 2 ] Sin limite de rondas     [ 0 ]  Volver\n" +
+                    "          ════════════════════════════════════════════════════════════════════════════════════\n" +
                     "           > Elige una opción: ";
 
     public static final String MENU3 =

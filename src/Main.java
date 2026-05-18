@@ -9,7 +9,7 @@ public class Main {
         Scanner teclado = new Scanner(System.in);
         Util.printInicio();
         System.out.println();
-        int respuesta1;
+        int respuesta1, respuestaModo = -1, numRondas = -1, rondaActual;
         boolean empezar = false;
         boolean primeraPartida = false;
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
@@ -23,15 +23,25 @@ public class Main {
                     break;
 
                 case 1:
-                    int respuestaJuego;
+
                     do {
                         System.out.print(Ascii.MENU2);
-                        respuestaJuego = Integer.parseInt(teclado.nextLine());
+                        respuestaModo = Integer.parseInt(teclado.nextLine());
                         System.out.println();
-                        switch (respuestaJuego) {
+                        switch (respuestaModo) {
                             case 0: // vacío, caso de volver
                                 break;
                             case 1:
+                                do {
+                                    System.out.print("¿Cuántas rondas va a durar la partida?: ");
+                                    numRondas = Integer.parseInt(teclado.nextLine());
+                                    System.out.println();
+                                    if (numRondas < 5) {
+                                        System.out.println(Color.RED + "ERROR. Numero de rondas muy bajo, se pondrá a 5" + Color.RESET);
+                                        System.out.println();
+                                        numRondas = 5;
+                                    }
+                                } while (numRondas < 5);
                             case 2:
                                 int respuesta3;
                                 do {
@@ -51,6 +61,7 @@ public class Main {
                                                 System.out.println();
                                                 if (numJugadores < 2 || numJugadores > 10) {
                                                     System.out.println(Color.RED + "ERROR. El número de jugadores debe estar entre 2 y 10" + Color.RESET);
+                                                    System.out.println();
                                                 }
                                             } while (numJugadores < 2 || numJugadores > 10);
                                             System.out.println("Introduce los nombres de los jugadores (en minúsculas)");
@@ -79,9 +90,7 @@ public class Main {
                                             break;
 
                                         case 2:
-                                            if (respuestaJuego == 1) {
-                                                System.out.println(new Instrucciones(Juego.POKER));
-                                            }
+                                            System.out.println(new Instrucciones());
                                             break;
 
                                         default:
@@ -95,7 +104,7 @@ public class Main {
                                 System.out.println(Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET);
                                 System.out.println();
                         }
-                    } while (respuestaJuego != 0 && !empezar);
+                    } while (respuestaModo != 0 && !empezar);
                     break;
 
                 case 2:
@@ -114,18 +123,29 @@ public class Main {
             boolean partidaAcabada = false;
             boolean rondaAcabada = false;
 
-            for (int ronda = 1; !partidaAcabada; ronda++) {
+            for (rondaActual = 1; !partidaAcabada; rondaActual++) {
                 rondaAcabada = false;
-
-                int min = 0, max = listaJugadores.size() - 1;
-                int aleatorio = (int) (Math.random() * (max - min + 1)) + min;
-                Util.establecerDealer(listaJugadores, aleatorio);
+                int aleatorio = 0;
+                if (rondaActual == 1) {
+                    int min = 0, max = listaJugadores.size() - 1;
+                    aleatorio = (int) (Math.random() * (max - min + 1)) + min;
+                    Util.establecerDealer(listaJugadores, aleatorio);
+                } else {
+                    aleatorio = (aleatorio - 1 + listaJugadores.size()) % listaJugadores.size();
+                    Util.establecerDealer(listaJugadores, aleatorio);
+                    for (Jugador jugador : listaJugadores) {
+                        jugador.reiniciarRonda();
+                    }
+                }
 
                 for (Jugador jugador : listaJugadores) {
                     jugador.setEstado(Estado.ACTIVO);
+                    jugador.setApuestaActual(0);
                 }
 
-                bote.setCantidad(0);
+                if (bote.getCantidad() != 5) {
+                    bote.setCantidad(0);
+                }
 
                 mazo.barajar();
                 Carta[] cartasTablero = new Carta[5];
@@ -170,8 +190,8 @@ public class Main {
                         case 4 -> cartasTablero[4].setVuelta(false);  // River: revelar carta 4
                     }
 
-                    System.out.println("                                                               ----------  RONDA " + ronda + "  ----------");
-                    System.out.println("El dealer en la ronda " + ronda + " es " + listaJugadores.get(aleatorio).getNomJugador() + " (el jugador subrayado)");
+                    System.out.println("                                                               ----------  RONDA " + rondaActual + "  ----------");
+                    System.out.println("El dealer en la ronda " + rondaActual + " es " + listaJugadores.get(aleatorio).getNomJugador() + " (el jugador subrayado)");
                     Util.printEstadoPartida(tablero, bote, listaJugadores, fase);
 
                     ArrayList<Jugador> ordenJugadores = Util.reordenar(listaJugadores, aleatorio);
@@ -194,12 +214,17 @@ public class Main {
                             Util.ejecutarTurno(ordenJugadores.get(i), bote, tablero, listaJugadores, fase, teclado);
                         }
                     }
-                    if (Util.soloQuedaUnJugador(listaJugadores)) {
+                    if (Util.soloQuedaUnJugador(listaJugadores) || numFase == 4) {
+                        Util.resolverShowdown(listaJugadores, tablero, bote);
                         rondaAcabada = true;
                     }
                 }
+                if (respuestaModo == 1) {
+                    if (rondaActual == numRondas) {
+                        partidaAcabada = true;
+                    }
+                }
             }
-            partidaAcabada = true;
         }
     }
 }
