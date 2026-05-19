@@ -32,16 +32,15 @@ public class Main {
                             case 0: // vacío, caso de volver
                                 break;
                             case 1:
-                                do {
-                                    System.out.print("¿Cuántas rondas va a durar la partida?: ");
-                                    numRondas = Integer.parseInt(teclado.nextLine());
+                                System.out.print("¿Cuántas rondas va a durar la partida?: ");
+                                numRondas = Integer.parseInt(teclado.nextLine());
+                                System.out.println();
+                                if (numRondas < 5) {
+                                    System.out.println(Color.RED + "ERROR. Numero de rondas muy bajo. " + Color.RESET + "se pondrá a 5");
                                     System.out.println();
-                                    if (numRondas < 5) {
-                                        System.out.println(Color.RED + "ERROR. Numero de rondas muy bajo, se pondrá a 5" + Color.RESET);
-                                        System.out.println();
-                                        numRondas = 5;
-                                    }
-                                } while (numRondas < 5);
+                                    numRondas = 5;
+                                }
+
                             case 2:
                                 int respuesta3;
                                 do {
@@ -138,25 +137,16 @@ public class Main {
                     }
                 }
 
-                for (Jugador jugador : listaJugadores) {
-                    jugador.setEstado(Estado.ACTIVO);
-                    jugador.setApuestaActual(0);
-                }
-
-                if (bote.getCantidad() != 5) {
-                    bote.setCantidad(0);
-                }
-
                 mazo.barajar();
                 Carta[] cartasTablero = new Carta[5];
                 for (int i = 0; i < cartasTablero.length; i++) {
-                    cartasTablero[i] = mazo.devolverCarta();
+                    cartasTablero[i] = mazo.repartirCarta();
                     cartasTablero[i].setVuelta(true);
                 }
 
                 for (Jugador jugador : listaJugadores) {
-                    Carta carta1 = mazo.devolverCarta();
-                    Carta carta2 = mazo.devolverCarta();
+                    Carta carta1 = mazo.repartirCarta();
+                    Carta carta2 = mazo.repartirCarta();
                     jugador.recibirCarta(carta1);
                     jugador.recibirCarta(carta2);
                 }

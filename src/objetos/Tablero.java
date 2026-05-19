@@ -46,14 +46,6 @@ public class Tablero {
         return instancia;
     }
 
-    // Sobrecarga sin parámetros para cuando la instancia ya existe
-    public static Tablero getInstancia() {
-        if (instancia == null) {
-            throw new IllegalStateException("El Tablero no ha sido inicializado. Llama primero a getInstancia(cartas, jugadores).");
-        }
-        return instancia;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

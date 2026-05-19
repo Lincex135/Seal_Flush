@@ -1,13 +1,10 @@
 package objetos;
 
-
 public class Mano {
-
 
     private final Carta[] cartas;
 
-
-    // Recibe un jugador y el tablero
+    // Recibe un jugador y el tablero y añade las 7 cartas a un array
     public Mano(Jugador jugador, Tablero tablero) {
         cartas = new Carta[7];
         cartas[0] = jugador.getMano()[0];
@@ -18,7 +15,6 @@ public class Mano {
         cartas[5] = tablero.getCartas()[3];
         cartas[6] = tablero.getCartas()[4];
     }
-
 
     public Carta[] getCartas() {
         return cartas;

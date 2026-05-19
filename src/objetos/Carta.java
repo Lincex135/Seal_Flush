@@ -76,20 +76,6 @@ public class Carta {
     }
 
     @Override
-    public int hashCode() {
-        return (rango * NUM_DE_PALOS + palo);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Carta) {
-            return ((Carta) obj).hashCode() == hashCode();
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public String toString() {
         return SIMB_RANGO[rango] + SIMB_PALO[palo];
     }

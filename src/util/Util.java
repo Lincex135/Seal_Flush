@@ -163,11 +163,7 @@ public class Util {
         ArrayList<Jugador> ordenJugadores = new ArrayList<Jugador>();
 
         for (int i = 0; i < n; i++) {
-            if (i < aleatorio) {
-                ordenJugadores.add(listaJugadores.get(aleatorio - 1 - i));
-            } else {
-                ordenJugadores.add(listaJugadores.get(n - 1 - (i - aleatorio)));
-            }
+            ordenJugadores.add(listaJugadores.get((aleatorio - 1 - i + n) % n));
         }
 
         return ordenJugadores;
@@ -236,11 +232,10 @@ public class Util {
                     System.out.println("No tienes fichas suficientes. Necesitas " + total + " y tienes " + jugador.getFichas() + ".");
                     return false;
                 }
-                if (total == jugador.getFichas()) {
-                    System.out.println(Color.YELLOW + "¡¡¡" + jugador.getNomJugador() + " hace ALL-IN!!!" + Color.RESET);
-                    jugador.setEstado(Estado.ALL_IN);
-                }
                 jugador.apostar(total);
+                if (jugador.estaAllIn()) {
+                    System.out.println(Color.YELLOW + "¡¡¡" + jugador.getNomJugador() + " hace ALL-IN!!!" + Color.RESET);
+                }
 
                 bote.actualizarCantidad(total);
                 tablero.setApuestaRonda(tablero.getApuestaRonda() + subida);
@@ -334,6 +329,7 @@ public class Util {
      * Determina quién gana la ronda entre los jugadores que no se han retirado,
      * muestra el resultado por pantalla y entrega el bote al ganador.
      * En caso de empate, el bote se reparte a partes iguales.
+     * Si no se puede repartir equitativamente, el bote se quedará con 5 fichas y el resto se repartirán en múltiplos de 5
      */
     public static void resolverShowdown(ArrayList<Jugador> listaJugadores,
                                         Tablero tablero, Bote bote) {

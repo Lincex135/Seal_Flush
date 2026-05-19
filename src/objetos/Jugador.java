@@ -43,7 +43,6 @@ public class Jugador {
     }
 
     public void reiniciarRonda() {
-        apuestaActual = 0;
         if (estado == Estado.RETIRADO) {
             estado = Estado.ACTIVO;
         }
@@ -117,7 +116,7 @@ public class Jugador {
         return estado == Estado.ELIMINADO;
     }
 
-    public boolean esDealer() {
+    private boolean esDealer() {
         return esDealerActual;
     }
 
