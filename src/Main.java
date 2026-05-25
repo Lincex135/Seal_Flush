@@ -120,6 +120,7 @@ public class Main {
         if (empezar) { // Esto es importante porque si por ejemplo, nos salimos a la primera vez que se printea el menú, el código de dentro de este bloque se ejecutaría igualmente
             Mazo mazo = Mazo.getInstancia();
             Bote bote = Bote.getInstancia();
+            EventoEspecial eventos = EventoEspecial.getInstancia();
             boolean partidaAcabada = false;
             boolean rondaAcabada = false;
 

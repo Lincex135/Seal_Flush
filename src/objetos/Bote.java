@@ -16,15 +16,6 @@ public class Bote {
         return instancia;
     }
 
-    public static Bote getInstancia(int cantidad) {
-        if (instancia == null) {
-            instancia = new Bote();
-        } else {
-            instancia.setCantidad(cantidad);
-        }
-        return instancia;
-    }
-
     @Override
     public String toString() {
         return "BOTE: " + cantidad;
