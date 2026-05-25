@@ -43,11 +43,8 @@ public class Jugador {
     }
 
     public void reiniciarRonda() {
-        if (estado == Estado.RETIRADO) {
+        if (estado == Estado.RETIRADO || estado == Estado.ALL_IN) {
             estado = Estado.ACTIVO;
-        }
-        if (fichas == 0 || estado == Estado.ELIMINADO) {
-            estado = Estado.ELIMINADO;
         }
         descartarMano();
         setApuestaActual(0);

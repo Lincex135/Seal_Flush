@@ -163,7 +163,10 @@ public class Util {
         ArrayList<Jugador> ordenJugadores = new ArrayList<Jugador>();
 
         for (int i = 0; i < n; i++) {
-            ordenJugadores.add(listaJugadores.get((aleatorio - 1 - i + n) % n));
+            Jugador jugador = listaJugadores.get((aleatorio - 1 - i + n) % n);
+            if (!jugador.estaEliminado()) {
+                ordenJugadores.add(jugador);
+            }
         }
 
         return ordenJugadores;
@@ -318,7 +321,7 @@ public class Util {
     public static boolean soloQuedaUnJugador(ArrayList<Jugador> listaJugadores) {
         int jugadoresActivos = 0;
         for (Jugador jugador : listaJugadores) {
-            if (jugador.estaActivo()) {
+            if (jugador.estaActivo() || jugador.estaAllIn()) {
                 jugadoresActivos++;
             }
         }
@@ -430,4 +433,12 @@ public class Util {
         System.out.println();
     }
 
+    public static void eliminarJugadoresSinFichas(ArrayList<Jugador> listaJugadores) {
+        for (Jugador jugador : listaJugadores) {
+            if (jugador.getFichas() == 0) {
+                jugador.setEstado(Estado.ELIMINADO);
+                System.out.println(Color.RED + jugador.getNomJugador() + " ha sido eliminado por quedarse sin fichas." + Color.RESET);
+            }
+        }
+    }
 }
