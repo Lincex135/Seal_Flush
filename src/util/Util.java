@@ -420,8 +420,14 @@ public class Util {
         System.out.println();
     }
 
+    public static void comprobarEventosEspeciales(EventoEspecial eventos, ArrayList<Jugador> listaJugadores, Tablero tablero, ArrayList<Jugador> jugadoresGanadores) {
+        HashMap<Jugador,TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(listaJugadores,tablero);
+        UtilEventosEspeciales.comprobarSelloDorado(eventos,jugadoresGanadores,jugadoresYTipoMano);
+        UtilEventosEspeciales.comprobarSelloOscuro(eventos,jugadoresGanadores,jugadoresYTipoMano,listaJugadores);
+    }
+
     public static HashMap<Jugador,TipoMano> devolverJugadoresYTipoMano(ArrayList<Jugador> listaJugadores, Tablero tablero) {
-        HashMap jugadoresYTipoMano = new HashMap<Jugador,TipoMano>();
+        HashMap<Jugador,TipoMano> jugadoresYTipoMano = new HashMap<Jugador,TipoMano>();
         for (Jugador jugadorActual : listaJugadores) {
             Mano manoJugador = new Mano(jugadorActual, tablero);
             EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);

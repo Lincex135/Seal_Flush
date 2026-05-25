@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class EventoEspecial {
 
     private boolean selloDorado;
-    private boolean maldicionDelSelloOscuro;
-    private boolean paloDominante;
+    private boolean selloOscuro;
+    private int paloDominante;
     private boolean flushCongelado;
     private Jugador jugadorGoldenSeal;
     private ArrayList<Jugador> jugadoresDarkSeal;
@@ -16,8 +16,8 @@ public class EventoEspecial {
 
     public EventoEspecial() {
         this.selloDorado = selloDorado;
-        this.maldicionDelSelloOscuro = maldicionDelSelloOscuro;
-        this.paloDominante = paloDominante;
+        this.selloOscuro = selloOscuro;
+        this.paloDominante = UtilEventosEspeciales.establecerPaloDominante();
         this.flushCongelado = flushCongelado;
         this.jugadorGoldenSeal = jugadorGoldenSeal;
         this.jugadoresDarkSeal = new ArrayList<>();
@@ -35,11 +35,11 @@ public class EventoEspecial {
         return selloDorado;
     }
 
-    public boolean isMaldicionDelSelloOscuro() {
-        return maldicionDelSelloOscuro;
+    public boolean isSelloOscuro() {
+        return selloOscuro;
     }
 
-    public boolean isPaloDominante() {
+    public int getPaloDominante() {
         return paloDominante;
     }
 
@@ -60,11 +60,11 @@ public class EventoEspecial {
         this.selloDorado = selloDorado;
     }
 
-    public void setMaldicionDelSelloOscuro(boolean maldicionDelSelloOscuro) {
-        this.maldicionDelSelloOscuro = maldicionDelSelloOscuro;
+    public void setSelloOscuro(boolean maldicionDelSelloOscuro) {
+        this.selloOscuro = maldicionDelSelloOscuro;
     }
 
-    public void setPaloDominante(boolean paloDominante) {
+    public void setPaloDominante(int paloDominante) {
         this.paloDominante = paloDominante;
     }
 

@@ -121,6 +121,7 @@ public class Main {
             Mazo mazo = Mazo.getInstancia();
             Bote bote = Bote.getInstancia();
             EventoEspecial eventos = EventoEspecial.getInstancia();
+            int paloDominante = eventos.getPaloDominante();
             boolean partidaAcabada = false;
             boolean rondaAcabada = false;
 
