@@ -1,6 +1,6 @@
 # ♠️ Seal Flush
 
-Proyecto de Java — Juego de póker Texas Hold'em en consola desarrollado por **Ximena López** y **Adrián**
+Proyecto de Java — Juego de póker Texas Hold'em en consola desarrollado por **Ximena López** y **Adrián de Armas**
 
 ## 🧾 Descripción
 
@@ -21,7 +21,7 @@ Proyecto de Java — Juego de póker Texas Hold'em en consola desarrollado por *
 
 Cada carta se representa con una caja de 7 líneas en ASCII, con **fondo amarillo claro** y **borde morado**. El símbolo del palo se dibuja dentro y el color del símbolo varía según el palo:
 
-| objetos.Palo | util.Color símbolo |
+| Palo | Color símbolo |
 |------|---------------|
 | ♠ Picas | Negro |
 | ♣ Tréboles | Negro |

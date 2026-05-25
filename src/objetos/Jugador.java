@@ -2,17 +2,45 @@ package objetos;
 
 import util.Color;
 
+/**
+ * Representa un jugador en la partida de póker.
+ * Gestiona su mano, fichas, estado y apuestas durante cada ronda.
+ * @author Ximena López
+ * @author Adrián de Armas
+ * @version 1.0
+ */
+
 public class Jugador {
+    /** Número identificador del jugador. */
     private int numJugador;
+
+    /** Nombre del jugador. */
     private String nomJugador;
+
+    /** Las dos cartas privadas del jugador. */
     private Carta[] mano;
+
+    /** Fichas disponibles. Comienza en 500. */
     private int fichas;
+
+    /** Estado actual del jugador en la ronda (ACTIVO, RETIRADO, ALL_IN, ELIMINADO). */
     private Estado estado;
+
+    /** Cantidad apostada por el jugador en la ronda actual. */
     private int apuestaActual;
+
+    /** Indica si el jugador es el dealer en la ronda actual. */
     public boolean esDealerActual;
     public boolean tieneSelloDorado;
     public boolean tieneSelloOscuro;
 
+    /**
+     * Crea un jugador con el número y nombre indicados.
+     * Empieza con 500 fichas, mano vacía y estado ACTIVO.
+     *
+     * @param numJugador número identificador del jugador
+     * @param nomJugador nombre del jugador
+     */
     public Jugador(int numJugador, String nomJugador) {
         this.numJugador = numJugador;
         this.nomJugador = nomJugador;
@@ -25,6 +53,12 @@ public class Jugador {
         this.tieneSelloOscuro = false;
     }
 
+    /**
+     * Asigna una carta a la mano del jugador (primera posición libre).
+     *
+     * @param carta carta a recibir; no puede ser null
+     * @throws IllegalArgumentException si carta} es null
+     */
     public void recibirCarta(Carta carta) {
         if (carta == null) {
             throw new IllegalArgumentException("La carta no puede ser nula");
@@ -36,28 +70,37 @@ public class Jugador {
         }
     }
 
+    /** Vacía la mano del jugador, eliminando ambas cartas. */
     public void descartarMano() {
         this.mano[0] = null;
         this.mano[1] = null;
     }
 
+    /** Retira al jugador de la ronda: cambia su estado a RETIRADO y descarta su mano. */
     public void retirarse() {
         estado = Estado.RETIRADO;
         descartarMano();
     }
 
+    /**
+     * Prepara al jugador para una nueva ronda: restaura ACTIVO si estaba RETIRADO,
+     * marca como ELIMINADO si no tiene fichas, descarta la mano y resetea la apuesta.
+     */
     public void reiniciarRonda() {
-        apuestaActual = 0;
-        if (estado == Estado.RETIRADO) {
+        if (estado == Estado.RETIRADO || estado == Estado.ALL_IN) {
             estado = Estado.ACTIVO;
-        }
-        if (fichas == 0 || estado == Estado.ELIMINADO) {
-            estado = Estado.ELIMINADO;
         }
         descartarMano();
         setApuestaActual(0);
     }
 
+    /**
+     * Realiza una apuesta de la cantidad indicada.
+     * Si el jugador no puede pagarla, se retira automáticamente.
+     *
+     * @param cantidad fichas a apostar
+     * @return true si la apuesta se realizó; false si el jugador se retiró
+     */
     public boolean apostar(int cantidad) {
         if (!puedeApostar(cantidad)) {
             estado = Estado.RETIRADO;
@@ -69,6 +112,12 @@ public class Jugador {
         return true;
     }
 
+    /**
+     * Comprueba si el jugador tiene fichas suficientes para apostar la cantidad indicada.
+     *
+     * @param cantidad fichas a comprobar
+     * @return true si puede apostar; false en caso contrario
+     */
     public boolean puedeApostar(int cantidad) {
         return fichas >= cantidad;
     }
@@ -121,7 +170,7 @@ public class Jugador {
         return estado == Estado.ELIMINADO;
     }
 
-    public boolean esDealer() {
+    private boolean esDealer() {
         return esDealerActual;
     }
 
