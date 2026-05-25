@@ -206,11 +206,25 @@ public class Main {
                     }
                     if (Util.soloQuedaUnJugador(listaJugadores) || numFase == 4) {
                         Util.resolverShowdown(listaJugadores, tablero, bote);
+                        Util.eliminarJugadoresSinFichas(listaJugadores);
                         rondaAcabada = true;
                     }
                 }
                 if (respuestaModo == 1) {
                     if (rondaActual == numRondas) {
+                        partidaAcabada = true;
+                    }
+                } else {
+                    int jugadoresVivos = 0;
+                    Jugador ganadorFinal = null;
+                    for (Jugador jugador : listaJugadores) {
+                        if (!jugador.estaEliminado()) {
+                            jugadoresVivos++;
+                            ganadorFinal = jugador;
+                        }
+                    }
+                    if (jugadoresVivos == 1) {
+                        System.out.println(Color.GREEN + "¡¡¡ " + ganadorFinal.getNomJugador().toUpperCase() + " GANA LA PARTIDA con " + ganadorFinal.getFichas() + " fichas!!!" + Color.RESET);
                         partidaAcabada = true;
                     }
                 }
