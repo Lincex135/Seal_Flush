@@ -1,5 +1,6 @@
 package util;
 
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -336,18 +337,11 @@ public class Util {
                                         Tablero tablero, Bote bote) {
         int resto = 0; // El resto del bote (puede no ser 0)
         // Recopilar solo los jugadores que siguen activos (no se han retirado)
-        ArrayList<Jugador> jugadoresActivos = new ArrayList<Jugador>();
-        for (Jugador jugadorActual : listaJugadores) {
-            if (jugadorActual.estaActivo()) {
-                jugadoresActivos.add(jugadorActual);
-            }
-        }
+        ArrayList<Jugador> jugadoresActivos = obtenerJugadoresActivos(listaJugadores);
 
         System.out.println();
-        System.out.println(Color.CYAN + "══════════════  SHOWDOWN  ══════════════" + Color.RESET);
-        System.out.println();
-        System.out.println(tablero);
-        System.out.println();
+        System.out.println(Color.CYAN + "══════════════  SHOWDOWN  ══════════════" + Color.RESET + "\n");
+        System.out.println(tablero + "\n");
 
         // Caso especial: todos se retiraron menos uno (hay que entregarle el bote)
         if (jugadoresActivos.size() == 1) {
@@ -360,8 +354,14 @@ public class Util {
         }
 
         // Evaluar la mano de cada jugador activo y mostrar sus cartas
-        ArrayList<EvaluadorMano> listaEvaluaciones = new ArrayList<EvaluadorMano>();
+        ArrayList<EvaluadorMano> listaEvaluaciones = obtenerListaEvaluaciones(jugadoresActivos,tablero);
+        HashMap<Jugador, TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(listaJugadores, tablero);
         for (Jugador jugadorActual : jugadoresActivos) {
+            System.out.println(Color.PINK + jugadorActual.getNomJugador() + ":" + Color.RESET);
+            System.out.println();
+            pintarCartas(jugadorActual.getMano());
+            TipoMano manoJugador = jugadoresYTipoMano.get(jugadorActual);
+            System.out.println(Color.YELLOW + manoJugador.getDescripcion() + Color.RESET);
             Mano manoJugador = new Mano(jugadorActual, tablero);
             EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
             listaEvaluaciones.add(evaluacionJugador);
@@ -381,12 +381,7 @@ public class Util {
         }
 
         // Recopilar los jugadores que tienen ese valor máximo (puede haber empate)
-        ArrayList<Jugador> listaGanadores = new ArrayList<Jugador>();
-        for (int posicion = 0; posicion < jugadoresActivos.size(); posicion++) {
-            if (listaEvaluaciones.get(posicion).getValor() == valorManoGanadora) {
-                listaGanadores.add(jugadoresActivos.get(posicion));
-            }
-        }
+        ArrayList<Jugador> listaGanadores = obtenerJugadoresGanadores(jugadoresActivos, listaEvaluaciones, valorManoGanadora);
 
         // Entregar el bote y mostrar el resultado
         System.out.println();
@@ -403,7 +398,7 @@ public class Util {
             jugadorGanador.setFichas(jugadorGanador.getFichas() + cantidadDelBote);
 
         } else {
-            // Empate: repartir el bote a partes iguales
+            // Empate: repartir el bote en partes iguales
             int numGanadores = listaGanadores.size();
             resto = cantidadDelBote % numGanadores;
             if (resto != 0) {
@@ -430,4 +425,50 @@ public class Util {
         System.out.println();
     }
 
+    public static void comprobarEventosEspeciales(EventoEspecial eventos, ArrayList<Jugador> listaJugadores, Tablero tablero, ArrayList<Jugador> jugadoresGanadores) {
+        HashMap<Jugador,TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(listaJugadores,tablero);
+        UtilEventosEspeciales.comprobarSelloDorado(eventos,jugadoresGanadores,jugadoresYTipoMano);
+        UtilEventosEspeciales.comprobarSelloOscuro(eventos,jugadoresGanadores,jugadoresYTipoMano,listaJugadores);
+    }
+
+    public static HashMap<Jugador,TipoMano> devolverJugadoresYTipoMano(ArrayList<Jugador> listaJugadores, Tablero tablero) {
+        HashMap<Jugador,TipoMano> jugadoresYTipoMano = new HashMap<Jugador,TipoMano>();
+        for (Jugador jugadorActual : listaJugadores) {
+            Mano manoJugador = new Mano(jugadorActual, tablero);
+            EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
+            jugadoresYTipoMano.put(jugadorActual, evaluacionJugador.getTipo());
+        }
+        return jugadoresYTipoMano;
+    }
+
+    public static ArrayList<Jugador> obtenerJugadoresGanadores(ArrayList<Jugador> jugadoresActivos,ArrayList<EvaluadorMano> listaEvaluaciones, int valorManoGanadora) {
+        ArrayList<Jugador> listaGanadores = new ArrayList<>();
+        for (int posicion = 0; posicion < jugadoresActivos.size(); posicion++) {
+            if (listaEvaluaciones.get(posicion).getValor() == valorManoGanadora) {
+                listaGanadores.add(jugadoresActivos.get(posicion));
+            }
+        }
+        return listaGanadores;
+    }
+
+    public static ArrayList<Jugador> obtenerJugadoresActivos(ArrayList<Jugador> listaJugadores) {
+        ArrayList<Jugador> jugadoresActivos = new ArrayList<>();
+        for (Jugador jugadorActual : listaJugadores) {
+            if (jugadorActual.estaActivo()) {
+                jugadoresActivos.add(jugadorActual);
+            }
+        }
+        return jugadoresActivos;
+    }
+
+    public static ArrayList<EvaluadorMano> obtenerListaEvaluaciones(ArrayList<Jugador> jugadoresActivos, Tablero tablero) {
+        ArrayList<EvaluadorMano> listaEvaluaciones = new ArrayList<>();
+        for (Jugador jugadorActual : jugadoresActivos) {
+            Mano manoJugador = new Mano(jugadorActual, tablero);
+            EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
+            listaEvaluaciones.add(evaluacionJugador);
+
+        }
+        return listaEvaluaciones;
+    }
 }

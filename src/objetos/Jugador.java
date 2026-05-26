@@ -31,6 +31,8 @@ public class Jugador {
 
     /** Indica si el jugador es el dealer en la ronda actual. */
     public boolean esDealerActual;
+    public boolean tieneSelloDorado;
+    public boolean tieneSelloOscuro;
 
     /**
      * Crea un jugador con el número y nombre indicados.
@@ -47,6 +49,8 @@ public class Jugador {
         this.apuestaActual = 0;
         this.estado = Estado.ACTIVO;
         this.esDealerActual = false;
+        this.tieneSelloDorado = false;
+        this.tieneSelloOscuro = false;
     }
 
     /**
@@ -211,5 +215,21 @@ public class Jugador {
 
     public Carta[] getMano() {
         return mano;
+    }
+
+    public boolean isTieneSelloDorado() {
+        return tieneSelloDorado;
+    }
+
+    public void setTieneSelloDorado(boolean tieneSelloDorado) {
+        this.tieneSelloDorado = tieneSelloDorado;
+    }
+
+    public boolean isTieneSelloOscuro() {
+        return tieneSelloOscuro;
+    }
+
+    public void setTieneSelloOscuro(boolean tieneSelloOscuro) {
+        this.tieneSelloOscuro = tieneSelloOscuro;
     }
 }
