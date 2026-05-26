@@ -354,7 +354,7 @@ public class Util {
         }
 
         // Evaluar la mano de cada jugador activo y mostrar sus cartas
-        ArrayList<EvaluadorMano> listaEvaluaciones = obtenerListaEvaluaciones(jugadoresActivos,tablero);
+        ArrayList<EvaluadorMano> listaEvaluaciones = obtenerListaEvaluaciones(jugadoresActivos, tablero);
         HashMap<Jugador, TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(listaJugadores, tablero);
         for (Jugador jugadorActual : jugadoresActivos) {
             System.out.println(Color.PINK + jugadorActual.getNomJugador() + ":" + Color.RESET);
@@ -362,14 +362,6 @@ public class Util {
             pintarCartas(jugadorActual.getMano());
             TipoMano manoJugador = jugadoresYTipoMano.get(jugadorActual);
             System.out.println(Color.YELLOW + manoJugador.getDescripcion() + Color.RESET);
-            Mano manoJugador = new Mano(jugadorActual, tablero);
-            EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
-            listaEvaluaciones.add(evaluacionJugador);
-
-            System.out.println(Color.PINK + jugadorActual.getNomJugador() + ":" + Color.YELLOW + evaluacionJugador.getTipo().getDescripcion() + Color.RESET);
-            System.out.println();
-            pintarCartas(jugadorActual.getMano());
-            System.out.println();
         }
 
         // Buscar el valor más alto entre todos los jugadores

@@ -125,6 +125,12 @@ public class Jugador {
         return fichas >= cantidad;
     }
 
+
+    /**
+     * Actualiza las fichas cuando un jugador apuesta
+     *
+     * @param cantidad representa la cantidad de fichas a actualizar
+     */
     public void actualizarFichas(int cantidad) {
         this.fichas -= cantidad;
         if (fichas == 0) {
@@ -134,6 +140,9 @@ public class Jugador {
         }
     }
 
+    /**
+     * Escribe el nombre de un jugador de un color diferente dependiendo del estado
+     */
     public void printNomJugador() {
         String colorJugador = Color.RESET;
         String subrayado = "";
@@ -157,78 +166,57 @@ public class Jugador {
         System.out.print(colorJugador + subrayado + this.nomJugador + ": " + this.fichas + Color.RESET + "    ");
     }
 
+    /** @return true si está Activo; false si no */
     public boolean estaActivo() {
         return estado == Estado.ACTIVO;
     }
 
-    public boolean seHaRetirado() {
-        return estado == Estado.RETIRADO;
-    }
-
+    /** @return true si está All_In; false si no */
     public boolean estaAllIn() {
         return estado == Estado.ALL_IN;
     }
 
-    public boolean estaEliminado() {
-        return estado == Estado.ELIMINADO;
-    }
-
-    private boolean esDealer() {
-        return esDealerActual;
-    }
-
+    /** @return nombrejugador */
     public String getNomJugador() {
         return nomJugador;
     }
 
-    public int getNumJugador() {
-        return numJugador;
-    }
-
+    /** @return cantidad de fichas */
     public int getFichas() {
         return fichas;
     }
 
+    /** @return cantidad de fichas apostadoas */
     public int getApuestaActual() {
         return apuestaActual;
     }
 
-    public Estado getEstado() {
-        return estado;
-    }
-
+    /** @param esDealerActual true si es dealer; false si no */
     public void setEsDealerActual(boolean esDealerActual) {
         this.esDealerActual = esDealerActual;
     }
 
+    /** @param fichas cantidad de fichas */
     public void setFichas(int fichas) {
         this.fichas = fichas;
     }
 
+    /** @param apuestaActual cantidad de fichas a apostar */
     public void setApuestaActual(int apuestaActual) {
         this.apuestaActual = apuestaActual;
     }
 
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-
+    /** @return mano del jugador */
     public Carta[] getMano() {
         return mano;
     }
 
-    public boolean isTieneSelloDorado() {
-        return tieneSelloDorado;
-    }
-
+    /** @param tieneSelloDorado true si tiene sello Dorado; false si no */
     public void setTieneSelloDorado(boolean tieneSelloDorado) {
         this.tieneSelloDorado = tieneSelloDorado;
     }
 
-    public boolean isTieneSelloOscuro() {
-        return tieneSelloOscuro;
-    }
-
+    /** @param tieneSelloOscuro true si tiene sello Oacuro; false si no  */
     public void setTieneSelloOscuro(boolean tieneSelloOscuro) {
         this.tieneSelloOscuro = tieneSelloOscuro;
     }
