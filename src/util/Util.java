@@ -74,7 +74,7 @@ public class Util {
                 sb.append(todasLinea[fila]);
                 sb.append("  ");
             }
-            System.out.println(sb);
+            System.out.println(sb + "\n");
         }
     }
 
@@ -164,24 +164,27 @@ public class Util {
         ArrayList<Jugador> ordenJugadores = new ArrayList<Jugador>();
 
         for (int i = 0; i < n; i++) {
-            if (i < aleatorio) {
-                ordenJugadores.add(listaJugadores.get(aleatorio - 1 - i));
-            } else {
-                ordenJugadores.add(listaJugadores.get(n - 1 - (i - aleatorio)));
-            }
+            ordenJugadores.add(listaJugadores.get((aleatorio - 1 - i + n) % n));
         }
 
         return ordenJugadores;
     }
 
     public static void apostarCiegas(ArrayList<Jugador> ordenJugadores, Bote bote, Tablero tablero) {
-        System.out.println("Apostando las ciegas:");
+        // Con 2 jugadores, el dealer (último en ordenJugadores) paga la ciega pequeña
+        int indicePequena = 0;
+        int indiqueGrande = 1;
+        if (ordenJugadores.size() == 2) {
+            indicePequena = 1;
+            indiqueGrande = 0;
+        }
+
+        System.out.println("Apostando las ciegas:" + "\n");
+        System.out.println("La ciega pequeña (" + ordenJugadores.get(indicePequena).getNomJugador() + ") son 5 fichas " +
+                "y la ciega grande (" + ordenJugadores.get(indiqueGrande).getNomJugador() + ") son 10 fichas.");
         System.out.println();
-        System.out.println("La ciega pequeña (" + ordenJugadores.get(0).getNomJugador() + ") son 5 fichas " +
-                "y la ciega grande (" + ordenJugadores.get(1).getNomJugador() + ") son 10 fichas.");
-        System.out.println();
-        ordenJugadores.get(0).apostar(5);
-        ordenJugadores.get(1).apostar(10);
+        ordenJugadores.get(indicePequena).apostar(5);
+        ordenJugadores.get(indiqueGrande).apostar(10);
         bote.actualizarCantidad(15);
         tablero.setApuestaRonda(10);
     }
@@ -199,16 +202,15 @@ public class Util {
             case 1 -> { // Igualar
                 int diferencia = tablero.getApuestaRonda() - jugador.getApuestaActual();
                 if (diferencia <= 0) {
-                    System.out.println(jugador.getNomJugador() + " pasa.");
-                    System.out.println();
+                    System.out.println(jugador.getNomJugador() + " pasa." + "\n");
+
                 } else if (!jugador.puedeApostar(diferencia)) {
                     System.out.println("No tienes fichas suficientes para igualar (" + diferencia + "). Elige otra opción.");
                     return false;
                 } else {
                     jugador.apostar(diferencia);
                     bote.actualizarCantidad(diferencia);
-                    System.out.println(jugador.getNomJugador() + " iguala " + diferencia + " fichas. Fichas restantes: " + jugador.getFichas());
-                    System.out.println();
+                    System.out.println(jugador.getNomJugador() + " iguala " + diferencia + " fichas. Fichas restantes: " + jugador.getFichas() + "\n");
                 }
                 return true;
             }
@@ -227,8 +229,7 @@ public class Util {
                     if (subida <= 0) {
                         System.out.println("La subida debe ser mayor a 0.");
                     } else if (subida % 5 != 0) {
-                        System.out.println(Color.RED + "ERROR. La cantidad debe ser múltiplo de 5" + Color.RESET);
-                        System.out.println();
+                        System.out.println(Color.RED + "ERROR. La cantidad debe ser múltiplo de 5" + Color.RESET + "\n");
                     }
                 } while (subida <= 0 || subida % 5 != 0);
 
@@ -237,22 +238,19 @@ public class Util {
                     System.out.println("No tienes fichas suficientes. Necesitas " + total + " y tienes " + jugador.getFichas() + ".");
                     return false;
                 }
-                if (total == jugador.getFichas()) {
-                    System.out.println(Color.YELLOW + "¡¡¡" + jugador.getNomJugador() + " hace ALL-IN!!!" + Color.RESET);
-                    jugador.setEstado(Estado.ALL_IN);
-                }
                 jugador.apostar(total);
+                if (jugador.estaAllIn()) {
+                    System.out.println(Color.YELLOW + "¡¡¡" + jugador.getNomJugador() + " hace ALL-IN!!!" + Color.RESET);
+                }
 
                 bote.actualizarCantidad(total);
                 tablero.setApuestaRonda(tablero.getApuestaRonda() + subida);
-                System.out.println(jugador.getNomJugador() + " sube la apuesta. Nueva apuesta más alta de la ronda: " + tablero.getApuestaRonda() + ". Fichas restantes: " + jugador.getFichas());
-                System.out.println();
+                System.out.println(jugador.getNomJugador() + " sube la apuesta. Nueva apuesta más alta de la ronda: " + tablero.getApuestaRonda() + ". Fichas restantes: " + jugador.getFichas() + "\n");
                 return true;
             }
             case 3 -> { // Retirarse
                 jugador.retirarse();
-                System.out.println(jugador.getNomJugador() + " se retira.");
-                System.out.println();
+                System.out.println(jugador.getNomJugador() + " se retira." + "\n");
                 return true;
             }
             default -> {
@@ -300,10 +298,8 @@ public class Util {
                     if (!turnoAcabado) respuestaJ = 0; // volvió con 0, repetir MENU_JUGADOR
                 }
                 case 2 -> {
-                    System.out.println("---- Tu mano ----");
-                    System.out.println();
+                    System.out.println("---- Tu mano ----" + "\n");
                     Util.pintarCartas(jugador.getMano());
-                    System.out.println();
                     respuestaJ = 0; // ver mano no termina el turno
                 }
 
@@ -315,7 +311,7 @@ public class Util {
                 case 0 -> {
                     // Vacío, caso de volver
                 }
-                default -> System.out.println(Color.RED + "ERROR. Elija una opción válida" + Color.RESET);
+                default -> System.out.println(Color.RED + "ERROR. Elija una opción válida" + Color.RESET + "\n");
             }
         } while (respuestaJ != 1);
         return true;
@@ -335,9 +331,11 @@ public class Util {
      * Determina quién gana la ronda entre los jugadores que no se han retirado,
      * muestra el resultado por pantalla y entrega el bote al ganador.
      * En caso de empate, el bote se reparte a partes iguales.
+     * Si no se puede repartir equitativamente, el bote se quedará con un resto lo demás se repartirá en múltiplos de 5
      */
-    public static void resolverShowdown(ArrayList<Jugador> listaJugadores, Tablero tablero, Bote bote) {
-        int resto = 0; // El resto del bote puede ser 0 o 5
+    public static void resolverShowdown(ArrayList<Jugador> listaJugadores,
+                                        Tablero tablero, Bote bote) {
+        int resto = 0; // El resto del bote (puede no ser 0)
         // Recopilar solo los jugadores que siguen activos (no se han retirado)
         ArrayList<Jugador> jugadoresActivos = obtenerJugadoresActivos(listaJugadores);
 
@@ -348,9 +346,8 @@ public class Util {
         // Caso especial: todos se retiraron menos uno (hay que entregarle el bote)
         if (jugadoresActivos.size() == 1) {
             Jugador jugadorGanador = jugadoresActivos.getFirst();
-            System.out.println(Color.GREEN + "Enhorabuena gana " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN + " porque el resto de jugadores se han retirado" + Color.RESET);
+            System.out.println(Color.GREEN + "Enhorabuena gana " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN + " porque el resto de jugadores se han retirado" + Color.RESET + "\n");
             Util.pintarCartas(jugadorGanador.getMano());
-            System.out.println();
             jugadorGanador.setFichas(jugadorGanador.getFichas() + bote.getCantidad());
             bote.setCantidad(0);
             return;
@@ -365,6 +362,14 @@ public class Util {
             pintarCartas(jugadorActual.getMano());
             TipoMano manoJugador = jugadoresYTipoMano.get(jugadorActual);
             System.out.println(Color.YELLOW + manoJugador.getDescripcion() + Color.RESET);
+            Mano manoJugador = new Mano(jugadorActual, tablero);
+            EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
+            listaEvaluaciones.add(evaluacionJugador);
+
+            System.out.println(Color.PINK + jugadorActual.getNomJugador() + ":" + Color.YELLOW + evaluacionJugador.getTipo().getDescripcion() + Color.RESET);
+            System.out.println();
+            pintarCartas(jugadorActual.getMano());
+            System.out.println();
         }
 
         // Buscar el valor más alto entre todos los jugadores
@@ -395,9 +400,9 @@ public class Util {
         } else {
             // Empate: repartir el bote en partes iguales
             int numGanadores = listaGanadores.size();
-            if (cantidadDelBote % numGanadores != 0) {
-                resto = 5;
-                bote.setCantidad(bote.getCantidad() - 5);
+            resto = cantidadDelBote % numGanadores;
+            if (resto != 0) {
+                bote.setCantidad(bote.getCantidad() - resto);
             }
             int fichasPorJugador = cantidadDelBote / numGanadores;
 
