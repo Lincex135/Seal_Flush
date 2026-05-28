@@ -89,8 +89,9 @@ public class Jugador {
     public void reiniciarRonda() {
         if (estado == Estado.RETIRADO) {
             estado = Estado.ACTIVO;
-        }
-        if (fichas == 0 || estado == Estado.ELIMINADO) {
+        }else if (estado == estado.ALL_IN && fichas != 0) {
+            estado = Estado.ACTIVO;
+        }else if (estado == estado.ELIMINADO || (estado == estado.ALL_IN && fichas == 0)) {
             estado = Estado.ELIMINADO;
         }
         descartarMano();
@@ -105,7 +106,7 @@ public class Jugador {
      * @return true si la apuesta se realizó; false si el jugador se retiró
      */
     public boolean apostar(int cantidad) {
-        if (!puedeApostar(cantidad)) {
+        if (!puedeApostar(cantidad) && fichas != 0) {
             estado = Estado.RETIRADO;
             return false;
         }
@@ -171,6 +172,14 @@ public class Jugador {
         return estado == Estado.ACTIVO;
     }
 
+    public boolean estaEliminado() {
+        return estado == Estado.ELIMINADO;
+    }
+
+    public boolean estaRetirado() {
+        return estado == Estado.RETIRADO;
+    }
+
     /** @return true si está All_In; false si no */
     public boolean estaAllIn() {
         return estado == Estado.ALL_IN;
@@ -189,6 +198,16 @@ public class Jugador {
     /** @return cantidad de fichas apostadoas */
     public int getApuestaActual() {
         return apuestaActual;
+    }
+
+    /** @return true si tiene activo el Sello Dorado */
+    public boolean isTieneSelloDorado() {
+        return tieneSelloDorado;
+    }
+
+    /** @return true si tiene activo el Sello Oscuro */
+    public boolean isTieneSelloOscuro() {
+        return tieneSelloOscuro;
     }
 
     /** @param esDealerActual true si es dealer; false si no */
@@ -219,5 +238,9 @@ public class Jugador {
     /** @param tieneSelloOscuro true si tiene sello Oacuro; false si no  */
     public void setTieneSelloOscuro(boolean tieneSelloOscuro) {
         this.tieneSelloOscuro = tieneSelloOscuro;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 }

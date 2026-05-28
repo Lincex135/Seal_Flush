@@ -15,11 +15,11 @@ public class EventoEspecial {
     private static EventoEspecial instancia;
 
     public EventoEspecial() {
-        this.selloDorado = selloDorado;
-        this.selloOscuro = selloOscuro;
+        this.selloDorado = false;
+        this.selloOscuro = false;
         this.paloDominante = UtilEventosEspeciales.establecerPaloDominante();
-        this.flushCongelado = flushCongelado;
-        this.jugadorGoldenSeal = jugadorGoldenSeal;
+        this.flushCongelado = false;
+        this.jugadorGoldenSeal = null;
         this.jugadoresDarkSeal = new ArrayList<>();
     }
 

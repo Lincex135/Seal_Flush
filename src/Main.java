@@ -120,9 +120,8 @@ public class Main {
             Mazo mazo = Mazo.getInstancia();
             Bote bote = Bote.getInstancia();
             EventoEspecial eventos = EventoEspecial.getInstancia();
-            int paloDominante = eventos.getPaloDominante();
             boolean partidaAcabada = false;
-            boolean rondaAcabada = false;
+            boolean rondaAcabada;
 
             for (rondaActual = 1; !partidaAcabada; rondaActual++) {
                 rondaAcabada = false;
@@ -138,6 +137,7 @@ public class Main {
                         jugador.reiniciarRonda();
                     }
                 }
+                eventos.setPaloDominante(UtilEventosEspeciales.establecerPaloDominante());
 
                 mazo.barajar();
                 Carta[] cartasTablero = new Carta[5];
@@ -184,6 +184,7 @@ public class Main {
 
                     System.out.println("                                                               ----------  RONDA " + rondaActual + "  ----------");
                     System.out.println("El dealer en la ronda " + rondaActual + " es " + listaJugadores.get(aleatorio).getNomJugador() + " (el jugador subrayado)");
+                    System.out.println("Palo dominante de la ronda: " + Color.YELLOW + UtilEventosEspeciales.obtenerNombrePalo(eventos.getPaloDominante()) + Color.RESET);
                     Util.printEstadoPartida(tablero, bote, listaJugadores, fase);
 
                     ArrayList<Jugador> ordenJugadores = Util.reordenar(listaJugadores, aleatorio);
@@ -207,12 +208,26 @@ public class Main {
                         }
                     }
                     if (Util.soloQuedaUnJugador(listaJugadores) || numFase == 4) {
-                        Util.resolverShowdown(listaJugadores, tablero, bote);
+                        Util.resolverShowdown(listaJugadores, tablero, bote, eventos);
                         rondaAcabada = true;
                     }
                 }
-                if (respuestaModo == 1) {
+                int jugadoresNoEliminados = 0;
+                int numFichasGanadoras = 0;
+                String nomJugadorGanadorPartida = Util.obtenerNomJugadorGanador(listaJugadores);
+                for (Jugador jugador : listaJugadores) {
+                    if (!jugador.estaEliminado() && jugador.getFichas() > 0) {
+                        nomJugadorGanadorPartida = jugador.getNomJugador();
+                        numFichasGanadoras = jugador.getFichas();
+                        jugadoresNoEliminados++;
+                    }
+                }
+                if (jugadoresNoEliminados == 1) {
+                    System.out.println(Color.CYAN + "El ganador de la partida ha sido: " + Color.PINK + nomJugadorGanadorPartida + Color.CYAN + " con " + Color.YELLOW + numFichasGanadoras + Color.CYAN + " fichas." + Color.RESET);
+                    partidaAcabada = true;
+                } else if (respuestaModo == 1) {
                     if (rondaActual == numRondas) {
+                        System.out.println(Color.CYAN + "El ganador de la partida ha sido: " + Color.PINK + nomJugadorGanadorPartida + Color.CYAN + " con " + Color.YELLOW + numFichasGanadoras + Color.CYAN + " fichas." + Color.RESET);
                         partidaAcabada = true;
                     }
                 }

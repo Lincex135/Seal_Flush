@@ -74,8 +74,9 @@ public class Util {
                 sb.append(todasLinea[fila]);
                 sb.append("  ");
             }
-            System.out.println(sb + "\n");
+            System.out.println(sb);
         }
+        System.out.println();
     }
 
     public static void printInicio() {
@@ -240,7 +241,7 @@ public class Util {
                 }
                 jugador.apostar(total);
                 if (jugador.estaAllIn()) {
-                    System.out.println(Color.YELLOW + "¡¡¡" + jugador.getNomJugador() + " hace ALL-IN!!!" + Color.RESET);
+                    System.out.println(Color.YELLOW + "¡¡¡" + jugador.getNomJugador() + " hace ALL-IN!!!" + Color.RESET + "\n");
                 }
 
                 bote.actualizarCantidad(total);
@@ -260,14 +261,13 @@ public class Util {
         }
     }
 
-    public static boolean ejecutarTurno(Jugador jugador, Bote bote, Tablero tablero,
-                                        ArrayList<Jugador> listaJugadores, String fase, Scanner teclado) {
+    public static boolean ejecutarTurno(Jugador jugador, Bote bote, Tablero tablero, ArrayList<Jugador> listaJugadores, String fase, Scanner teclado) {
 
-        int activos = 0;
+        int puedenActuar = 0;
         for (Jugador j : listaJugadores) {
-            if (j.estaActivo()) activos++;
+            if (j.estaActivo()) puedenActuar++;
         }
-        if (!jugador.estaActivo() || activos == 1) {
+        if (!jugador.estaActivo() || puedenActuar == 0) {
             return false;
         }
 
@@ -320,7 +320,7 @@ public class Util {
     public static boolean soloQuedaUnJugador(ArrayList<Jugador> listaJugadores) {
         int jugadoresActivos = 0;
         for (Jugador jugador : listaJugadores) {
-            if (jugador.estaActivo()) {
+            if (jugador.estaActivo() || jugador.estaAllIn()) {
                 jugadoresActivos++;
             }
         }
@@ -333,8 +333,8 @@ public class Util {
      * En caso de empate, el bote se reparte a partes iguales.
      * Si no se puede repartir equitativamente, el bote se quedará con un resto lo demás se repartirá en múltiplos de 5
      */
-    public static void resolverShowdown(ArrayList<Jugador> listaJugadores,
-                                        Tablero tablero, Bote bote) {
+    public static void resolverShowdown(ArrayList<Jugador> listaJugadores, Tablero tablero, Bote bote, EventoEspecial eventos) {
+
         int resto = 0; // El resto del bote (puede no ser 0)
         // Recopilar solo los jugadores que siguen activos (no se han retirado)
         ArrayList<Jugador> jugadoresActivos = obtenerJugadoresActivos(listaJugadores);
@@ -348,14 +348,14 @@ public class Util {
             Jugador jugadorGanador = jugadoresActivos.getFirst();
             System.out.println(Color.GREEN + "Enhorabuena gana " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN + " porque el resto de jugadores se han retirado" + Color.RESET + "\n");
             Util.pintarCartas(jugadorGanador.getMano());
-            jugadorGanador.setFichas(jugadorGanador.getFichas() + bote.getCantidad());
+            entregarBote(jugadorGanador, bote.getCantidad(), false);
             bote.setCantidad(0);
             return;
         }
 
         // Evaluar la mano de cada jugador activo y mostrar sus cartas
         ArrayList<EvaluadorMano> listaEvaluaciones = obtenerListaEvaluaciones(jugadoresActivos, tablero);
-        HashMap<Jugador, TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(listaJugadores, tablero);
+        HashMap<Jugador, TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(jugadoresActivos, tablero);
         for (Jugador jugadorActual : jugadoresActivos) {
             System.out.println(Color.PINK + jugadorActual.getNomJugador() + ":" + Color.RESET);
             System.out.println();
@@ -364,13 +364,7 @@ public class Util {
             System.out.println(Color.YELLOW + manoJugador.getDescripcion() + Color.RESET);
         }
 
-        // Buscar el valor más alto entre todos los jugadores
-        int valorManoGanadora = -1;
-        for (EvaluadorMano evaluacionActual : listaEvaluaciones) {
-            if (evaluacionActual.getValor() > valorManoGanadora) {
-                valorManoGanadora = evaluacionActual.getValor();
-            }
-        }
+        int valorManoGanadora = obtenerValorManoGanadora(listaEvaluaciones);
 
         // Recopilar los jugadores que tienen ese valor máximo (puede haber empate)
         ArrayList<Jugador> listaGanadores = obtenerJugadoresGanadores(jugadoresActivos, listaEvaluaciones, valorManoGanadora);
@@ -383,11 +377,12 @@ public class Util {
             Jugador jugadorGanador = listaGanadores.getFirst();
             int posicionGanador = jugadoresActivos.indexOf(jugadorGanador);
             TipoMano tipoManoGanadora = listaEvaluaciones.get(posicionGanador).getTipo();
+            boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(listaEvaluaciones.get(posicionGanador), eventos.getPaloDominante());
 
             System.out.println(Color.GREEN + "Ganador: " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN
                     + " gana " + cantidadDelBote + " fichas con "
                     + Color.YELLOW + tipoManoGanadora.getDescripcion() + Color.RESET);
-            jugadorGanador.setFichas(jugadorGanador.getFichas() + cantidadDelBote);
+            entregarBote(jugadorGanador, cantidadDelBote, tieneFlushDominante);
 
         } else {
             // Empate: repartir el bote en partes iguales
@@ -396,7 +391,7 @@ public class Util {
             if (resto != 0) {
                 bote.setCantidad(bote.getCantidad() - resto);
             }
-            int fichasPorJugador = cantidadDelBote / numGanadores;
+            int fichasPorJugador = (cantidadDelBote - resto) / numGanadores;
 
             System.out.print(Color.GREEN + "Empate entre: ");
             for (int posicion = 0; posicion < listaGanadores.size(); posicion++) {
@@ -407,14 +402,48 @@ public class Util {
             }
             System.out.println();
             System.out.println("Cada uno recibe " + fichasPorJugador + " fichas." + Color.RESET);
+            // tras repartir fichas del bote, marcar como eliminado quien tenga 0
+            for (Jugador jugador : listaJugadores) {
+                if (jugador.getFichas() == 0 && !jugador.estaEliminado()) {
+                    jugador.setEstado(Estado.ELIMINADO);
+                }
+            }
 
             for (Jugador jugadorGanador : listaGanadores) {
-                jugadorGanador.setFichas(jugadorGanador.getFichas() + fichasPorJugador);
+                int posicionGanador = jugadoresActivos.indexOf(jugadorGanador);
+                boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(listaEvaluaciones.get(posicionGanador), eventos.getPaloDominante());
+                entregarBote(jugadorGanador, fichasPorJugador, tieneFlushDominante);
             }
         }
-
+        comprobarEventosEspeciales(eventos, jugadoresActivos, tablero, listaGanadores);
         bote.setCantidad(resto);
         System.out.println();
+    }
+
+    public static void entregarBote(Jugador jugadorGanador, int cantidadBase, boolean tieneFlushDominante) {
+        int cantidadFinal = cantidadBase;
+
+        if (tieneFlushDominante) {
+            int bonusDominante = UtilEventosEspeciales.calcularPorcentaje(cantidadBase, 50);
+            cantidadFinal += bonusDominante;
+            System.out.println(Color.CYAN + "Sello dominante: +" + bonusDominante + " fichas para " + jugadorGanador.getNomJugador() + Color.RESET);
+        }
+
+        if (jugadorGanador.isTieneSelloDorado()) {
+            int bonusDorado = UtilEventosEspeciales.calcularPorcentaje(cantidadBase, 10);
+            cantidadFinal += bonusDorado;
+            jugadorGanador.setTieneSelloDorado(false);
+            System.out.println(Color.YELLOW + "Sello Dorado: +" + bonusDorado + " fichas para " + jugadorGanador.getNomJugador() + Color.RESET);
+        }
+
+        if (jugadorGanador.isTieneSelloOscuro()) {
+            int penalizacionOscura = UtilEventosEspeciales.calcularPorcentaje(cantidadBase, 10);
+            cantidadFinal -= penalizacionOscura;
+            jugadorGanador.setTieneSelloOscuro(false);
+            System.out.println(Color.PURPLE + "Sello Oscuro: -" + penalizacionOscura + " fichas para " + jugadorGanador.getNomJugador() + Color.RESET);
+        }
+
+        jugadorGanador.setFichas(jugadorGanador.getFichas() + cantidadFinal);
     }
 
     public static void comprobarEventosEspeciales(EventoEspecial eventos, ArrayList<Jugador> listaJugadores, Tablero tablero, ArrayList<Jugador> jugadoresGanadores) {
@@ -446,7 +475,7 @@ public class Util {
     public static ArrayList<Jugador> obtenerJugadoresActivos(ArrayList<Jugador> listaJugadores) {
         ArrayList<Jugador> jugadoresActivos = new ArrayList<>();
         for (Jugador jugadorActual : listaJugadores) {
-            if (jugadorActual.estaActivo()) {
+            if (jugadorActual.estaActivo() || jugadorActual.estaAllIn()) {
                 jugadoresActivos.add(jugadorActual);
             }
         }
@@ -459,8 +488,29 @@ public class Util {
             Mano manoJugador = new Mano(jugadorActual, tablero);
             EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
             listaEvaluaciones.add(evaluacionJugador);
-
         }
         return listaEvaluaciones;
+    }
+
+    public static int obtenerValorManoGanadora(ArrayList<EvaluadorMano> listaEvaluaciones) {
+        int valorManoGanadora = -1;
+        for (EvaluadorMano evaluacionActual : listaEvaluaciones) {
+            if (evaluacionActual.getValor() > valorManoGanadora) {
+                valorManoGanadora = evaluacionActual.getValor();
+            }
+        }
+        return valorManoGanadora;
+    }
+
+    public static String obtenerNomJugadorGanador(ArrayList<Jugador> listaJugadores) {
+        String nomJugadorGanador = "";
+        int fichasMaximas = -1;
+        for (Jugador jugador : listaJugadores) {
+            if (jugador.getFichas() > fichasMaximas) {
+                fichasMaximas = jugador.getFichas();
+                nomJugadorGanador = jugador.getNomJugador();
+            }
+        }
+        return nomJugadorGanador;
     }
 }
