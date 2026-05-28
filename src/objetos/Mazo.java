@@ -79,6 +79,7 @@ public class Mazo {
         }
 
         Carta cartaARepartir = cartas[this.indiceSiguienteCarta];
+        cartaARepartir.setVuelta(false);
         this.indiceSiguienteCarta++;
         return cartaARepartir;
     }

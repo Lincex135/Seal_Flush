@@ -165,13 +165,20 @@ public class Util {
         ArrayList<Jugador> ordenJugadores = new ArrayList<Jugador>();
 
         for (int i = 0; i < n; i++) {
-            ordenJugadores.add(listaJugadores.get((aleatorio - 1 - i + n) % n));
+            Jugador jugador = listaJugadores.get((aleatorio - 1 - i + n) % n);
+            if (!jugador.estaEliminado()) {
+                ordenJugadores.add(jugador);
+            }
         }
 
         return ordenJugadores;
     }
 
     public static void apostarCiegas(ArrayList<Jugador> ordenJugadores, Bote bote, Tablero tablero) {
+        if (ordenJugadores.size() < 2) {
+            return;
+        }
+
         // Con 2 jugadores, el dealer (último en ordenJugadores) paga la ciega pequeña
         int indicePequena = 0;
         int indiqueGrande = 1;
@@ -195,6 +202,17 @@ public class Util {
             jugador.setEsDealerActual(false);
         }
         listaJugadores.get(aleatorio).setEsDealerActual(true);
+    }
+
+    public static int obtenerSiguienteDealer(ArrayList<Jugador> listaJugadores, int dealerActual) {
+        int n = listaJugadores.size();
+        int siguienteDealer = dealerActual;
+
+        do {
+            siguienteDealer = (siguienteDealer - 1 + n) % n;
+        } while (listaJugadores.get(siguienteDealer).estaEliminado());
+
+        return siguienteDealer;
     }
 
     public static boolean ejecutarAccion(int opcion, Jugador jugador, Bote bote,
@@ -341,6 +359,10 @@ public class Util {
 
         System.out.println();
         System.out.println(Color.CYAN + "══════════════  SHOWDOWN  ══════════════" + Color.RESET + "\n");
+        Carta[] cartasTablero = tablero.getCartas();
+        for (Carta carta : cartasTablero) {
+            carta.setVuelta(false);
+        }
         System.out.println(tablero + "\n");
 
         // Caso especial: todos se retiraron menos uno (hay que entregarle el bote)
@@ -354,7 +376,7 @@ public class Util {
         }
 
         // Evaluar la mano de cada jugador activo y mostrar sus cartas
-        ArrayList<EvaluadorMano> listaEvaluaciones = obtenerListaEvaluaciones(jugadoresActivos, tablero);
+        HashMap<Jugador, EvaluadorMano> jugadoresYEvaluacion = devolverJugadoresYEvaluacion(jugadoresActivos, tablero);
         HashMap<Jugador, TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(jugadoresActivos, tablero);
         for (Jugador jugadorActual : jugadoresActivos) {
             System.out.println(Color.PINK + jugadorActual.getNomJugador() + ":" + Color.RESET);
@@ -364,10 +386,10 @@ public class Util {
             System.out.println(Color.YELLOW + manoJugador.getDescripcion() + Color.RESET);
         }
 
-        int valorManoGanadora = obtenerValorManoGanadora(listaEvaluaciones);
+        int valorManoGanadora = obtenerValorManoGanadora(jugadoresYEvaluacion, jugadoresActivos);
 
         // Recopilar los jugadores que tienen ese valor máximo (puede haber empate)
-        ArrayList<Jugador> listaGanadores = obtenerJugadoresGanadores(jugadoresActivos, listaEvaluaciones, valorManoGanadora);
+        ArrayList<Jugador> listaGanadores = obtenerJugadoresGanadores(jugadoresActivos, jugadoresYEvaluacion, valorManoGanadora);
 
         // Entregar el bote y mostrar el resultado
         System.out.println();
@@ -375,9 +397,9 @@ public class Util {
 
         if (listaGanadores.size() == 1) {
             Jugador jugadorGanador = listaGanadores.getFirst();
-            int posicionGanador = jugadoresActivos.indexOf(jugadorGanador);
-            TipoMano tipoManoGanadora = listaEvaluaciones.get(posicionGanador).getTipo();
-            boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(listaEvaluaciones.get(posicionGanador), eventos.getPaloDominante());
+            EvaluadorMano evaluacionGanadora = jugadoresYEvaluacion.get(jugadorGanador);
+            TipoMano tipoManoGanadora = evaluacionGanadora.getTipo();
+            boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(evaluacionGanadora, eventos.getPaloDominante());
 
             System.out.println(Color.GREEN + "Ganador: " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN
                     + " gana " + cantidadDelBote + " fichas con "
@@ -410,8 +432,7 @@ public class Util {
             }
 
             for (Jugador jugadorGanador : listaGanadores) {
-                int posicionGanador = jugadoresActivos.indexOf(jugadorGanador);
-                boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(listaEvaluaciones.get(posicionGanador), eventos.getPaloDominante());
+                boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(jugadoresYEvaluacion.get(jugadorGanador), eventos.getPaloDominante());
                 entregarBote(jugadorGanador, fichasPorJugador, tieneFlushDominante);
             }
         }
@@ -462,11 +483,31 @@ public class Util {
         return jugadoresYTipoMano;
     }
 
+    public static HashMap<Jugador, EvaluadorMano> devolverJugadoresYEvaluacion(ArrayList<Jugador> listaJugadores, Tablero tablero) {
+        HashMap<Jugador, EvaluadorMano> jugadoresYEvaluacion = new HashMap<Jugador, EvaluadorMano>();
+        for (Jugador jugadorActual : listaJugadores) {
+            Mano manoJugador = new Mano(jugadorActual, tablero);
+            EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
+            jugadoresYEvaluacion.put(jugadorActual, evaluacionJugador);
+        }
+        return jugadoresYEvaluacion;
+    }
+
     public static ArrayList<Jugador> obtenerJugadoresGanadores(ArrayList<Jugador> jugadoresActivos,ArrayList<EvaluadorMano> listaEvaluaciones, int valorManoGanadora) {
         ArrayList<Jugador> listaGanadores = new ArrayList<>();
         for (int posicion = 0; posicion < jugadoresActivos.size(); posicion++) {
             if (listaEvaluaciones.get(posicion).getValor() == valorManoGanadora) {
                 listaGanadores.add(jugadoresActivos.get(posicion));
+            }
+        }
+        return listaGanadores;
+    }
+
+    public static ArrayList<Jugador> obtenerJugadoresGanadores(ArrayList<Jugador> jugadoresActivos, HashMap<Jugador, EvaluadorMano> jugadoresYEvaluacion, int valorManoGanadora) {
+        ArrayList<Jugador> listaGanadores = new ArrayList<>();
+        for (Jugador jugadorActual : jugadoresActivos) {
+            if (jugadoresYEvaluacion.get(jugadorActual).getValor() == valorManoGanadora) {
+                listaGanadores.add(jugadorActual);
             }
         }
         return listaGanadores;
@@ -497,6 +538,16 @@ public class Util {
         for (EvaluadorMano evaluacionActual : listaEvaluaciones) {
             if (evaluacionActual.getValor() > valorManoGanadora) {
                 valorManoGanadora = evaluacionActual.getValor();
+            }
+        }
+        return valorManoGanadora;
+    }
+
+    public static int obtenerValorManoGanadora(HashMap<Jugador, EvaluadorMano> jugadoresYEvaluacion, ArrayList<Jugador> jugadoresActivos) {
+        int valorManoGanadora = -1;
+        for (Jugador jugadorActual : jugadoresActivos) {
+            if (jugadoresYEvaluacion.get(jugadorActual).getValor() > valorManoGanadora) {
+                valorManoGanadora = jugadoresYEvaluacion.get(jugadorActual).getValor();
             }
         }
         return valorManoGanadora;
