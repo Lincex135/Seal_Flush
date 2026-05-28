@@ -67,6 +67,10 @@ public class EvaluadorMano {
         return valorNumerico;
     }
 
+    public int getPaloDelColor() {
+        return paloDeLaEscaleraDeColor;
+    }
+
     // Ordenar las 7 cartas de mayor a menor rango (burbuja)
     private Carta[] ordenarCartasDeMayorAMenor(Carta[] cartasOriginales) {
         // Copiar el array manualmente para no modificar el original

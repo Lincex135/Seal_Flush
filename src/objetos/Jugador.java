@@ -200,6 +200,16 @@ public class Jugador {
         return apuestaActual;
     }
 
+    /** @return true si tiene activo el Sello Dorado */
+    public boolean isTieneSelloDorado() {
+        return tieneSelloDorado;
+    }
+
+    /** @return true si tiene activo el Sello Oscuro */
+    public boolean isTieneSelloOscuro() {
+        return tieneSelloOscuro;
+    }
+
     /** @param esDealerActual true si es dealer; false si no */
     public void setEsDealerActual(boolean esDealerActual) {
         this.esDealerActual = esDealerActual;

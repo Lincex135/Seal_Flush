@@ -333,9 +333,8 @@ public class Util {
      * En caso de empate, el bote se reparte a partes iguales.
      * Si no se puede repartir equitativamente, el bote se quedará con un resto lo demás se repartirá en múltiplos de 5
      */
-    public static void resolverShowdown(ArrayList<Jugador> listaJugadores, Tablero tablero, Bote bote, EventoEspecial eventos, ArrayList<Jugador> jugadoresGanadores, int valorManoGanadora) {
+    public static void resolverShowdown(ArrayList<Jugador> listaJugadores, Tablero tablero, Bote bote, EventoEspecial eventos) {
 
-        comprobarEventosEspeciales(eventos,listaJugadores, tablero, jugadoresGanadores);
         int resto = 0; // El resto del bote (puede no ser 0)
         // Recopilar solo los jugadores que siguen activos (no se han retirado)
         ArrayList<Jugador> jugadoresActivos = obtenerJugadoresActivos(listaJugadores);
@@ -349,14 +348,14 @@ public class Util {
             Jugador jugadorGanador = jugadoresActivos.getFirst();
             System.out.println(Color.GREEN + "Enhorabuena gana " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN + " porque el resto de jugadores se han retirado" + Color.RESET + "\n");
             Util.pintarCartas(jugadorGanador.getMano());
-            jugadorGanador.setFichas(jugadorGanador.getFichas() + bote.getCantidad());
+            entregarBote(jugadorGanador, bote.getCantidad(), false);
             bote.setCantidad(0);
             return;
         }
 
         // Evaluar la mano de cada jugador activo y mostrar sus cartas
         ArrayList<EvaluadorMano> listaEvaluaciones = obtenerListaEvaluaciones(jugadoresActivos, tablero);
-        HashMap<Jugador, TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(listaJugadores, tablero);
+        HashMap<Jugador, TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(jugadoresActivos, tablero);
         for (Jugador jugadorActual : jugadoresActivos) {
             System.out.println(Color.PINK + jugadorActual.getNomJugador() + ":" + Color.RESET);
             System.out.println();
@@ -365,7 +364,7 @@ public class Util {
             System.out.println(Color.YELLOW + manoJugador.getDescripcion() + Color.RESET);
         }
 
-        obtenerValorManoGanadora(listaEvaluaciones);
+        int valorManoGanadora = obtenerValorManoGanadora(listaEvaluaciones);
 
         // Recopilar los jugadores que tienen ese valor máximo (puede haber empate)
         ArrayList<Jugador> listaGanadores = obtenerJugadoresGanadores(jugadoresActivos, listaEvaluaciones, valorManoGanadora);
@@ -378,11 +377,12 @@ public class Util {
             Jugador jugadorGanador = listaGanadores.getFirst();
             int posicionGanador = jugadoresActivos.indexOf(jugadorGanador);
             TipoMano tipoManoGanadora = listaEvaluaciones.get(posicionGanador).getTipo();
+            boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(listaEvaluaciones.get(posicionGanador), eventos.getPaloDominante());
 
             System.out.println(Color.GREEN + "Ganador: " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN
                     + " gana " + cantidadDelBote + " fichas con "
                     + Color.YELLOW + tipoManoGanadora.getDescripcion() + Color.RESET);
-            jugadorGanador.setFichas(jugadorGanador.getFichas() + cantidadDelBote);
+            entregarBote(jugadorGanador, cantidadDelBote, tieneFlushDominante);
 
         } else {
             // Empate: repartir el bote en partes iguales
@@ -391,7 +391,7 @@ public class Util {
             if (resto != 0) {
                 bote.setCantidad(bote.getCantidad() - resto);
             }
-            int fichasPorJugador = cantidadDelBote / numGanadores;
+            int fichasPorJugador = (cantidadDelBote - resto) / numGanadores;
 
             System.out.print(Color.GREEN + "Empate entre: ");
             for (int posicion = 0; posicion < listaGanadores.size(); posicion++) {
@@ -402,20 +402,48 @@ public class Util {
             }
             System.out.println();
             System.out.println("Cada uno recibe " + fichasPorJugador + " fichas." + Color.RESET);
-
             // tras repartir fichas del bote, marcar como eliminado quien tenga 0
             for (Jugador jugador : listaJugadores) {
                 if (jugador.getFichas() == 0 && !jugador.estaEliminado()) {
-                    jugador.setEstado(Estado.ELIMINADO);// llamar a jugador.eliminar() o setear estado directamente
+                    jugador.setEstado(Estado.ELIMINADO);
                 }
             }
 
             for (Jugador jugadorGanador : listaGanadores) {
-                jugadorGanador.setFichas(jugadorGanador.getFichas() + fichasPorJugador);
+                int posicionGanador = jugadoresActivos.indexOf(jugadorGanador);
+                boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(listaEvaluaciones.get(posicionGanador), eventos.getPaloDominante());
+                entregarBote(jugadorGanador, fichasPorJugador, tieneFlushDominante);
             }
         }
+        comprobarEventosEspeciales(eventos, jugadoresActivos, tablero, listaGanadores);
         bote.setCantidad(resto);
         System.out.println();
+    }
+
+    public static void entregarBote(Jugador jugadorGanador, int cantidadBase, boolean tieneFlushDominante) {
+        int cantidadFinal = cantidadBase;
+
+        if (tieneFlushDominante) {
+            int bonusDominante = UtilEventosEspeciales.calcularPorcentaje(cantidadBase, 50);
+            cantidadFinal += bonusDominante;
+            System.out.println(Color.CYAN + "Sello dominante: +" + bonusDominante + " fichas para " + jugadorGanador.getNomJugador() + Color.RESET);
+        }
+
+        if (jugadorGanador.isTieneSelloDorado()) {
+            int bonusDorado = UtilEventosEspeciales.calcularPorcentaje(cantidadBase, 10);
+            cantidadFinal += bonusDorado;
+            jugadorGanador.setTieneSelloDorado(false);
+            System.out.println(Color.YELLOW + "Sello Dorado: +" + bonusDorado + " fichas para " + jugadorGanador.getNomJugador() + Color.RESET);
+        }
+
+        if (jugadorGanador.isTieneSelloOscuro()) {
+            int penalizacionOscura = UtilEventosEspeciales.calcularPorcentaje(cantidadBase, 10);
+            cantidadFinal -= penalizacionOscura;
+            jugadorGanador.setTieneSelloOscuro(false);
+            System.out.println(Color.PURPLE + "Sello Oscuro: -" + penalizacionOscura + " fichas para " + jugadorGanador.getNomJugador() + Color.RESET);
+        }
+
+        jugadorGanador.setFichas(jugadorGanador.getFichas() + cantidadFinal);
     }
 
     public static void comprobarEventosEspeciales(EventoEspecial eventos, ArrayList<Jugador> listaJugadores, Tablero tablero, ArrayList<Jugador> jugadoresGanadores) {
@@ -465,7 +493,6 @@ public class Util {
     }
 
     public static int obtenerValorManoGanadora(ArrayList<EvaluadorMano> listaEvaluaciones) {
-        // Buscar el valor más alto entre todos los jugadores
         int valorManoGanadora = -1;
         for (EvaluadorMano evaluacionActual : listaEvaluaciones) {
             if (evaluacionActual.getValor() > valorManoGanadora) {

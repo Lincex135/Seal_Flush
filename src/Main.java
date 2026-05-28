@@ -9,12 +9,10 @@ public class Main {
         Scanner teclado = new Scanner(System.in);
         Util.printInicio();
         System.out.println();
-        int respuesta1, respuestaModo = -1, numRondas = -1, rondaActual, valorManoGanadora = -1;
+        int respuesta1, respuestaModo = -1, numRondas = -1, rondaActual;
         boolean empezar = false;
         boolean primeraPartida = false;
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
-        ArrayList<Jugador> jugadoresGanadores;
-        ArrayList<EvaluadorMano> listaEvaluaciones;
         do {
             System.out.print(Ascii.MENU1);
             respuesta1 = Integer.parseInt(teclado.nextLine());
@@ -122,7 +120,6 @@ public class Main {
             Mazo mazo = Mazo.getInstancia();
             Bote bote = Bote.getInstancia();
             EventoEspecial eventos = EventoEspecial.getInstancia();
-            int paloDominante = eventos.getPaloDominante();
             boolean partidaAcabada = false;
             boolean rondaAcabada;
 
@@ -140,6 +137,7 @@ public class Main {
                         jugador.reiniciarRonda();
                     }
                 }
+                eventos.setPaloDominante(UtilEventosEspeciales.establecerPaloDominante());
 
                 mazo.barajar();
                 Carta[] cartasTablero = new Carta[5];
@@ -186,6 +184,7 @@ public class Main {
 
                     System.out.println("                                                               ----------  RONDA " + rondaActual + "  ----------");
                     System.out.println("El dealer en la ronda " + rondaActual + " es " + listaJugadores.get(aleatorio).getNomJugador() + " (el jugador subrayado)");
+                    System.out.println("Palo dominante de la ronda: " + Color.YELLOW + UtilEventosEspeciales.obtenerNombrePalo(eventos.getPaloDominante()) + Color.RESET);
                     Util.printEstadoPartida(tablero, bote, listaJugadores, fase);
 
                     ArrayList<Jugador> ordenJugadores = Util.reordenar(listaJugadores, aleatorio);
@@ -209,10 +208,7 @@ public class Main {
                         }
                     }
                     if (Util.soloQuedaUnJugador(listaJugadores) || numFase == 4) {
-                        listaEvaluaciones = Util.obtenerListaEvaluaciones(listaJugadores, tablero);
-                        valorManoGanadora = Util.obtenerValorManoGanadora(listaEvaluaciones);
-                        jugadoresGanadores = Util.obtenerJugadoresGanadores(listaJugadores, listaEvaluaciones, valorManoGanadora);
-                        Util.resolverShowdown(listaJugadores, tablero, bote, eventos, jugadoresGanadores, valorManoGanadora);
+                        Util.resolverShowdown(listaJugadores, tablero, bote, eventos);
                         rondaAcabada = true;
                     }
                 }
