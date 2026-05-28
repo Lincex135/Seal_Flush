@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 import util.*;
 import objetos.*;
+import estadisticas.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -35,10 +36,10 @@ public class Main {
                                 System.out.print("¿Cuántas rondas va a durar la partida?: ");
                                 numRondas = Integer.parseInt(teclado.nextLine());
                                 System.out.println();
-                                if (numRondas < 5) {
-                                    System.out.println(Color.RED + "ERROR. Numero de rondas muy bajo. " + Color.RESET + "se pondrá a 5");
+                                if (numRondas < 3) {
+                                    System.out.println(Color.RED + "ERROR. Numero de rondas muy bajo. " + Color.RESET + "Se pondrá a 3");
                                     System.out.println();
-                                    numRondas = 5;
+                                    numRondas = 3;
                                 }
 
                             case 2:
@@ -107,7 +108,7 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("Mostrando estadísticas");
+                    GestorEstadisticas.mostrarEstadisticas();
                     break;
 
                 default:
@@ -122,35 +123,38 @@ public class Main {
             EventoEspecial eventos = EventoEspecial.getInstancia();
             boolean partidaAcabada = false;
             boolean rondaAcabada;
+            int boteMaximoPartida = 0;
+            int aleatorio = 0;
 
             for (rondaActual = 1; !partidaAcabada; rondaActual++) {
                 rondaAcabada = false;
-                int aleatorio = 0;
                 if (rondaActual == 1) {
                     int min = 0, max = listaJugadores.size() - 1;
                     aleatorio = (int) (Math.random() * (max - min + 1)) + min;
                     Util.establecerDealer(listaJugadores, aleatorio);
                 } else {
-                    aleatorio = (aleatorio - 1 + listaJugadores.size()) % listaJugadores.size();
-                    Util.establecerDealer(listaJugadores, aleatorio);
                     for (Jugador jugador : listaJugadores) {
                         jugador.reiniciarRonda();
                     }
+                    aleatorio = Util.obtenerSiguienteDealer(listaJugadores, aleatorio);
+                    Util.establecerDealer(listaJugadores, aleatorio);
                 }
                 eventos.setPaloDominante(UtilEventosEspeciales.establecerPaloDominante());
 
                 mazo.barajar();
+                for (Jugador jugador : listaJugadores) {
+                    if (!jugador.estaEliminado()) {
+                        Carta carta1 = mazo.repartirCarta();
+                        Carta carta2 = mazo.repartirCarta();
+                        jugador.recibirCarta(carta1);
+                        jugador.recibirCarta(carta2);
+                    }
+                }
+
                 Carta[] cartasTablero = new Carta[5];
                 for (int i = 0; i < cartasTablero.length; i++) {
                     cartasTablero[i] = mazo.repartirCarta();
                     cartasTablero[i].setVuelta(true);
-                }
-
-                for (Jugador jugador : listaJugadores) {
-                    Carta carta1 = mazo.repartirCarta();
-                    Carta carta2 = mazo.repartirCarta();
-                    jugador.recibirCarta(carta1);
-                    jugador.recibirCarta(carta2);
                 }
 
                 Tablero tablero = Tablero.getInstancia(cartasTablero, listaJugadores);
@@ -192,6 +196,9 @@ public class Main {
                     // Pagar ciegas (solo Pre-Flop)
                     if (numFase == 1) {
                         Util.apostarCiegas(ordenJugadores, bote, tablero);
+                        if (bote.getCantidad() > boteMaximoPartida) {
+                            boteMaximoPartida = bote.getCantidad();
+                        }
                         Util.printEstadoPartida(tablero, bote, listaJugadores, fase);
                     }
 
@@ -199,12 +206,18 @@ public class Main {
                     int indiceInicio = (numFase == 1) ? 2 : 0;
                     for (int i = indiceInicio; i < ordenJugadores.size(); i++) {
                         Util.ejecutarTurno(ordenJugadores.get(i), bote, tablero, listaJugadores, fase, teclado);
+                        if (bote.getCantidad() > boteMaximoPartida) {
+                            boteMaximoPartida = bote.getCantidad();
+                        }
                     }
 
                     // En Pre-Flop, las ciegas juegan al final
                     if (numFase == 1) {
                         for (int i = 0; i < 2; i++) {
                             Util.ejecutarTurno(ordenJugadores.get(i), bote, tablero, listaJugadores, fase, teclado);
+                            if (bote.getCantidad() > boteMaximoPartida) {
+                                boteMaximoPartida = bote.getCantidad();
+                            }
                         }
                     }
                     if (Util.soloQuedaUnJugador(listaJugadores) || numFase == 4) {
@@ -217,17 +230,21 @@ public class Main {
                 String nomJugadorGanadorPartida = Util.obtenerNomJugadorGanador(listaJugadores);
                 for (Jugador jugador : listaJugadores) {
                     if (!jugador.estaEliminado() && jugador.getFichas() > 0) {
+                        jugadoresNoEliminados++;
+                    }
+                    if (jugador.getFichas() > numFichasGanadoras) {
                         nomJugadorGanadorPartida = jugador.getNomJugador();
                         numFichasGanadoras = jugador.getFichas();
-                        jugadoresNoEliminados++;
                     }
                 }
                 if (jugadoresNoEliminados == 1) {
                     System.out.println(Color.CYAN + "El ganador de la partida ha sido: " + Color.PINK + nomJugadorGanadorPartida + Color.CYAN + " con " + Color.YELLOW + numFichasGanadoras + Color.CYAN + " fichas." + Color.RESET);
+                    GestorEstadisticas.guardarPartida(new EstadisticasPartida(nomJugadorGanadorPartida, numFichasGanadoras, rondaActual, boteMaximoPartida, listaJugadores));
                     partidaAcabada = true;
                 } else if (respuestaModo == 1) {
                     if (rondaActual == numRondas) {
                         System.out.println(Color.CYAN + "El ganador de la partida ha sido: " + Color.PINK + nomJugadorGanadorPartida + Color.CYAN + " con " + Color.YELLOW + numFichasGanadoras + Color.CYAN + " fichas." + Color.RESET);
+                        GestorEstadisticas.guardarPartida(new EstadisticasPartida(nomJugadorGanadorPartida, numFichasGanadoras, rondaActual, boteMaximoPartida, listaJugadores));
                         partidaAcabada = true;
                     }
                 }

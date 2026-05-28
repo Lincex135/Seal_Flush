@@ -87,12 +87,12 @@ public class Jugador {
      * marca como ELIMINADO si no tiene fichas, descarta la mano y resetea la apuesta.
      */
     public void reiniciarRonda() {
-        if (estado == Estado.RETIRADO) {
-            estado = Estado.ACTIVO;
-        }else if (estado == estado.ALL_IN && fichas != 0) {
-            estado = Estado.ACTIVO;
-        }else if (estado == estado.ELIMINADO || (estado == estado.ALL_IN && fichas == 0)) {
+        if (fichas <= 0) {
             estado = Estado.ELIMINADO;
+        } else if (estado == Estado.RETIRADO) {
+            estado = Estado.ACTIVO;
+        }else if (estado == Estado.ALL_IN) {
+            estado = Estado.ACTIVO;
         }
         descartarMano();
         setApuestaActual(0);
@@ -106,7 +106,11 @@ public class Jugador {
      * @return true si la apuesta se realizó; false si el jugador se retiró
      */
     public boolean apostar(int cantidad) {
-        if (!puedeApostar(cantidad) && fichas != 0) {
+        if (estado == Estado.ELIMINADO || fichas <= 0) {
+            estado = Estado.ELIMINADO;
+            return false;
+        }
+        if (!puedeApostar(cantidad)) {
             estado = Estado.RETIRADO;
             return false;
         }
@@ -183,6 +187,11 @@ public class Jugador {
     /** @return true si está All_In; false si no */
     public boolean estaAllIn() {
         return estado == Estado.ALL_IN;
+    }
+
+    /** @return estado actual del jugador */
+    public Estado getEstado() {
+        return estado;
     }
 
     /** @return nombrejugador */

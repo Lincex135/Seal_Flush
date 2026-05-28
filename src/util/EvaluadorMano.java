@@ -30,6 +30,7 @@ public class EvaluadorMano {
     private boolean tieneAsRueda = false;            // escalera A-2-3-4-5
 
     private int rangoDelTrio = -1;
+    private int segundoRangoDelTrio = -1;
     private int rangoDeLaPoker = -1;
 
     private int[] posicionesDesempate;      // componentes del valor final
@@ -147,7 +148,11 @@ public class EvaluadorMano {
             if (cartasPorRango[rangoActual] == 4) {
                 rangoDeLaPoker = rangoActual;
             } else if (cartasPorRango[rangoActual] == 3) {
-                rangoDelTrio = rangoActual;
+                if (rangoDelTrio == -1) {
+                    rangoDelTrio = rangoActual;
+                } else if (segundoRangoDelTrio == -1) {
+                    segundoRangoDelTrio = rangoActual;
+                }
             } else if (cartasPorRango[rangoActual] == 2) {
                 if (numeroDeParejas < 2) {
                     rangoDeLasParejas[numeroDeParejas] = rangoActual;
@@ -159,63 +164,63 @@ public class EvaluadorMano {
 
     // Escalera de color y escalera real
     private boolean esEscaleraDeColor() {
-        if (rangoMayorDeLaEscalera == -1 || paloDeLaEscaleraDeColor == -1) {
-            return false;
-        }
+        int mejorRango = -1;
+        int mejorPalo = -1;
 
-        // Recorrer las cartas buscando 5 consecutivas del mismo palo
-        int paloAnterior = -1;
-        int rangoAnterior = -1;
-        int cartasConsecutivasMismoPalo = 1;
-        int cartasConsecutivasTotales = 1;
-
-        for (Carta cartaActual : cartasOrdenadas) {
-            int rangoActual = cartaActual.getRango();
-            int paloActual = cartaActual.getPalo();
-
-            if (rangoAnterior != -1) {
-                int diferenciaDeRango = rangoAnterior - rangoActual;
-
-                if (diferenciaDeRango == 1) {
-                    cartasConsecutivasTotales++;
-                    if (paloActual == paloAnterior) {
-                        cartasConsecutivasMismoPalo++;
-                    } else {
-                        cartasConsecutivasMismoPalo = 1;
-                    }
-                    if (cartasConsecutivasTotales >= 5 && cartasConsecutivasMismoPalo >= 5) {
-                        break;
-                    }
-                } else if (diferenciaDeRango != 0) {
-                    // No son consecutivos: reiniciar contadores
-                    cartasConsecutivasTotales = 1;
-                    cartasConsecutivasMismoPalo = 1;
-                }
-                // Si la diferencia es 0 son rangos duplicados, se ignoran
+        for (int paloActual = 0; paloActual < Carta.NUM_DE_PALOS; paloActual++) {
+            int rangoEscalera = obtenerRangoEscaleraMismoPalo(paloActual);
+            if (rangoEscalera > mejorRango) {
+                mejorRango = rangoEscalera;
+                mejorPalo = paloActual;
             }
-            rangoAnterior = rangoActual;
-            paloAnterior = paloActual;
         }
 
-        if (cartasConsecutivasTotales >= 5 && cartasConsecutivasMismoPalo >= 5) {
-            if (rangoMayorDeLaEscalera == Carta.AS) {
+        if (mejorRango != -1) {
+            paloDeLaEscaleraDeColor = mejorPalo;
+            if (mejorRango == Carta.AS) {
                 tipoMano = TipoMano.ESCALERA_REAL;
             } else {
                 tipoMano = TipoMano.ESCALERA_DE_COLOR;
             }
             posicionesDesempate[0] = tipoMano.getValue();
-            posicionesDesempate[1] = rangoMayorDeLaEscalera;
+            posicionesDesempate[1] = mejorRango;
             return true;
         }
 
-        // Escalera de color rueda (A-2-3-4-5 del mismo palo)
-        if (tieneAsRueda && cartasConsecutivasTotales >= 4 && cartasConsecutivasMismoPalo >= 4) {
-            tipoMano = TipoMano.ESCALERA_DE_COLOR;
-            posicionesDesempate[0] = tipoMano.getValue();
-            posicionesDesempate[1] = rangoMayorDeLaEscalera;
-            return true;
-        }
         return false;
+    }
+
+    private int obtenerRangoEscaleraMismoPalo(int paloBuscado) {
+        boolean[] rangosDelPalo = new boolean[Carta.NUM_DE_RANGOS];
+
+        for (Carta cartaActual : cartasOrdenadas) {
+            if (cartaActual.getPalo() == paloBuscado) {
+                rangosDelPalo[cartaActual.getRango()] = true;
+            }
+        }
+
+        int cartasConsecutivas = 0;
+        int rangoInicioEscalera = -1;
+        for (int rangoActual = Carta.NUM_DE_RANGOS - 1; rangoActual >= 0; rangoActual--) {
+            if (rangosDelPalo[rangoActual]) {
+                if (cartasConsecutivas == 0) {
+                    rangoInicioEscalera = rangoActual;
+                }
+                cartasConsecutivas++;
+                if (cartasConsecutivas >= 5) {
+                    return rangoInicioEscalera;
+                }
+            } else {
+                cartasConsecutivas = 0;
+            }
+        }
+
+        if (rangosDelPalo[Carta.AS] && rangosDelPalo[Carta.DOS] && rangosDelPalo[Carta.TRES]
+                && rangosDelPalo[Carta.CUATRO] && rangosDelPalo[Carta.CINCO]) {
+            return Carta.CINCO;
+        }
+
+        return -1;
     }
 
     // Póker (4 cartas del mismo rango)
@@ -238,13 +243,17 @@ public class EvaluadorMano {
 
     // Full house (trío + pareja)
     private boolean esFullHouse() {
-        if (rangoDelTrio == -1 || numeroDeParejas == 0) {
+        if (rangoDelTrio == -1 || (numeroDeParejas == 0 && segundoRangoDelTrio == -1)) {
             return false;
         }
         tipoMano = TipoMano.FULL_HOUSE;
         posicionesDesempate[0] = tipoMano.getValue();
         posicionesDesempate[1] = rangoDelTrio;
-        posicionesDesempate[2] = rangoDeLasParejas[0];
+        if (segundoRangoDelTrio != -1) {
+            posicionesDesempate[2] = segundoRangoDelTrio;
+        } else {
+            posicionesDesempate[2] = rangoDeLasParejas[0];
+        }
         return true;
     }
 
