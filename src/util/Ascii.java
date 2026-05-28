@@ -1,5 +1,12 @@
 package util;
 
+/**
+ *  Clase que tiene atributos estaticos de tipo String y String[] para los menús
+ *
+ *  @author Ximena López
+ *  @author Adrián de Armas
+ *  @version 1.0
+ */
 public class Ascii {
     public static final String[] MENU = {
             "╔══════════════════════════════╗",

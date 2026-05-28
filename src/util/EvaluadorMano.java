@@ -3,6 +3,13 @@ package util;
 import objetos.Carta;
 import objetos.Mano;
 
+/**
+ * Se encarga de darle valor a las diferentes manos que existen en el juego
+ *
+ *  @author Ximena López
+ *  @author Adrián de Armas
+ *  @version 1.0
+ */
 public class EvaluadorMano {
 
     // Número de posiciones de desempate que usamos para calcular el valor final.
@@ -35,6 +42,11 @@ public class EvaluadorMano {
 
     private int[] posicionesDesempate;      // componentes del valor final
 
+    /**
+     * Constructor Público que a partir de la mano del jugador crea el evaluador
+     *
+     * @param manoJugador objeto de tipo mano que representa las cartas de un jugador
+     */
     public EvaluadorMano(Mano manoJugador) {
         cartasOrdenadas = ordenarCartasDeMayorAMenor(manoJugador.getCartas());
         cartasPorRango = new int[Carta.NUM_DE_RANGOS];
@@ -60,18 +72,12 @@ public class EvaluadorMano {
         }
     }
 
-    public TipoMano getTipo() {
-        return tipoMano;
-    }
-
-    public int getValor() {
-        return valorNumerico;
-    }
-
-    public int getPaloDelColor() {
-        return paloDeLaEscaleraDeColor;
-    }
-
+    /**
+     * Metodo para ordenar las cartas de la mesa y de la mano del jugador de mayor a menor para determinar su tipo
+     *
+     * @param cartasOriginales array de tipo Carta
+     * @return devuleve un array de tipo Carta ordenado de mayor a menor
+     */
     // Ordenar las 7 cartas de mayor a menor rango (burbuja)
     private Carta[] ordenarCartasDeMayorAMenor(Carta[] cartasOriginales) {
         // Copiar el array manualmente para no modificar el original
@@ -91,6 +97,9 @@ public class EvaluadorMano {
         return cartasCopiadas;
     }
 
+    /**
+     * Metodo para calcular las distribuciones de las cartas
+     */
     // Contar cuántas cartas hay de cada rango y de cada palo
     private void calcularDistribuciones() {
         for (Carta cartaActual : cartasOrdenadas) {
@@ -99,6 +108,9 @@ public class EvaluadorMano {
         }
     }
 
+    /**
+     * Metodo que permite saber teniendo en cuenta las cartas de la mesa y las de la mano del jugador si este tiene una escalera
+     */
     // Buscar si hay escalera (5 cartas de rangos consecutivos)
     private void buscarEscalera() {
         boolean dentroDeUnaEscalera = false;
@@ -132,6 +144,9 @@ public class EvaluadorMano {
         }
     }
 
+    /**
+     * Metodo que permite saber el color del palo necesario para determinar la escalera de color del jugador
+     */
     // Buscar si hay color (5 o más cartas del mismo palo)
     private void buscarColor() {
         for (int paloActual = 0; paloActual < Carta.NUM_DE_PALOS; paloActual++) {
@@ -142,6 +157,9 @@ public class EvaluadorMano {
         }
     }
 
+    /**
+     * Metodo que permite saber teniendo en cuenta las cartas de la mesa y las de la mano del jugador si este tiene pareja, trio o poker
+     */
     // Buscar parejas, tríos y pókers
     private void buscarDuplicados() {
         for (int rangoActual = Carta.NUM_DE_RANGOS - 1; rangoActual >= 0; rangoActual--) {
@@ -162,6 +180,11 @@ public class EvaluadorMano {
         }
     }
 
+    /**
+     * Metodo que permite comprobando las cartas de la mesa y de la mano del jugador si este tiene una escalera de color
+     *
+     * @return devuelve true si es escalera de color y false si no
+     */
     // Escalera de color y escalera real
     private boolean esEscaleraDeColor() {
         int mejorRango = -1;
@@ -190,6 +213,12 @@ public class EvaluadorMano {
         return false;
     }
 
+    /**
+     * Metodo que determina el valor de los diferentes tipos de escalera
+     *
+     * @param paloBuscado indíca el número del palo que se quiere buscar
+     * @return devuelve el rango de numeros de la escalera
+     */
     private int obtenerRangoEscaleraMismoPalo(int paloBuscado) {
         boolean[] rangosDelPalo = new boolean[Carta.NUM_DE_RANGOS];
 
@@ -223,6 +252,11 @@ public class EvaluadorMano {
         return -1;
     }
 
+    /**
+     * Metodo para determinar si el jugador tiene poker o no
+     *
+     * @return devuelve true si el jugador tiene poker y false si no
+     */
     // Póker (4 cartas del mismo rango)
     private boolean esPoker() {
         if (rangoDeLaPoker == -1) {
@@ -241,6 +275,11 @@ public class EvaluadorMano {
         return true;
     }
 
+    /**
+     * Metodo que determina si el jugador tiene fullHouse o no
+     *
+     * @return devuelve true si el jugador tiene fullHouse y false si no
+     */
     // Full house (trío + pareja)
     private boolean esFullHouse() {
         if (rangoDelTrio == -1 || (numeroDeParejas == 0 && segundoRangoDelTrio == -1)) {
@@ -257,6 +296,11 @@ public class EvaluadorMano {
         return true;
     }
 
+    /**
+     * Metodo que determina si el jugador tiene color o no
+     *
+     * @return devuelve true si el jugador tiene color y false si no
+     */
     // Color (5 cartas del mismo palo)
     private boolean esColor() {
         if (paloDeLaEscaleraDeColor == -1) {
@@ -279,6 +323,11 @@ public class EvaluadorMano {
         return true;
     }
 
+    /**
+     * Metodo que determina si el jugador tiene escalera o no
+     *
+     * @return devuelve true si el jugador tiene escalera y false si no
+     */
     // Escalera (5 cartas consecutivas)
     private boolean esEscalera() {
         if (rangoMayorDeLaEscalera == -1) {
@@ -290,6 +339,11 @@ public class EvaluadorMano {
         return true;
     }
 
+    /**
+     * Metodo que determina si el jugador tiene trio o no
+     *
+     * @return devuelve true si el jugador tiene trio o no
+     */
     // Trío (3 cartas del mismo rango)
     private boolean esTrio() {
         if (rangoDelTrio == -1) {
@@ -313,6 +367,11 @@ public class EvaluadorMano {
         return true;
     }
 
+    /**
+     * Metodo que determina si el jugador tiene doble pareja o no
+     *
+     * @return devuelve true si el jugador tiene doble pareja y false si no
+     */
     // Doble pareja
     private boolean esDoblePareja() {
         if (numeroDeParejas < 2) {
@@ -337,6 +396,11 @@ public class EvaluadorMano {
         return true;
     }
 
+    /**
+     * Metodo que determina si el jugador tiene pareja o no
+     *
+     * @return devuelve true si el jugador tiene pareja y false si no
+     */
     // Pareja (2 cartas del mismo rango)
     private boolean esPareja() {
         if (numeroDeParejas != 1) {
@@ -362,6 +426,9 @@ public class EvaluadorMano {
         return true;
     }
 
+    /**
+     * Metodo que dtermina el valor de la carta más alta de la mesa
+     */
     // Carta alta (ninguna combinación especial)
     private void calcularCartaAlta() {
         tipoMano = TipoMano.CARTA_ALTA;
@@ -374,5 +441,17 @@ public class EvaluadorMano {
                 break;
             }
         }
+    }
+
+    public TipoMano getTipo() {
+        return tipoMano;
+    }
+
+    public int getValor() {
+        return valorNumerico;
+    }
+
+    public int getPaloDelColor() {
+        return paloDeLaEscaleraDeColor;
     }
 }

@@ -1,5 +1,12 @@
 package util;
 
+/**
+ * Clase con atributos Estaticos que muestran las instrucciones del juego
+ *
+ * @author Ximena López
+ * @author Adrián de Armas
+ * @version 1.0
+ */
 public class Instrucciones {
 
     public Instrucciones() {

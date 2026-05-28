@@ -1,5 +1,11 @@
 package util;
-
+/**
+ *  Clase que tiene atributos estaticos de tipo String para determinar los colores de los textos en la terminal
+ *
+ *  @author Ximena López
+ *  @author Adrián de Armas
+ *  @version 1.0
+ */
 public class Color {
 
     public static final String RESET = "\u001B[0m";

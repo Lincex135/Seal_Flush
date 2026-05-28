@@ -3,26 +3,39 @@ package util;
 import objetos.Jugador;
 
 import java.util.ArrayList;
+/**
+ *  Clase con booleanos de los eventos especiales activados
+ *
+ *  @author Ximena López
+ *  @author Adrián de Armas
+ *  @version 1.0
+ */
 
 public class EventoEspecial {
 
     private boolean selloDorado;
     private boolean selloOscuro;
     private int paloDominante;
-    private boolean flushCongelado;
     private Jugador jugadorGoldenSeal;
     private ArrayList<Jugador> jugadoresDarkSeal;
     private static EventoEspecial instancia;
 
+    /**
+     * Constructor para inicializar los eventos especiales
+     */
     public EventoEspecial() {
         this.selloDorado = false;
         this.selloOscuro = false;
         this.paloDominante = UtilEventosEspeciales.establecerPaloDominante();
-        this.flushCongelado = false;
         this.jugadorGoldenSeal = null;
         this.jugadoresDarkSeal = new ArrayList<>();
     }
 
+    /**
+     * Devuelve la única instancia de EventoEspecial, creándola si aún no existe
+     *
+     * @return la instancia única de EventoEspecial
+     */
     public static EventoEspecial getInstancia() {
         if (instancia == null){
             instancia = new EventoEspecial();
@@ -41,10 +54,6 @@ public class EventoEspecial {
 
     public int getPaloDominante() {
         return paloDominante;
-    }
-
-    public boolean isFlushCongelado() {
-        return flushCongelado;
     }
 
     public Jugador getJugadorGoldenSeal() {
@@ -66,10 +75,6 @@ public class EventoEspecial {
 
     public void setPaloDominante(int paloDominante) {
         this.paloDominante = paloDominante;
-    }
-
-    public void setFlushCongelado(boolean flushCongelado) {
-        this.flushCongelado = flushCongelado;
     }
 
     public void setJugadorGoldenSeal(Jugador jugadorGoldenSeal) {

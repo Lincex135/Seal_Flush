@@ -1,5 +1,13 @@
 package util;
 
+/**
+ * Clase enum que determina los diferentes tipos de mano
+ *
+ * @author Ximena López
+ * @author Adrián de Armas
+ * @version 1.0
+ */
+
 // Los tipos de mano del poker, ordenados de menor a mayor valor
 public enum TipoMano {
     CARTA_ALTA("Carta alta", 0),

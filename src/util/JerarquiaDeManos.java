@@ -2,6 +2,13 @@ package util;
 
 import objetos.Carta;
 
+/**
+ * Clase con atributos Estaticos que muestran en pantalla ejemplos de los diferentes tipos de manos que existen
+ *
+ * @author Ximena López
+ * @author Adrián de Armas
+ * @version 1.0
+ */
 public class JerarquiaDeManos {
 
     public static final Carta[] ESCALERA_REAL = {

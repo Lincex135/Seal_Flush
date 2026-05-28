@@ -6,8 +6,21 @@ import java.util.ArrayList;
 
 import objetos.*;
 
+/**
+ * Clase util para la optimización del proyecto
+ *
+ *  @author Ximena López
+ *  @author Adrián de Armas
+ *  @version 1.0
+ */
 public class Util {
 
+    /**
+     * Metodo estático para obtener las líneas de las cartas
+     *
+     * @param carta objeto de tipo Carta
+     * @return devuelve un array de String que representa la carta en diferentes líneas
+     */
     public static String[] obtenerLineasCarta(Carta carta) {
         String[] lineas = new String[6];
 
@@ -59,6 +72,11 @@ public class Util {
         return lineas;
     }
 
+    /**
+     * Metodo que sirve para mostrar las cartas en pantalla
+     *
+     * @param cartas array de tipo Carta
+     */
     // Imprime varias cartas horizontalmente, tu mano
     public static void pintarCartas(Carta[] cartas) {
         String[][] todasLineas = new String[cartas.length][];
@@ -79,6 +97,9 @@ public class Util {
         System.out.println();
     }
 
+    /**
+     * Metodo que muestra en pantalla el inicio que es una foca y unas cartas
+     */
     public static void printInicio() {
         // Centrado vertical: padding arriba y abajo para cartas
         int altFoca = Ascii.FOCA.length;    // 25
@@ -104,6 +125,13 @@ public class Util {
         }
     }
 
+    /**
+     * Metodo para comprobar que el nombre del jugador no está repetido
+     *
+     * @param listaJugadores lista de jugadores
+     * @param nombre nombre del jugador
+     * @return devuelve true si el jugador está repetido y false si no
+     */
     public static boolean nombreRepetido(ArrayList<Jugador> listaJugadores, String nombre) {
         for (Jugador jugador : listaJugadores) {
             if (jugador.getNomJugador().equals(nombre)) {
@@ -113,6 +141,9 @@ public class Util {
         return false;
     }
 
+    /**
+     * Metodo para limpiar la terminal al pasar de turno
+     */
     public static void limpiar() {
         try {
             String os = System.getProperty("os.name").toLowerCase();
@@ -138,6 +169,14 @@ public class Util {
         }
     }
 
+    /**
+     * Metodo para mostrar por pantalla el estado de la partida
+     *
+     * @param tablero objeto de tipo Tablero
+     * @param bote objeto de tipo Bote
+     * @param listaJugadores lista de jugadores
+     * @param fase nombre de la fase
+     */
     public static void printEstadoPartida(Tablero tablero, Bote bote, ArrayList<Jugador> listaJugadores, String fase) {
         System.out.println("                                                                    -----  " + fase + "  -----");
         System.out.println();
@@ -160,6 +199,13 @@ public class Util {
         }
     }
 
+    /**
+     * Metodo que ordena los jugadores de la lista de jugadores
+     *
+     * @param listaJugadores lista de jugadores
+     * @param aleatorio numero aleatorio
+     * @return devuelve una lista ordenada de los jugadores
+     */
     public static ArrayList<Jugador> reordenar(ArrayList<Jugador> listaJugadores, int aleatorio) {
         int n = listaJugadores.size();
         ArrayList<Jugador> ordenJugadores = new ArrayList<Jugador>();
@@ -174,6 +220,13 @@ public class Util {
         return ordenJugadores;
     }
 
+    /**
+     * Metodo para apostar las ciegas
+     *
+     * @param ordenJugadores lista de jugadores ordenada
+     * @param bote objeto bote
+     * @param tablero objeto talbero
+     */
     public static void apostarCiegas(ArrayList<Jugador> ordenJugadores, Bote bote, Tablero tablero) {
         if (ordenJugadores.size() < 2) {
             return;
@@ -197,6 +250,12 @@ public class Util {
         tablero.setApuestaRonda(10);
     }
 
+    /**
+     * Metodo para establecer el dealer la primera ronda
+     *
+     * @param listaJugadores lista de jugadores
+     * @param aleatorio numero aleatorio
+     */
     public static void establecerDealer(ArrayList<Jugador> listaJugadores, int aleatorio) {
         for (Jugador jugador : listaJugadores) {
             jugador.setEsDealerActual(false);
@@ -204,6 +263,13 @@ public class Util {
         listaJugadores.get(aleatorio).setEsDealerActual(true);
     }
 
+    /**
+     * Metodo para obtener el dealer a partir de la segunda ronda
+     *
+     * @param listaJugadores lista de jugadores
+     * @param dealerActual posicion del dealer actual
+     * @return devuelve la posición del siguiente dealer
+     */
     public static int obtenerSiguienteDealer(ArrayList<Jugador> listaJugadores, int dealerActual) {
         int n = listaJugadores.size();
         int siguienteDealer = dealerActual;
@@ -215,6 +281,16 @@ public class Util {
         return siguienteDealer;
     }
 
+    /**
+     * Metodo para ejecutar las diferentes acciones que puede hacer el jugador durante la partida
+     *
+     * @param opcion numero de la opcion
+     * @param jugador objeto Jugador
+     * @param bote objeto Bote
+     * @param tablero objeto Tablero
+     * @param teclado objeto Scanner
+     * @return devuelve true si la opción elegida es válida y false si no
+     */
     public static boolean ejecutarAccion(int opcion, Jugador jugador, Bote bote,
                                          Tablero tablero, Scanner teclado) {
         switch (opcion) {
@@ -279,6 +355,17 @@ public class Util {
         }
     }
 
+    /**
+     * Metodo para ejecutar el torneo
+     *
+     * @param jugador objeto Jugador
+     * @param bote objeto Bote
+     * @param tablero objeto Tablero
+     * @param listaJugadores lista de jugadores
+     * @param fase nombre de fase
+     * @param teclado objeto escaner
+     * @return devuelve true si el torneo se puede ejecutar y false si no
+     */
     public static boolean ejecutarTurno(Jugador jugador, Bote bote, Tablero tablero, ArrayList<Jugador> listaJugadores, String fase, Scanner teclado) {
 
         int puedenActuar = 0;
@@ -335,6 +422,12 @@ public class Util {
         return true;
     }
 
+    /**
+     * Metodo para saver si queda solo un jugador
+     *
+     * @param listaJugadores lista de jugadores
+     * @return devuelve true si solo queda un jugador activo y false si no
+     */
     public static boolean soloQuedaUnJugador(ArrayList<Jugador> listaJugadores) {
         int jugadoresActivos = 0;
         for (Jugador jugador : listaJugadores) {
@@ -350,6 +443,11 @@ public class Util {
      * muestra el resultado por pantalla y entrega el bote al ganador.
      * En caso de empate, el bote se reparte a partes iguales.
      * Si no se puede repartir equitativamente, el bote se quedará con un resto lo demás se repartirá en múltiplos de 5
+     *
+     * @param listaJugadores lista de jugadores
+     * @param tablero objeto Tablero
+     * @param bote objeto Bote
+     * @param eventos objeto EventosEspeciales
      */
     public static void resolverShowdown(ArrayList<Jugador> listaJugadores, Tablero tablero, Bote bote, EventoEspecial eventos) {
 
@@ -441,6 +539,13 @@ public class Util {
         System.out.println();
     }
 
+    /**
+     * Metodo para entregar el bote al jugador ganador
+     *
+     * @param jugadorGanador jugador ganador
+     * @param cantidadBase cantidad de fichas en el bote
+     * @param tieneFlushDominante true si está activo y false si no
+     */
     public static void entregarBote(Jugador jugadorGanador, int cantidadBase, boolean tieneFlushDominante) {
         int cantidadFinal = cantidadBase;
 
@@ -467,12 +572,27 @@ public class Util {
         jugadorGanador.setFichas(jugadorGanador.getFichas() + cantidadFinal);
     }
 
+    /**
+     * Metodo para obtener los eventos especiales
+     *
+     * @param eventos objeto EventoEspecial
+     * @param listaJugadores lista de jugadores
+     * @param tablero objeto Tablero
+     * @param jugadoresGanadores lista de jugadores ganadores
+     */
     public static void comprobarEventosEspeciales(EventoEspecial eventos, ArrayList<Jugador> listaJugadores, Tablero tablero, ArrayList<Jugador> jugadoresGanadores) {
         HashMap<Jugador,TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(listaJugadores,tablero);
         UtilEventosEspeciales.comprobarSelloDorado(eventos,jugadoresGanadores,jugadoresYTipoMano);
         UtilEventosEspeciales.comprobarSelloOscuro(eventos,jugadoresGanadores,jugadoresYTipoMano,listaJugadores);
     }
 
+    /**
+     * Metodo que devuelve los jugadores y su tipo de mano
+     *
+     * @param listaJugadores lista de jugadores
+     * @param tablero objeto tablero
+     * @return devuelve un HashMap que muestra el jugador y su tipo de mano
+     */
     public static HashMap<Jugador,TipoMano> devolverJugadoresYTipoMano(ArrayList<Jugador> listaJugadores, Tablero tablero) {
         HashMap<Jugador,TipoMano> jugadoresYTipoMano = new HashMap<Jugador,TipoMano>();
         for (Jugador jugadorActual : listaJugadores) {
@@ -483,6 +603,13 @@ public class Util {
         return jugadoresYTipoMano;
     }
 
+    /**
+     * Metodo que devuelve los jugadores y su mano evaluada
+     *
+     * @param listaJugadores lista de jugadores
+     * @param tablero objeto tablero
+     * @return devuelve un HashMap que muestra los jugadores y su mano evaluada
+     */
     public static HashMap<Jugador, EvaluadorMano> devolverJugadoresYEvaluacion(ArrayList<Jugador> listaJugadores, Tablero tablero) {
         HashMap<Jugador, EvaluadorMano> jugadoresYEvaluacion = new HashMap<Jugador, EvaluadorMano>();
         for (Jugador jugadorActual : listaJugadores) {
@@ -493,16 +620,14 @@ public class Util {
         return jugadoresYEvaluacion;
     }
 
-    public static ArrayList<Jugador> obtenerJugadoresGanadores(ArrayList<Jugador> jugadoresActivos,ArrayList<EvaluadorMano> listaEvaluaciones, int valorManoGanadora) {
-        ArrayList<Jugador> listaGanadores = new ArrayList<>();
-        for (int posicion = 0; posicion < jugadoresActivos.size(); posicion++) {
-            if (listaEvaluaciones.get(posicion).getValor() == valorManoGanadora) {
-                listaGanadores.add(jugadoresActivos.get(posicion));
-            }
-        }
-        return listaGanadores;
-    }
-
+    /**
+     * Metodo para obtener los jugadores ganadores
+     *
+     * @param jugadoresActivos lista de jugadores activos
+     * @param jugadoresYEvaluacion HashMap de Jugador y EvaluadorMano
+     * @param valorManoGanadora valor de la mano ganadora
+     * @return
+     */
     public static ArrayList<Jugador> obtenerJugadoresGanadores(ArrayList<Jugador> jugadoresActivos, HashMap<Jugador, EvaluadorMano> jugadoresYEvaluacion, int valorManoGanadora) {
         ArrayList<Jugador> listaGanadores = new ArrayList<>();
         for (Jugador jugadorActual : jugadoresActivos) {
@@ -513,6 +638,12 @@ public class Util {
         return listaGanadores;
     }
 
+    /**
+     * Metodo para obtener los jugadores activos
+     *
+     * @param listaJugadores lista de jugadores
+     * @return devuelve un ArrayList de los jugadores activos
+     */
     public static ArrayList<Jugador> obtenerJugadoresActivos(ArrayList<Jugador> listaJugadores) {
         ArrayList<Jugador> jugadoresActivos = new ArrayList<>();
         for (Jugador jugadorActual : listaJugadores) {
@@ -523,26 +654,13 @@ public class Util {
         return jugadoresActivos;
     }
 
-    public static ArrayList<EvaluadorMano> obtenerListaEvaluaciones(ArrayList<Jugador> jugadoresActivos, Tablero tablero) {
-        ArrayList<EvaluadorMano> listaEvaluaciones = new ArrayList<>();
-        for (Jugador jugadorActual : jugadoresActivos) {
-            Mano manoJugador = new Mano(jugadorActual, tablero);
-            EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
-            listaEvaluaciones.add(evaluacionJugador);
-        }
-        return listaEvaluaciones;
-    }
-
-    public static int obtenerValorManoGanadora(ArrayList<EvaluadorMano> listaEvaluaciones) {
-        int valorManoGanadora = -1;
-        for (EvaluadorMano evaluacionActual : listaEvaluaciones) {
-            if (evaluacionActual.getValor() > valorManoGanadora) {
-                valorManoGanadora = evaluacionActual.getValor();
-            }
-        }
-        return valorManoGanadora;
-    }
-
+    /**
+     * Metodo para obtener el valor de la mano ganadora
+     *
+     * @param jugadoresYEvaluacion HashMap de Jugador y EvaluadorMano
+     * @param jugadoresActivos lista de jugadores activos
+     * @return
+     */
     public static int obtenerValorManoGanadora(HashMap<Jugador, EvaluadorMano> jugadoresYEvaluacion, ArrayList<Jugador> jugadoresActivos) {
         int valorManoGanadora = -1;
         for (Jugador jugadorActual : jugadoresActivos) {
@@ -553,6 +671,12 @@ public class Util {
         return valorManoGanadora;
     }
 
+    /**
+     * Metodo para obtener el nombre del jugador ganador
+     *
+     * @param listaJugadores lista de jugadores
+     * @return devuelve el nombre del jugador ganador
+     */
     public static String obtenerNomJugadorGanador(ArrayList<Jugador> listaJugadores) {
         String nomJugadorGanador = "";
         int fichasMaximas = -1;
