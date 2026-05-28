@@ -13,8 +13,8 @@ public class Main {
         boolean empezar = false;
         boolean primeraPartida = false;
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
-        ArrayList<Jugador> jugadoresGanadores ;
-        ArrayList<EvaluadorMano> listaEvaluaciones ;
+        ArrayList<Jugador> jugadoresGanadores;
+        ArrayList<EvaluadorMano> listaEvaluaciones;
         do {
             System.out.print(Ascii.MENU1);
             respuesta1 = Integer.parseInt(teclado.nextLine());
@@ -124,7 +124,7 @@ public class Main {
             EventoEspecial eventos = EventoEspecial.getInstancia();
             int paloDominante = eventos.getPaloDominante();
             boolean partidaAcabada = false;
-            boolean rondaAcabada = false;
+            boolean rondaAcabada;
 
             for (rondaActual = 1; !partidaAcabada; rondaActual++) {
                 rondaAcabada = false;
@@ -216,8 +216,22 @@ public class Main {
                         rondaAcabada = true;
                     }
                 }
-                if (respuestaModo == 1) {
+                int jugadoresNoEliminados = 0;
+                int numFichasGanadoras = 0;
+                String nomJugadorGanadorPartida = Util.obtenerNomJugadorGanador(listaJugadores);
+                for (Jugador jugador : listaJugadores) {
+                    if (!jugador.estaEliminado() && jugador.getFichas() > 0) {
+                        nomJugadorGanadorPartida = jugador.getNomJugador();
+                        numFichasGanadoras = jugador.getFichas();
+                        jugadoresNoEliminados++;
+                    }
+                }
+                if (jugadoresNoEliminados == 1) {
+                    System.out.println(Color.CYAN + "El ganador de la partida ha sido: " + Color.PINK + nomJugadorGanadorPartida + Color.CYAN + " con " + Color.YELLOW + numFichasGanadoras + Color.CYAN + " fichas." + Color.RESET);
+                    partidaAcabada = true;
+                } else if (respuestaModo == 1) {
                     if (rondaActual == numRondas) {
+                        System.out.println(Color.CYAN + "El ganador de la partida ha sido: " + Color.PINK + nomJugadorGanadorPartida + Color.CYAN + " con " + Color.YELLOW + numFichasGanadoras + Color.CYAN + " fichas." + Color.RESET);
                         partidaAcabada = true;
                     }
                 }

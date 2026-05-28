@@ -241,7 +241,7 @@ public class Util {
                 }
                 jugador.apostar(total);
                 if (jugador.estaAllIn()) {
-                    System.out.println(Color.YELLOW + "¡¡¡" + jugador.getNomJugador() + " hace ALL-IN!!!" + Color.RESET);
+                    System.out.println(Color.YELLOW + "¡¡¡" + jugador.getNomJugador() + " hace ALL-IN!!!" + Color.RESET + "\n");
                 }
 
                 bote.actualizarCantidad(total);
@@ -261,14 +261,13 @@ public class Util {
         }
     }
 
-    public static boolean ejecutarTurno(Jugador jugador, Bote bote, Tablero tablero,
-                                        ArrayList<Jugador> listaJugadores, String fase, Scanner teclado) {
+    public static boolean ejecutarTurno(Jugador jugador, Bote bote, Tablero tablero, ArrayList<Jugador> listaJugadores, String fase, Scanner teclado) {
 
-        int activos = 0;
+        int puedenActuar = 0;
         for (Jugador j : listaJugadores) {
-            if (j.estaActivo()) activos++;
+            if (j.estaActivo()) puedenActuar++;
         }
-        if (!jugador.estaActivo() || activos == 1) {
+        if (!jugador.estaActivo() || puedenActuar == 0) {
             return false;
         }
 
@@ -404,6 +403,13 @@ public class Util {
             System.out.println();
             System.out.println("Cada uno recibe " + fichasPorJugador + " fichas." + Color.RESET);
 
+            // tras repartir fichas del bote, marcar como eliminado quien tenga 0
+            for (Jugador jugador : listaJugadores) {
+                if (jugador.getFichas() == 0 && !jugador.estaEliminado()) {
+                    jugador.setEstado(Estado.ELIMINADO);// llamar a jugador.eliminar() o setear estado directamente
+                }
+            }
+
             for (Jugador jugadorGanador : listaGanadores) {
                 jugadorGanador.setFichas(jugadorGanador.getFichas() + fichasPorJugador);
             }
@@ -441,7 +447,7 @@ public class Util {
     public static ArrayList<Jugador> obtenerJugadoresActivos(ArrayList<Jugador> listaJugadores) {
         ArrayList<Jugador> jugadoresActivos = new ArrayList<>();
         for (Jugador jugadorActual : listaJugadores) {
-            if (jugadorActual.estaActivo()) {
+            if (jugadorActual.estaActivo() || jugadorActual.estaAllIn()) {
                 jugadoresActivos.add(jugadorActual);
             }
         }
@@ -467,5 +473,17 @@ public class Util {
             }
         }
         return valorManoGanadora;
+    }
+
+    public static String obtenerNomJugadorGanador(ArrayList<Jugador> listaJugadores) {
+        String nomJugadorGanador = "";
+        int fichasMaximas = -1;
+        for (Jugador jugador : listaJugadores) {
+            if (jugador.getFichas() > fichasMaximas) {
+                fichasMaximas = jugador.getFichas();
+                nomJugadorGanador = jugador.getNomJugador();
+            }
+        }
+        return nomJugadorGanador;
     }
 }
