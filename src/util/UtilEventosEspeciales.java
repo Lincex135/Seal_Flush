@@ -11,7 +11,7 @@ public class UtilEventosEspeciales {
         for (Jugador jugadorActual : jugadoresGanadores) {
             if (jugadoresYTipoMano.containsKey(jugadorActual)){
                 jugadoresYTipoMano.get(jugadorActual);
-                if (jugadoresYTipoMano.get(jugadorActual).toString().contains("ESCALERA")){
+                if (jugadoresYTipoMano.get(jugadorActual).toString().contains("ESCALERA_") || jugadoresYTipoMano.get(jugadorActual).toString().contains("COLOR")){
                     eventos.setSelloDorado(true);
                     jugadorActual.setTieneSelloDorado(true);
                 }
@@ -23,7 +23,7 @@ public class UtilEventosEspeciales {
         for (Jugador jugadorActual : listaJugadores) {
             if (jugadoresYTipoMano.containsKey(jugadorActual)){
                 jugadoresYTipoMano.get(jugadorActual);
-                if (jugadoresYTipoMano.get(jugadorActual).toString().contains("ESCALERA") && !jugadoresGanadores.contains(jugadorActual)){
+                if (jugadoresYTipoMano.get(jugadorActual).toString().contains("ESCALERA_") || jugadoresYTipoMano.get(jugadorActual).toString().contains("COLOR") && !jugadoresGanadores.contains(jugadorActual)){
                     eventos.setSelloOscuro(true);
                     jugadorActual.setTieneSelloOscuro(true);
                 }

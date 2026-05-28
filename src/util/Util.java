@@ -74,8 +74,9 @@ public class Util {
                 sb.append(todasLinea[fila]);
                 sb.append("  ");
             }
-            System.out.println(sb + "\n");
+            System.out.println(sb);
         }
+        System.out.println();
     }
 
     public static void printInicio() {
@@ -320,7 +321,7 @@ public class Util {
     public static boolean soloQuedaUnJugador(ArrayList<Jugador> listaJugadores) {
         int jugadoresActivos = 0;
         for (Jugador jugador : listaJugadores) {
-            if (jugador.estaActivo()) {
+            if (jugador.estaActivo() || jugador.estaAllIn()) {
                 jugadoresActivos++;
             }
         }
@@ -333,8 +334,9 @@ public class Util {
      * En caso de empate, el bote se reparte a partes iguales.
      * Si no se puede repartir equitativamente, el bote se quedará con un resto lo demás se repartirá en múltiplos de 5
      */
-    public static void resolverShowdown(ArrayList<Jugador> listaJugadores,
-                                        Tablero tablero, Bote bote) {
+    public static void resolverShowdown(ArrayList<Jugador> listaJugadores, Tablero tablero, Bote bote, EventoEspecial eventos, ArrayList<Jugador> jugadoresGanadores, int valorManoGanadora) {
+
+        comprobarEventosEspeciales(eventos,listaJugadores, tablero, jugadoresGanadores);
         int resto = 0; // El resto del bote (puede no ser 0)
         // Recopilar solo los jugadores que siguen activos (no se han retirado)
         ArrayList<Jugador> jugadoresActivos = obtenerJugadoresActivos(listaJugadores);
@@ -364,13 +366,7 @@ public class Util {
             System.out.println(Color.YELLOW + manoJugador.getDescripcion() + Color.RESET);
         }
 
-        // Buscar el valor más alto entre todos los jugadores
-        int valorManoGanadora = -1;
-        for (EvaluadorMano evaluacionActual : listaEvaluaciones) {
-            if (evaluacionActual.getValor() > valorManoGanadora) {
-                valorManoGanadora = evaluacionActual.getValor();
-            }
-        }
+        obtenerValorManoGanadora(listaEvaluaciones);
 
         // Recopilar los jugadores que tienen ese valor máximo (puede haber empate)
         ArrayList<Jugador> listaGanadores = obtenerJugadoresGanadores(jugadoresActivos, listaEvaluaciones, valorManoGanadora);
@@ -412,7 +408,6 @@ public class Util {
                 jugadorGanador.setFichas(jugadorGanador.getFichas() + fichasPorJugador);
             }
         }
-
         bote.setCantidad(resto);
         System.out.println();
     }
@@ -459,8 +454,18 @@ public class Util {
             Mano manoJugador = new Mano(jugadorActual, tablero);
             EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
             listaEvaluaciones.add(evaluacionJugador);
-
         }
         return listaEvaluaciones;
+    }
+
+    public static int obtenerValorManoGanadora(ArrayList<EvaluadorMano> listaEvaluaciones) {
+        // Buscar el valor más alto entre todos los jugadores
+        int valorManoGanadora = -1;
+        for (EvaluadorMano evaluacionActual : listaEvaluaciones) {
+            if (evaluacionActual.getValor() > valorManoGanadora) {
+                valorManoGanadora = evaluacionActual.getValor();
+            }
+        }
+        return valorManoGanadora;
     }
 }

@@ -9,10 +9,12 @@ public class Main {
         Scanner teclado = new Scanner(System.in);
         Util.printInicio();
         System.out.println();
-        int respuesta1, respuestaModo = -1, numRondas = -1, rondaActual;
+        int respuesta1, respuestaModo = -1, numRondas = -1, rondaActual, valorManoGanadora = -1;
         boolean empezar = false;
         boolean primeraPartida = false;
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
+        ArrayList<Jugador> jugadoresGanadores ;
+        ArrayList<EvaluadorMano> listaEvaluaciones ;
         do {
             System.out.print(Ascii.MENU1);
             respuesta1 = Integer.parseInt(teclado.nextLine());
@@ -207,7 +209,10 @@ public class Main {
                         }
                     }
                     if (Util.soloQuedaUnJugador(listaJugadores) || numFase == 4) {
-                        Util.resolverShowdown(listaJugadores, tablero, bote);
+                        listaEvaluaciones = Util.obtenerListaEvaluaciones(listaJugadores, tablero);
+                        valorManoGanadora = Util.obtenerValorManoGanadora(listaEvaluaciones);
+                        jugadoresGanadores = Util.obtenerJugadoresGanadores(listaJugadores, listaEvaluaciones, valorManoGanadora);
+                        Util.resolverShowdown(listaJugadores, tablero, bote, eventos, jugadoresGanadores, valorManoGanadora);
                         rondaAcabada = true;
                     }
                 }

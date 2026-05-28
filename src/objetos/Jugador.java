@@ -90,9 +90,6 @@ public class Jugador {
         if (estado == Estado.RETIRADO) {
             estado = Estado.ACTIVO;
         }
-        if (fichas == 0 || estado == Estado.ELIMINADO) {
-            estado = Estado.ELIMINADO;
-        }
         descartarMano();
         setApuestaActual(0);
     }
