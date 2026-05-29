@@ -244,10 +244,20 @@ public class Util {
         System.out.println("La ciega pequeña (" + ordenJugadores.get(indicePequena).getNomJugador() + ") son 5 fichas " +
                 "y la ciega grande (" + ordenJugadores.get(indiqueGrande).getNomJugador() + ") son 10 fichas.");
         System.out.println();
-        ordenJugadores.get(indicePequena).apostar(5);
-        ordenJugadores.get(indiqueGrande).apostar(10);
-        bote.actualizarCantidad(15);
-        tablero.setApuestaRonda(10);
+        Jugador jugPequena = ordenJugadores.get(indicePequena);
+        Jugador jugGrande  = ordenJugadores.get(indiqueGrande);
+
+        int cantPequena = Math.min(5,  jugPequena.getFichas());
+        int cantGrande  = Math.min(10, jugGrande.getFichas());
+
+        jugPequena.apostar(cantPequena);
+        jugGrande.apostar(cantGrande);
+
+        if (jugPequena.getFichas() == 0) jugPequena.setEstado(Estado.ALL_IN);
+        if (jugGrande.getFichas()  == 0) jugGrande.setEstado(Estado.ALL_IN);
+
+        bote.actualizarCantidad(cantPequena + cantGrande);
+        tablero.setApuestaRonda(cantGrande);
     }
 
     /**
