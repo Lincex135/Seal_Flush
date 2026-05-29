@@ -609,9 +609,11 @@ public class Util {
     public static HashMap<Jugador,TipoMano> devolverJugadoresYTipoMano(ArrayList<Jugador> listaJugadores, Tablero tablero) {
         HashMap<Jugador,TipoMano> jugadoresYTipoMano = new HashMap<Jugador,TipoMano>();
         for (Jugador jugadorActual : listaJugadores) {
-            Mano manoJugador = new Mano(jugadorActual, tablero);
-            EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
-            jugadoresYTipoMano.put(jugadorActual, evaluacionJugador.getTipo());
+            if (!jugadorActual.estaEliminado()) {
+                Mano manoJugador = new Mano(jugadorActual, tablero);
+                EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
+                jugadoresYTipoMano.put(jugadorActual, evaluacionJugador.getTipo());
+            }
         }
         return jugadoresYTipoMano;
     }
@@ -626,9 +628,11 @@ public class Util {
     public static HashMap<Jugador, EvaluadorMano> devolverJugadoresYEvaluacion(ArrayList<Jugador> listaJugadores, Tablero tablero) {
         HashMap<Jugador, EvaluadorMano> jugadoresYEvaluacion = new HashMap<Jugador, EvaluadorMano>();
         for (Jugador jugadorActual : listaJugadores) {
-            Mano manoJugador = new Mano(jugadorActual, tablero);
-            EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
-            jugadoresYEvaluacion.put(jugadorActual, evaluacionJugador);
+            if (!jugadorActual.estaEliminado()) {
+                Mano manoJugador = new Mano(jugadorActual, tablero);
+                EvaluadorMano evaluacionJugador = new EvaluadorMano(manoJugador);
+                jugadoresYEvaluacion.put(jugadorActual, evaluacionJugador);
+            }
         }
         return jugadoresYEvaluacion;
     }

@@ -206,7 +206,7 @@ El paquete `java.nio.file` (New I/O) ofrece una API moderna para trabajar con ar
 `GestorEstadisticas.java` para persistir las estadísticas.
 
 ```java
-Path ruta = Paths.get("../datos", "estadisticas.xml");
+Path ruta = Paths.get("../estadisticas", "sealFlush.xml");
 Files.createDirectories(ruta.getParent());
 Files.writeString(ruta, contenidoXml, StandardOpenOption.CREATE,
                   StandardOpenOption.TRUNCATE_EXISTING);
@@ -285,11 +285,24 @@ Las estadísticas se guardan en `estadisticas/sealFlush.xml` con esta estructura
 
 ```
 sealFlush
-└── hallOfFama
-    └── entrada (id, fecha, ganador)
-└── hallOfFama
-    └── jugadores (id, fecha, ganador)
-        └── jugador (nombre, fichasFinales, estadoFinal)
+├── resumen
+│   ├── partidasJugadas
+│   ├── boteMaximoHistorico (valor, fechaHora, ganador)
+│   ├── jugadorConMasFichas (nombre, fichas, fechaHora, ganador)
+│   └── partidaMasLarga (rondas, fechaHora, ganador)
+│    
+├── hallFama
+│   └── entrada (posicion, jugador, fichas, fechaHora, rondas)
+│
+└── partidas
+    └── partida (id, fechaHora)
+        ├── ganador
+        ├── fichasGanador
+        ├── rondasJugadas
+        ├── boteMaximo
+        ├── numJugadores
+        ├── jugadores
+        └── jugador (nombre, fichasFinales, estado)
 ```
 
 ---
