@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<sealFlush fechaActualizacion="2026-05-28 19:25:28">
+<sealFlush fechaActualizacion="2026-05-29 12:25:55">
     <resumen>
-        <partidasJugadas>2</partidasJugadas>
+        <partidasJugadas>4</partidasJugadas>
         <boteMaximoHistorico valor="1500" fechaHora="2026-05-28 19:04:03" ganador="lincex" />
         <jugadorConMasFichas nombre="lincex" fichas="1500" fechaHora="2026-05-28 19:04:03" />
         <partidaMasLarga rondas="3" fechaHora="2026-05-28 19:25:28" ganador="adripan" />
@@ -10,6 +9,8 @@
     <hallFama>
         <entrada posicion="1" jugador="lincex" fichas="1500" fechaHora="2026-05-28 19:04:03" rondas="1" />
         <entrada posicion="2" jugador="adripan" fichas="1475" fechaHora="2026-05-28 19:25:28" rondas="3" />
+        <entrada posicion="3" jugador="adri" fichas="1000" fechaHora="2026-05-29 12:25:55" rondas="1" />
+        <entrada posicion="4" jugador="adiran" fichas="500" fechaHora="2026-05-29 12:22:47" rondas="3" />
     </hallFama>
     <partidas>
         <partida id="1" fechaHora="2026-05-28 19:04:03">

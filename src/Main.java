@@ -209,8 +209,8 @@ public class Main {
                     }
 
                     System.out.println("                                                               ----------  RONDA " + rondaActual + "  ----------");
-                    System.out.println("El dealer en la ronda " + rondaActual + " es " + listaJugadores.get(aleatorio).getNomJugador() + " (el jugador subrayado)");
-                    System.out.println("Palo dominante de la ronda: " + Color.YELLOW + UtilEventosEspeciales.obtenerNombrePalo(paloDominante) + Color.RESET);
+                    System.out.println("El dealer en la ronda " + rondaActual + " es " + listaJugadores.get(aleatorio).getNomJugador() + " (el jugador subrayado)\n");
+                    System.out.println("Palo dominante de la partida: " + Color.BLUE + UtilEventosEspeciales.obtenerNombrePalo(paloDominante) + Color.RESET);
                     Util.printEstadoPartida(tablero, bote, listaJugadores, fase);
 
                     ArrayList<Jugador> ordenJugadores = Util.reordenar(listaJugadores, aleatorio);

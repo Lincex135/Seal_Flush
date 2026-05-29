@@ -482,7 +482,6 @@ public class Util {
             Util.pintarCartas(jugadorGanador.getMano());
             entregarBote(jugadorGanador, bote.getCantidad(), false);
             bote.setCantidad(0);
-            comprobarEventosEspeciales(paloDominante, listaJugadores, tablero, jugadoresActivos);
             return;
         }
 
