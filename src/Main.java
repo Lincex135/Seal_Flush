@@ -11,14 +11,17 @@ public class Main {
         Util.printInicio();
         System.out.println();
         int respuesta1, respuestaModo = -1, numRondas = -1, rondaActual;
+        int paloDominante = UtilEventosEspeciales.establecerPaloDominante();
         boolean empezar = false;
         boolean primeraPartida = false;
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
         do {
             System.out.print(Ascii.MENU1);
-            respuesta1 = Integer.parseInt(teclado.nextLine());
+            respuesta1 = Util.leerEntero(teclado);
             System.out.println();
             switch (respuesta1) {
+                case -1: //Vacío, es lo que devuelve leerEntero. Está así para q no salte el error del default
+                    break;
                 case 0:
                     System.out.println("Saliendo del programa. ¡Muchas Gracias por jugar! \uD83E\uDDAD");
                     break;
@@ -27,28 +30,31 @@ public class Main {
 
                     do {
                         System.out.print(Ascii.MENU2);
-                        respuestaModo = Integer.parseInt(teclado.nextLine());
+                        respuestaModo = Util.leerEntero(teclado);
                         System.out.println();
                         switch (respuestaModo) {
+                            case -1: //Vacío también, es lo que devuelve leerEntero. Está así para q no salte el error del default
                             case 0: // vacío, caso de volver
                                 break;
                             case 1:
                                 System.out.print("¿Cuántas rondas va a durar la partida?: ");
-                                numRondas = Integer.parseInt(teclado.nextLine());
+                                numRondas = Util.leerEntero(teclado);
                                 System.out.println();
-                                if (numRondas < 3) {
-                                    System.out.println(Color.RED + "ERROR. Numero de rondas muy bajo. " + Color.RESET + "Se pondrá a 3");
-                                    System.out.println();
-                                    numRondas = 3;
+                                if (numRondas != -1) {
+                                    if (numRondas < 3) {
+                                        System.out.println("\n" + Color.RED + "ERROR. Número de rondas muy bajo. " + "Se pondrá a 3" + Color.RESET + "\n");
+                                        numRondas = 3;
+                                    }
                                 }
 
                             case 2:
                                 int respuesta3;
                                 do {
                                     System.out.print(Ascii.MENU3);
-                                    respuesta3 = Integer.parseInt(teclado.nextLine());
+                                    respuesta3 = Util.leerEntero(teclado);
                                     System.out.println();
                                     switch (respuesta3) {
+                                        case -1: //Vacío también, es lo que devuelve leerEntero. Está así para q no salte el error del default
                                         case 0: // vacío, caso de volver
                                             break;
 
@@ -57,31 +63,32 @@ public class Main {
                                             int numJugadores;
                                             do {
                                                 System.out.print("Introduce el número de jugadores (2-10): ");
-                                                numJugadores = Integer.parseInt(teclado.nextLine());
+                                                numJugadores = Util.leerEntero(teclado);
                                                 System.out.println();
-                                                if (numJugadores < 2 || numJugadores > 10) {
-                                                    System.out.println(Color.RED + "ERROR. El número de jugadores debe estar entre 2 y 10" + Color.RESET);
-                                                    System.out.println();
+                                                if (numJugadores != -1) {
+                                                    if (numJugadores < 2 || numJugadores > 10) {
+                                                        System.out.println("\n" + Color.RED + "ERROR. El número de jugadores debe estar entre 2 y 10" + Color.RESET + "\n");
+                                                    }
                                                 }
                                             } while (numJugadores < 2 || numJugadores > 10);
-                                            System.out.println("Introduce los nombres de los jugadores (en minúsculas)");
-                                            System.out.println();
+                                            System.out.println("Introduce los nombres de los jugadores (en minúsculas)" + "\n");
                                             for (int i = 1; i <= numJugadores; i++) {
                                                 String nombreJugador;
                                                 boolean nombreRepetido, longitudInvalida;
                                                 do {
                                                     System.out.print("  - Jugador " + i + ": ");
-                                                    nombreJugador = teclado.nextLine().toLowerCase();
+                                                    nombreJugador = teclado.nextLine().toLowerCase().replace("ñ", "n").replace(" ", "_");
                                                     nombreRepetido = Util.nombreRepetido(listaJugadores, nombreJugador);
                                                     longitudInvalida = false;
                                                     System.out.println();
-                                                    if (nombreJugador.length() < 3 || nombreJugador.length() > 10) {
+                                                    if (nombreJugador.isEmpty()) {
                                                         longitudInvalida = true;
-                                                        System.out.println(Color.RED + "ERROR. Longitud del nombre inválida" + Color.RESET);
-                                                        System.out.println();
+                                                        System.out.println("\n" + Color.RED + "ERROR. El nombre no puede estar vacío" + Color.RESET + "\n");
+                                                    } else if (nombreJugador.length() < 3 || nombreJugador.length() > 10) {
+                                                        longitudInvalida = true;
+                                                        System.out.println("\n" + Color.RED + "ERROR. Longitud del nombre inválida (3-10 caracteres)" + Color.RESET + "\n");
                                                     } else if (nombreRepetido) {
-                                                        System.out.println(Color.RED + "ERROR. Nombre del jugador repetido" + Color.RESET);
-                                                        System.out.println();
+                                                        System.out.println("\n" + Color.RED + "ERROR. Nombre del jugador repetido" + Color.RESET + "\n");
                                                     }
                                                 } while (nombreRepetido || longitudInvalida);
 
@@ -91,18 +98,36 @@ public class Main {
 
                                         case 2:
                                             System.out.println(new Instrucciones());
+                                            int respuesta4;
+                                            do {
+                                                System.out.print(Ascii.MENU4);
+                                                respuesta4 = Util.leerEntero(teclado);
+                                                System.out.println();
+                                                switch (respuesta4) {
+                                                    case -1: //Vacío también, es lo que devuelve leerEntero. Está así para q no salte el error del default
+                                                    case 0: // vacío, caso de volver
+                                                        break;
+
+                                                    case 1:
+                                                        new JerarquiaDeManos().imprimir();
+                                                        break;
+
+                                                    default:
+                                                        System.out.println("\n" + Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET + "\n");
+                                                        break;
+                                                }
+                                            } while (respuesta4 != 0);
                                             break;
 
                                         default:
-                                            System.out.println(Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET);
-                                            System.out.println();
+                                            System.out.println("\n" + Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET + "\n");
+                                            break;
                                     }
                                 } while (respuesta3 != 0 && !empezar);
                                 break;
 
                             default:
-                                System.out.println(Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET);
-                                System.out.println();
+                                System.out.println("\n" + Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET + "\n");
                         }
                     } while (respuestaModo != 0 && !empezar);
                     break;
@@ -112,15 +137,13 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println(Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET);
-                    System.out.println();
+                    System.out.println("\n" + Color.RED + "ERROR. Introduzca una opción válida" + Color.RESET + "\n");
             }
         } while (respuesta1 != 0 && !empezar);
 
         if (empezar) { // Esto es importante porque si por ejemplo, nos salimos a la primera vez que se printea el menú, el código de dentro de este bloque se ejecutaría igualmente
             Mazo mazo = Mazo.getInstancia();
             Bote bote = Bote.getInstancia();
-            EventoEspecial eventos = EventoEspecial.getInstancia();
             boolean partidaAcabada = false;
             boolean rondaAcabada;
             int boteMaximoPartida = 0;
@@ -139,7 +162,6 @@ public class Main {
                     aleatorio = Util.obtenerSiguienteDealer(listaJugadores, aleatorio);
                     Util.establecerDealer(listaJugadores, aleatorio);
                 }
-                eventos.setPaloDominante(UtilEventosEspeciales.establecerPaloDominante());
 
                 mazo.barajar();
                 for (Jugador jugador : listaJugadores) {
@@ -188,7 +210,7 @@ public class Main {
 
                     System.out.println("                                                               ----------  RONDA " + rondaActual + "  ----------");
                     System.out.println("El dealer en la ronda " + rondaActual + " es " + listaJugadores.get(aleatorio).getNomJugador() + " (el jugador subrayado)");
-                    System.out.println("Palo dominante de la ronda: " + Color.YELLOW + UtilEventosEspeciales.obtenerNombrePalo(eventos.getPaloDominante()) + Color.RESET);
+                    System.out.println("Palo dominante de la ronda: " + Color.YELLOW + UtilEventosEspeciales.obtenerNombrePalo(paloDominante) + Color.RESET);
                     Util.printEstadoPartida(tablero, bote, listaJugadores, fase);
 
                     ArrayList<Jugador> ordenJugadores = Util.reordenar(listaJugadores, aleatorio);
@@ -221,7 +243,7 @@ public class Main {
                         }
                     }
                     if (Util.soloQuedaUnJugador(listaJugadores) || numFase == 4) {
-                        Util.resolverShowdown(listaJugadores, tablero, bote, eventos);
+                        Util.resolverShowdown(listaJugadores, tablero, bote, paloDominante);
                         rondaAcabada = true;
                     }
                 }

@@ -17,15 +17,13 @@ public class UtilEventosEspeciales {
     /**
      * Metodo que comprueba si el evento especial sello dorado está activo
      *
-     * @param eventos objeto EventoEspecial
      * @param jugadoresGanadores lista de jugadores ganadores
      * @param jugadoresYTipoMano hashmap de jugadores y su tipo de mano
      */
-    public static void comprobarSelloDorado(EventoEspecial eventos, ArrayList<Jugador> jugadoresGanadores, HashMap<Jugador, TipoMano> jugadoresYTipoMano) {
+    public static void comprobarSelloDorado(ArrayList<Jugador> jugadoresGanadores, HashMap<Jugador, TipoMano> jugadoresYTipoMano) {
         for (Jugador jugadorActual : jugadoresGanadores) {
             if (jugadoresYTipoMano.containsKey(jugadorActual)) {
-                if (esFlush(jugadoresYTipoMano.get(jugadorActual))) {
-                    eventos.setSelloDorado(true);
+                if (esFlush(jugadoresYTipoMano.get(jugadorActual))) { // que su mano sea flush
                     jugadorActual.setTieneSelloDorado(true);
                 }
             }
@@ -35,16 +33,14 @@ public class UtilEventosEspeciales {
     /**
      * Metodo que comprueba si el evento especial sello oscuro está activo
      *
-     * @param eventos objeto EventoEspecial
      * @param listaJugadores lista de jugadores
      * @param jugadoresYTipoMano hashmap de jugadores y su tipo de mano
      * @param jugadoresGanadores lista de jugadores ganadores
      */
-    public static void comprobarSelloOscuro(EventoEspecial eventos, ArrayList<Jugador> listaJugadores, HashMap<Jugador, TipoMano> jugadoresYTipoMano, ArrayList<Jugador> jugadoresGanadores) {
+    public static void comprobarSelloOscuro(ArrayList<Jugador> listaJugadores, HashMap<Jugador, TipoMano> jugadoresYTipoMano, ArrayList<Jugador> jugadoresGanadores) {
         for (Jugador jugadorActual : listaJugadores) {
             if (jugadoresYTipoMano.containsKey(jugadorActual)) {
-                if (esFlush(jugadoresYTipoMano.get(jugadorActual)) && !jugadoresGanadores.contains(jugadorActual)) {
-                    eventos.setSelloOscuro(true);
+                if (esFlush(jugadoresYTipoMano.get(jugadorActual)) && !jugadoresGanadores.contains(jugadorActual)) { // que tenga flush y no sea ganador
                     jugadorActual.setTieneSelloOscuro(true);
                 }
             }

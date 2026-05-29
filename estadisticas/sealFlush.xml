@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<estadisticas fechaActualizacion="2026-05-28 19:25:28">
+
+<sealFlush fechaActualizacion="2026-05-28 19:25:28">
     <resumen>
         <partidasJugadas>2</partidasJugadas>
         <boteMaximoHistorico valor="1500" fechaHora="2026-05-28 19:04:03" ganador="lincex" />
@@ -36,4 +37,4 @@
             </jugadores>
         </partida>
     </partidas>
-</estadisticas>
+</sealFlush>

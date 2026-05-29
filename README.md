@@ -72,7 +72,6 @@ src/
 │   ├── Util.java                    # Lógica principal: turnos, ciegas, showdown, reordenado
 │   ├── EvaluadorMano.java           # Evalúa y puntúa la mejor mano de 5 entre 7 cartas
 │   ├── TipoMano.java                # Enum con valor numérico: PAREJA → ESCALERA_REAL
-│   ├── EventoEspecial.java          # Estado de los eventos especiales activos
 │   ├── UtilEventosEspeciales.java   # Lógica de activación de eventos especiales
 │   ├── Instrucciones.java           # Texto de instrucciones y jerarquía de manos
 │   ├── Ascii.java                   # Arte ASCII para la pantalla de inicio
@@ -408,29 +407,45 @@ numérico permite determinar la mano ganadora sin `switch` ni cadenas de `if-els
 
 ---
 
+### 9. Códigos de escape ANSI para color en consola
+
+Los terminales modernos interpretan secuencias de escape ANSI para aplicar colores y estilos al texto. Se encapsulan en `Color.java` como constantes `String` estáticas, lo que permite usarlas en cualquier `System.out.println()` sin importar nada.
+
+```java
+public static final String RED    = "\u001B[31m";
+public static final String GREEN  = "\u001B[38;2;98;255;60m";
+public static final String PURPLE = "\u001B[38;5;54m";
+public static final String PINK   = "\u001B[38;5;211m";
+
+public static final String LIGHT_YELLOW_BG = "\u001B[48;5;230m";
+public static final String RESET           = "\u001B[0m";
+```
+
+Todas las secuencias empiezan con `\u001B[` (ESC + `[`) y terminan con `m`. El código que va en medio determina el efecto:
+
+- **Colores estándar** (`\u001B[31m` → rojo): la paleta básica de 8/16 colores, compatible con cualquier terminal
+- **Paleta de 256 colores** (`\u001B[38;5;NNm`): `38;5;` indica color de texto extendido, seguido del índice (0–255). Se usa para el rosa (`211`) o el morado (`54`), que no existen en la paleta básica
+- **Color RGB directo** (`\u001B[38;2;R;G;Bm`): `38;2;` activa el modo *truecolor* con los tres canales. Se usa en el verde personalizado (`98;255;60`) y en algunos fondos. Requiere un terminal compatible con truecolor (la mayoría de los actuales lo son)
+- **Color de fondo**: el mismo esquema pero con `48` en vez de `38` (`\u001B[48;5;230m` → fondo amarillo claro para las cartas)
+- **`RESET`** (`\u001B[0m`): restaura todos los atributos al valor por defecto. Es imprescindible cerrarlo tras cada fragmento coloreado, o el color se propaga al texto siguiente
+
+```java
+System.out.println(Color.RED + "ERROR. Entrada no válida" + Color.RESET);
+```
+
+---
+
 ## 📁 Formato del archivo XML
 
-Las estadísticas se guardan en `datos/estadisticas.xml` con esta estructura:
+Las estadísticas se guardan en `estadisticas/sealFlush.xml` con esta estructura:
 
-```xml
-
-<sealFlush>
-
-    <hallOfFama>
-        <entrada posicion="1" ganador="alberto" fichas="830" rondas="8" fecha="2026-05-26 18:32:10"/>
-    </hallOfFama>
-
-    <partidas>
-        <partida id="1" fecha="2026-05-26 18:32:10" ganador="alberto"
-                 fichasGanador="830" rondasJugadas="8" boteMaximo="120" numJugadores="3">
-            <jugadores>
-                <jugador nombre="alberto" fichasFinales="830" estadoFinal="ACTIVO"/>
-                <jugador nombre="marta" fichasFinales="0" estadoFinal="ELIMINADO"/>
-            </jugadores>
-        </partida>
-    </partidas>
-
-</sealFlush>
+```
+sealFlush
+└── hallOfFama
+    └── entrada (id, fecha, ganador)
+└── hallOfFama
+    └── jugadores (id, fecha, ganador)
+        └── jugador (nombre, fichasFinales, estadoFinal)
 ```
 
 ---
@@ -439,7 +454,7 @@ Las estadísticas se guardan en `datos/estadisticas.xml` con esta estructura:
 
 This was us during the proyect btw
 
-<img align="center" alt="focas" width="200" src="https://c.tenor.com/vPMFS9UZx2oAAAAd/tenor.gif" >
+<img src="https://c.tenor.com/vPMFS9UZx2oAAAAd/tenor.gif" style="display:block; margin:auto;" width="200">
 
 ## 📚 Bibliografía
 

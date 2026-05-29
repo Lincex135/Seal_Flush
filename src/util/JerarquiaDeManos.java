@@ -81,35 +81,34 @@ public class JerarquiaDeManos {
     };
 
     public void imprimir() {
-        System.out.println("Escalera Real: 5 cartas D, J, Q, K y A del mismo palo");
+        System.out.println("Escalera Real: 5 cartas D, J, Q, K y A del mismo palo:\n");
         Util.pintarCartas(ESCALERA_REAL);
         System.out.println();
-        System.out.println("Escalera de color: 5 cartas del mismo palo en orden");
+        System.out.println("Escalera de color: 5 cartas del mismo palo en orden:\n");
         Util.pintarCartas(ESCALERA_DE_COLOR);
         System.out.println();
-        System.out.println("Poker: 4 cartas del mismo valor");
+        System.out.println("Poker: 4 cartas del mismo valor:\n");
         Util.pintarCartas(POKER);
         System.out.println();
-        System.out.println("Full house: Un trío y una pareja");
+        System.out.println("Full house: Un trío y una pareja:\n");
         Util.pintarCartas(FULL_HOUSE);
         System.out.println();
-        System.out.println("util.Color: 5 cartas del mismo palo");
+        System.out.println("Color: 5 cartas del mismo palo:\n");
         Util.pintarCartas(COLOR);
         System.out.println();
-        System.out.println("Escalera: 5 cartas en orden");
+        System.out.println("Escalera: 5 cartas en orden:\n");
         Util.pintarCartas(ESCALERA);
         System.out.println();
-        System.out.println("Trío: 3 cartas del mismo valor");
+        System.out.println("Trío: 3 cartas del mismo valor:\n");
         Util.pintarCartas(TRIO);
         System.out.println();
-        System.out.println("Doble pareja: 2 parejas diferentes");
+        System.out.println("Doble pareja: 2 parejas diferentes:\n");
         Util.pintarCartas(DOBLE_PAREJA);
         System.out.println();
-        System.out.println("Pareja: 2 cartas del mismo valor");
+        System.out.println("Pareja: 2 cartas del mismo valor:\n");
         Util.pintarCartas(PAREJA);
         System.out.println();
-        System.out.println("objetos.Carta alta: la carta más alta de la mesa");
+        System.out.println("Carta alta: la carta más alta de la mesa:\n");
         Util.pintarCartas(CARTA_ALTA);
-        System.out.println();
     }
 }

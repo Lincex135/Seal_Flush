@@ -30,9 +30,13 @@ public class Jugador {
     private int apuestaActual;
 
     /** Indica si el jugador es el dealer en la ronda actual. */
-    public boolean esDealerActual;
-    public boolean tieneSelloDorado;
-    public boolean tieneSelloOscuro;
+    private boolean esDealerActual;
+
+    /** Indica si el jugador tiene sello dorado. */
+    private boolean tieneSelloDorado;
+
+    /** Indica si el jugador tiene sello oscuro. */
+    private boolean tieneSelloOscuro;
 
     /**
      * Crea un jugador con el número y nombre indicados.

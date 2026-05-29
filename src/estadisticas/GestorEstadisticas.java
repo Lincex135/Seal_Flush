@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class GestorEstadisticas {
 
-    private static final Path RUTA_XML = Paths.get("../datos", "estadisticas.xml");
+    private static final Path RUTA_XML = Paths.get("../estadisticas", "sealFlush.xml");
 
     /**
      * Metodo para guardar la partida jugada en el archivo xml
@@ -45,7 +45,7 @@ public class GestorEstadisticas {
             ArrayList<EstadisticasPartida> partidas = leerPartidas();
 
             if (partidas.isEmpty()) {
-                System.out.println(Color.YELLOW + "Todavía no hay estadísticas guardadas." + Color.RESET);
+                System.out.println(Color.ORANGE + "Todavía no hay estadísticas guardadas." + Color.RESET);
                 System.out.println();
                 return;
             }
@@ -54,23 +54,23 @@ public class GestorEstadisticas {
             EstadisticasPartida masFichas = obtenerPartidaMasFichas(partidas);
             EstadisticasPartida masLarga = obtenerPartidaMasLarga(partidas);
 
-            System.out.println(Color.CYAN + "---------- ESTADÍSTICAS HISTÓRICAS ----------" + Color.RESET);
-            System.out.println("Partidas jugadas: " + Color.YELLOW + partidas.size() + Color.RESET);
+            System.out.println(Color.CYAN + "          ---------- ESTADÍSTICAS HISTÓRICAS ----------" + Color.RESET + "\n");
+            System.out.println("Partidas jugadas: " + Color.BLUE + partidas.size() + Color.RESET + "\n");
 
             System.out.println("Bote máximo histórico: "
                     + Color.YELLOW + boteMaximo.getBoteMaximo() + Color.RESET
-                    + " fichas (" + boteMaximo.getFechaHora() + ")");
+                    + " fichas (" + boteMaximo.getFechaHora() + ")\n");
 
             System.out.println("Jugador con más fichas: "
                     + Color.PINK + masFichas.getGanador() + Color.RESET
                     + " con " + Color.YELLOW + masFichas.getFichasGanador() + Color.RESET
-                    + " fichas (" + masFichas.getFechaHora() + ")");
+                    + " fichas (" + masFichas.getFechaHora() + ")\n");
 
             System.out.println("Partida más larga: "
-                    + Color.YELLOW + masLarga.getRondasJugadas() + Color.RESET
+                    + Color.BLUE + masLarga.getRondasJugadas() + Color.RESET
                     + " rondas, ganada por "
                     + Color.PINK + masLarga.getGanador() + Color.RESET
-                    + " (" + masLarga.getFechaHora() + ")");
+                    + " (" + masLarga.getFechaHora() + ")\n");
 
             System.out.println();
 
@@ -182,8 +182,8 @@ public class GestorEstadisticas {
 
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 
-        xml.append("<estadisticas fechaActualizacion=\"")
-                .append(partidas.get(partidas.size() - 1).getFechaHora())
+        xml.append("<sealFlush fechaActualizacion=\"")
+                .append(partidas.getLast().getFechaHora())
                 .append("\">\n");
 
         xml.append("    <resumen>\n");
@@ -221,7 +221,7 @@ public class GestorEstadisticas {
         escribirHallFama(xml, partidas);
         escribirPartidas(xml, partidas);
 
-        xml.append("</estadisticas>\n");
+        xml.append("</sealFlush>\n");
 
         Files.writeString(RUTA_XML, xml.toString());
     }
@@ -284,12 +284,12 @@ public class GestorEstadisticas {
     private static void mostrarHallFama(ArrayList<EstadisticasPartida> partidas) {
         ArrayList<EstadisticasPartida> hallFama = ordenarPorFichas(partidas);
 
-        System.out.println(Color.CYAN + "---------- HALL DE LA FAMA ----------" + Color.RESET);
+        System.out.println(Color.CYAN + "          ---------- HALL DE LA FAMA ----------" + Color.RESET + "\n");
         for (int i = 0; i < hallFama.size() && i < 5; i++) {
             EstadisticasPartida partida = hallFama.get(i);
             System.out.println((i + 1) + ". " + Color.PINK + partida.getGanador() + Color.RESET
                     + " - " + Color.YELLOW + partida.getFichasGanador() + Color.RESET
-                    + " fichas | " + partida.getRondasJugadas() + " rondas | " + partida.getFechaHora());
+                    + " fichas | " + Color.BLUE + partida.getRondasJugadas() + Color.RESET + " rondas | " + partida.getFechaHora() + "\n");
         }
         System.out.println();
     }

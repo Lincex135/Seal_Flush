@@ -9,71 +9,71 @@ package util;
  */
 public class Ascii {
     public static final String[] MENU = {
-            "╔══════════════════════════════╗",
-            "║      S E A L  F L U S H      ║",
-            "║                              ║",
-            "║    - by Ximena & Adrián -    ║",
-            "╚══════════════════════════════╝"
+            Color.PINK + "╔══════════════════════════════╗" + Color.RESET,
+            Color.PINK + "║      S E A L  F L U S H      ║" + Color.RESET,
+            Color.PINK + "║                              ║" + Color.RESET,
+            Color.PINK + "║    - by Ximena & Adrián -    ║" + Color.RESET,
+            Color.PINK + "╚══════════════════════════════╝" + Color.RESET
     };
 
     public static final String[] FOCA = {
-            "               ..-=++=-.                                 ",
-            "          ..-+-.       ..=+:..                           ",
-            "         .=-.              .-=.                          ",
-            "       .-=.                  .--                         ",
-            "      .--    .          ....   :-.                       ",
-            "      :-. ....         ....     -.                       ",
-            "     .--..-%%++.       :+*@#.   :=.                      ",
-            "     .-:..-@@@+..=**-. :%@@%.   :=.                      ",
-            "     .-.....:...=@@@%:...::.... :=. .....                ",
-            "     .-:...:-#=-..==..=++-:..:. :-. .-..--:.   .-----.   ",
-            "     .-:-:..--===+:-===--:.:-. .+.  .=.  .--.:=:.  .=.   ",
-            "      .-:....     ..     ..  ..#.   .:..   =+:    .::.   ",
-            "        .==:.              .:=-     .:-.   ::    .:-.    ",
-            "        .=.      . ...     ...=.      .:-=-..:::=-:.     ",
-            "        -.                    .*..   .. :=...+...        ",
-            "       .+.                      .::--:..    :-           ",
-            "       .=                                  :-.           ",
-            "       .=.                               .--.            ",
-            "      .=.             ...  .::.         .-:              ",
-            "     .-:...           .+.  ..-.       .:=.               ",
-            " ..--:.               .-     .=:     .-:                 ",
-            ".--.      .-+:        .=      ..-+-.=:..                 ",
-            " .:=+===+=:.  .==-:....-:.     ....+.                    ",
-            "                       .:---:...:--:.                    ",
-            "                          ...::...                       "
+            Color.GRAY + "               ..-=++=-.                                 " + Color.RESET,
+            Color.GRAY + "          ..-+-.       ..=+:..                           " + Color.RESET,
+            Color.GRAY + "         .=-.              .-=.                          " + Color.RESET,
+            Color.GRAY + "       .-=.                  .--                         " + Color.RESET,
+            Color.GRAY + "      .--    .          ....   :-.                       " + Color.RESET,
+            Color.GRAY + "      :-. ....         ....     -.                       " + Color.RESET,
+            Color.GRAY + "     .--..-%%++.       :+*@#.   :=.                      " + Color.RESET,
+            Color.GRAY + "     .-:..-@@@+..=**-. :%@@%.   :=.                      " + Color.RESET,
+            Color.GRAY + "     .-.....:...=@@@%:...::.... :=. .....                " + Color.RESET,
+            Color.GRAY + "     .-:...:-#=-..==..=++-:..:. :-. .-..--:.   .-----.   " + Color.RESET,
+            Color.GRAY + "     .-:-:..--===+:-===--:.:-. .+.  .=.  .--.:=:.  .=.   " + Color.RESET,
+            Color.GRAY + "      .-:....     ..     ..  ..#.   .:..   =+:    .::.   " + Color.RESET,
+            Color.GRAY + "        .==:.              .:=-     .:-.   ::    .:-.    " + Color.RESET,
+            Color.GRAY + "        .=.      . ...     ...=.      .:-=-..:::=-:.     " + Color.RESET,
+            Color.GRAY + "        -.                    .*..   .. :=...+...        " + Color.RESET,
+            Color.GRAY + "       .+.                      .::--:..    :-           " + Color.RESET,
+            Color.GRAY + "       .=                                  :-.           " + Color.RESET,
+            Color.GRAY + "       .=.                               .--.            " + Color.RESET,
+            Color.GRAY + "      .=.             ...  .::.         .-:              " + Color.RESET,
+            Color.GRAY + "     .-:...           .+.  ..-.       .:=.               " + Color.RESET,
+            Color.GRAY + " ..--:.               .-     .=:     .-:                 " + Color.RESET,
+            Color.GRAY + ".--.      .-+:        .=      ..-+-.=:..                 " + Color.RESET,
+            Color.GRAY + " .:=+===+=:.  .==-:....-:.     ....+.                    " + Color.RESET,
+            Color.GRAY + "                       .:---:...:--:.                    " + Color.RESET,
+            Color.GRAY + "                          ...::...                       " + Color.RESET
     };
     public static final String[] CARTAS = {
-            "                  ..:....:.                       ",
-            "               .::+::---=+*#++=-::.               ",
-            "             .=+.=:       #.   .**:..-**.         ",
-            "            :#+*=+-     .+:        -+=--=         ",
-            "        .:+=-.. .=:    .-=.           .-=+-.      ",
-            "      .%:...    :=.    .*.               ..:**.   ",
-            "      :+        -+    .%.                     :+  ",
-            "     .+=+       -=   .*.       ..-+.          *:  ",
-            "    -+..-=      =.  .+:    ..+%@@@@-         *:   ",
-            "  :*.   .=-.   .#  .=-  .:#@@@@@@@@%:      .=-    ",
-            "  =-     .*.   :+  =-  .*@@@@@@@@@@@*.     :=.    ",
-            "  ..#:.   .%.  +: -=.  =@@@@@@@@@@@@%-    .*.     ",
-            "    .:+-.  .*..%.-=    -@@@@@@@@@@@@@-   .#.      ",
-            "      .:+-. :=:#:=.    .-**=*@%@@@@@%:  .+.       ",
-            "         .#:.=*-*.         %@+.@@@@@=. .=:        ",
-            "           .+-##.       .=@@@=..=+:.   =-.        ",
-            "            .:#.          .:=:        =#:         ",
-            "             :#+                     ==.          ",
-            "             .+==##-:.             .-=            ",
-            "                 :*.:=++:.        ::+.            ",
-            "                  .%   .-%%=.   +. #.             ",
-            "                   .*++:-=-==++-::#.              ",
-            "                     ==-++--.::.#:                ",
-            "                         =+=-:#                   ",
-            "                           :.:                    "
+            Color.PURPLE + "                  ..:....:.                       " + Color.RESET,
+            Color.PURPLE + "               .::+::---=+*#++=-::.               " + Color.RESET,
+            Color.PURPLE + "             .=+.=:       #.   .**:..-**.         " + Color.RESET,
+            Color.PURPLE + "            :#+*=+-     .+:        -+=--=         " + Color.RESET,
+            Color.PURPLE + "        .:+=-.. .=:    .-=.           .-=+-.      " + Color.RESET,
+            Color.PURPLE + "      .%:...    :=.    .*.               ..:**.   " + Color.RESET,
+            Color.PURPLE + "      :+        -+    .%.                     :+  " + Color.RESET,
+            Color.PURPLE + "     .+=+       -=   .*.       ..-+.          *:  " + Color.RESET,
+            Color.PURPLE + "    -+..-=      =.  .+:    ..+%@@@@-         *:   " + Color.RESET,
+            Color.PURPLE + "  :*.   .=-.   .#  .=-  .:#@@@@@@@@%:      .=-    " + Color.RESET,
+            Color.PURPLE + "  =-     .*.   :+  =-  .*@@@@@@@@@@@*.     :=.    " + Color.RESET,
+            Color.PURPLE + "  ..#:.   .%.  +: -=.  =@@@@@@@@@@@@%-    .*.     " + Color.RESET,
+            Color.PURPLE + "    .:+-.  .*..%.-=    -@@@@@@@@@@@@@-   .#.      " + Color.RESET,
+            Color.PURPLE + "      .:+-. :=:#:=.    .-**=*@%@@@@@%:  .+.       " + Color.RESET,
+            Color.PURPLE + "         .#:.=*-*.         %@+.@@@@@=. .=:        " + Color.RESET,
+            Color.PURPLE + "           .+-##.       .=@@@=..=+:.   =-.        " + Color.RESET,
+            Color.PURPLE + "            .:#.          .:=:        =#:         " + Color.RESET,
+            Color.PURPLE + "             :#+                     ==.          " + Color.RESET,
+            Color.PURPLE + "             .+==##-:.             .-=            " + Color.RESET,
+            Color.PURPLE + "                 :*.:=++:.        ::+.            " + Color.RESET,
+            Color.PURPLE + "                  .%   .-%%=.   +. #.             " + Color.RESET,
+            Color.PURPLE + "                   .*++:-=-==++-::#.              " + Color.RESET,
+            Color.PURPLE + "                     ==-++--.::.#:                " + Color.RESET,
+            Color.PURPLE + "                         =+=-:#                   " + Color.RESET,
+            Color.PURPLE + "                           :.:                    " + Color.RESET
     };
     public static final String MENU1 =
-            "═════════════════════════════════════════════════════════════════\n" +
+            "═══════════════════════════════════════════════════════════════════\n" +
                     "  [ 1 ]  Empezar Partida     [ 2 ]  Estadísticas     [ 0 ]  Salir\n" +
-                    "═════════════════════════════════════════════════════════════════\n" +
+                    "═══════════════════════════════════════════════════════════════════\n" +
                     " > Elige una opción: ";
 
     public static final String MENU2 =
@@ -87,6 +87,12 @@ public class Ascii {
                     "                      [ 1 ]  Nueva partida    [ 2 ]  Instrucciones    [ 0 ]  Volver\n" +
                     "                    ═════════════════════════════════════════════════════════════════\n" +
                     "                     > Elige una opción: ";
+
+    public static final String MENU4 =
+                    "                              ══════════════════════════════════════════════════\n" +
+                    "                                [ 1 ]  Mostrar ejemplos manos    [ 0 ]  Volver\n" +
+                    "                              ══════════════════════════════════════════════════\n" +
+                    "                               > Elige una opción: ";
 
     public static final String MENU_JUGADOR =
             "════════════════════════════════════════════════════════════════════════\n" +

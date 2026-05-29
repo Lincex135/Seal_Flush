@@ -59,7 +59,7 @@ public class Instrucciones {
                     "  - Pasar:  Pasar sin apostar (solo posible si nadie ha apostado antes).\n" +
                     "  - Igualar:   Igualar la apuesta actual de otro jugador.\n" +
                     "  - Subir:  Subir la apuesta actual.\n" +
-                    "  - Retirarse:   Retirarse de la mano y perder las apuestas ya realizadas.\n";
+                    "  - Retirarse:   Retirarse de la mano y perder las apuestas ya realizadas.";
 
     public static final String JERARQUIA_DE_MANOS =
             "Las manos se ordenan de mayor a menor valor:\n" +
@@ -72,7 +72,7 @@ public class Instrucciones {
                     "   7. Trío:             Tres cartas del mismo valor.\n" +
                     "   8. Doble Pareja:     Dos pares distintos.\n" +
                     "   9. Pareja:           Dos cartas del mismo valor.\n" +
-                    "  10. Carta Alta:       Ninguna combinación. Gana la carta más alta.\n\n";
+                    "  10. Carta Alta:       Ninguna combinación. Gana la carta más alta.";
 
     public static final String DESEMPATES =
             "Cuando dos jugadores tienen el mismo tipo de mano, se aplican estas reglas:\n" +
@@ -110,7 +110,7 @@ public class Instrucciones {
                     "  4. Se revelan 3 cartas en la mesa y se apuesta (Flop).\n" +
                     "  5. Se revelan 2 cartas más, una a una, apostando tras cada una (Turn y River).\n" +
                     "  6. El mejor jugador gana el bote. Si tiene flush, puede activarse\n" +
-                    "     el Sello Dorado o el Sello Oscuro para la siguiente mano.";
+                    "     el Sello Dorado o el Sello Oscuro para la siguiente mano.\n";
 
     @Override
     public String toString() {

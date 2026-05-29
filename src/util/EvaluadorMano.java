@@ -76,7 +76,7 @@ public class EvaluadorMano {
      * Metodo para ordenar las cartas de la mesa y de la mano del jugador de mayor a menor para determinar su tipo
      *
      * @param cartasOriginales array de tipo Carta
-     * @return devuleve un array de tipo Carta ordenado de mayor a menor
+     * @return devuelve un array de tipo Carta ordenado de mayor a menor
      */
     // Ordenar las 7 cartas de mayor a menor rango (burbuja)
     private Carta[] ordenarCartasDeMayorAMenor(Carta[] cartasOriginales) {
@@ -99,8 +99,8 @@ public class EvaluadorMano {
 
     /**
      * Metodo para calcular las distribuciones de las cartas
+     * Cuenta cuántas cartas hay de cada rango y de cada palo
      */
-    // Contar cuántas cartas hay de cada rango y de cada palo
     private void calcularDistribuciones() {
         for (Carta cartaActual : cartasOrdenadas) {
             cartasPorRango[cartaActual.getRango()]++;

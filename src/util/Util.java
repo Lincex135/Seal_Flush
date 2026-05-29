@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import objetos.*;
 
 /**
- * Clase util para la optimización del proyecto
+ * Clase Util con métodos utilizados en otras clases
  *
  *  @author Ximena López
  *  @author Adrián de Armas
@@ -294,6 +294,9 @@ public class Util {
     public static boolean ejecutarAccion(int opcion, Jugador jugador, Bote bote,
                                          Tablero tablero, Scanner teclado) {
         switch (opcion) {
+            case -1 -> { //Vacío, es lo que devuelve leerEntero. Está así para q no salte el error del default
+                return false;
+            }
             case 1 -> { // Igualar
                 int diferencia = tablero.getApuestaRonda() - jugador.getApuestaActual();
                 if (diferencia <= 0) {
@@ -349,14 +352,14 @@ public class Util {
                 return true;
             }
             default -> {
-                System.out.println("Opción no válida.");
+                System.out.println(Color.RED + "ERROR. Opción no válida." + Color.RESET + "\n");
                 return false;
             }
         }
     }
 
     /**
-     * Metodo para ejecutar el torneo
+     * Metodo para ejecutar el turno
      *
      * @param jugador objeto Jugador
      * @param bote objeto Bote
@@ -364,16 +367,15 @@ public class Util {
      * @param listaJugadores lista de jugadores
      * @param fase nombre de fase
      * @param teclado objeto escaner
-     * @return devuelve true si el torneo se puede ejecutar y false si no
      */
-    public static boolean ejecutarTurno(Jugador jugador, Bote bote, Tablero tablero, ArrayList<Jugador> listaJugadores, String fase, Scanner teclado) {
+    public static void ejecutarTurno(Jugador jugador, Bote bote, Tablero tablero, ArrayList<Jugador> listaJugadores, String fase, Scanner teclado) {
 
         int puedenActuar = 0;
         for (Jugador j : listaJugadores) {
             if (j.estaActivo()) puedenActuar++;
         }
         if (!jugador.estaActivo() || puedenActuar == 0) {
-            return false;
+            return;
         }
 
         System.out.print("Pulse enter para empezar el turno de " + jugador.getNomJugador() + " ");
@@ -384,16 +386,17 @@ public class Util {
         int respuestaJ;
         do {
             System.out.print(Ascii.MENU_JUGADOR);
-            respuestaJ = Integer.parseInt(teclado.nextLine());
+            respuestaJ = leerEntero(teclado);
 
             System.out.println();
             switch (respuestaJ) {
+                case -1 -> {}//Vacío, es lo que devuelve leerEntero. Está así para q no salte el error del default
                 case 1 -> {
                     boolean turnoAcabado = false;
                     int respuestaAcc;
                     do {
                         System.out.print(Ascii.MENU_ACCIONES);
-                        respuestaAcc = Integer.parseInt(teclado.nextLine());
+                        respuestaAcc = leerEntero(teclado);
                         System.out.println();
                         if (respuestaAcc != 0) {
                             turnoAcabado = Util.ejecutarAccion(respuestaAcc, jugador, bote, tablero, teclado);
@@ -419,7 +422,6 @@ public class Util {
                 default -> System.out.println(Color.RED + "ERROR. Elija una opción válida" + Color.RESET + "\n");
             }
         } while (respuestaJ != 1);
-        return true;
     }
 
     /**
@@ -442,14 +444,14 @@ public class Util {
      * Determina quién gana la ronda entre los jugadores que no se han retirado,
      * muestra el resultado por pantalla y entrega el bote al ganador.
      * En caso de empate, el bote se reparte a partes iguales.
-     * Si no se puede repartir equitativamente, el bote se quedará con un resto lo demás se repartirá en múltiplos de 5
+     * Si no se puede repartir equitativamente, el bote se quedará con un resto lo demás se repartirá
      *
      * @param listaJugadores lista de jugadores
      * @param tablero objeto Tablero
      * @param bote objeto Bote
-     * @param eventos objeto EventosEspeciales
+     * @param paloDominante integer del paloDominante
      */
-    public static void resolverShowdown(ArrayList<Jugador> listaJugadores, Tablero tablero, Bote bote, EventoEspecial eventos) {
+    public static void resolverShowdown(ArrayList<Jugador> listaJugadores, Tablero tablero, Bote bote, int paloDominante) {
 
         int resto = 0; // El resto del bote (puede no ser 0)
         // Recopilar solo los jugadores que siguen activos (no se han retirado)
@@ -470,6 +472,7 @@ public class Util {
             Util.pintarCartas(jugadorGanador.getMano());
             entregarBote(jugadorGanador, bote.getCantidad(), false);
             bote.setCantidad(0);
+            comprobarEventosEspeciales(paloDominante, listaJugadores, tablero, jugadoresActivos);
             return;
         }
 
@@ -497,7 +500,7 @@ public class Util {
             Jugador jugadorGanador = listaGanadores.getFirst();
             EvaluadorMano evaluacionGanadora = jugadoresYEvaluacion.get(jugadorGanador);
             TipoMano tipoManoGanadora = evaluacionGanadora.getTipo();
-            boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(evaluacionGanadora, eventos.getPaloDominante());
+            boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(evaluacionGanadora, paloDominante);
 
             System.out.println(Color.GREEN + "Ganador: " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN
                     + " gana " + cantidadDelBote + " fichas con "
@@ -530,11 +533,11 @@ public class Util {
             }
 
             for (Jugador jugadorGanador : listaGanadores) {
-                boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(jugadoresYEvaluacion.get(jugadorGanador), eventos.getPaloDominante());
+                boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(jugadoresYEvaluacion.get(jugadorGanador), paloDominante);
                 entregarBote(jugadorGanador, fichasPorJugador, tieneFlushDominante);
             }
         }
-        comprobarEventosEspeciales(eventos, jugadoresActivos, tablero, listaGanadores);
+        comprobarEventosEspeciales(paloDominante, listaJugadores, tablero, jugadoresActivos);
         bote.setCantidad(resto);
         System.out.println();
     }
@@ -575,19 +578,19 @@ public class Util {
     /**
      * Metodo para obtener los eventos especiales
      *
-     * @param eventos objeto EventoEspecial
+     * @param paloDominante integer del palo dominante
      * @param listaJugadores lista de jugadores
      * @param tablero objeto Tablero
      * @param jugadoresGanadores lista de jugadores ganadores
      */
-    public static void comprobarEventosEspeciales(EventoEspecial eventos, ArrayList<Jugador> listaJugadores, Tablero tablero, ArrayList<Jugador> jugadoresGanadores) {
+    public static void comprobarEventosEspeciales(int paloDominante, ArrayList<Jugador> listaJugadores, Tablero tablero, ArrayList<Jugador> jugadoresGanadores) {
         HashMap<Jugador,TipoMano> jugadoresYTipoMano = devolverJugadoresYTipoMano(listaJugadores,tablero);
-        UtilEventosEspeciales.comprobarSelloDorado(eventos,jugadoresGanadores,jugadoresYTipoMano);
-        UtilEventosEspeciales.comprobarSelloOscuro(eventos,jugadoresGanadores,jugadoresYTipoMano,listaJugadores);
+        UtilEventosEspeciales.comprobarSelloDorado(jugadoresGanadores,jugadoresYTipoMano);
+        UtilEventosEspeciales.comprobarSelloOscuro(jugadoresGanadores,jugadoresYTipoMano,listaJugadores);
     }
 
     /**
-     * Metodo que devuelve los jugadores y su tipo de mano
+     * Metodo que devuelve un HashMap de los jugadores y su tipo de mano
      *
      * @param listaJugadores lista de jugadores
      * @param tablero objeto tablero
@@ -626,7 +629,7 @@ public class Util {
      * @param jugadoresActivos lista de jugadores activos
      * @param jugadoresYEvaluacion HashMap de Jugador y EvaluadorMano
      * @param valorManoGanadora valor de la mano ganadora
-     * @return
+     * @return ArrayList de Jugador de los ganadores
      */
     public static ArrayList<Jugador> obtenerJugadoresGanadores(ArrayList<Jugador> jugadoresActivos, HashMap<Jugador, EvaluadorMano> jugadoresYEvaluacion, int valorManoGanadora) {
         ArrayList<Jugador> listaGanadores = new ArrayList<>();
@@ -659,7 +662,7 @@ public class Util {
      *
      * @param jugadoresYEvaluacion HashMap de Jugador y EvaluadorMano
      * @param jugadoresActivos lista de jugadores activos
-     * @return
+     * @return valorManoGanadora devuelve el valor de la mano
      */
     public static int obtenerValorManoGanadora(HashMap<Jugador, EvaluadorMano> jugadoresYEvaluacion, ArrayList<Jugador> jugadoresActivos) {
         int valorManoGanadora = -1;
@@ -675,7 +678,7 @@ public class Util {
      * Metodo para obtener el nombre del jugador ganador
      *
      * @param listaJugadores lista de jugadores
-     * @return devuelve el nombre del jugador ganador
+     * @return nomJugadorGanador devuelve el nombre del jugador ganador
      */
     public static String obtenerNomJugadorGanador(ArrayList<Jugador> listaJugadores) {
         String nomJugadorGanador = "";
@@ -687,5 +690,25 @@ public class Util {
             }
         }
         return nomJugadorGanador;
+    }
+
+    /**
+     * Metodo que lee un número entero y se asegura q no es una letra ni está vacío
+     *
+     * @param teclado Scanner ya inicializado
+     * @return numero entero leído por teclado
+     */
+    public static int leerEntero(Scanner teclado) {
+        try {
+            String linea = teclado.nextLine().trim();
+            if (linea.isEmpty()) {
+                System.out.println(Color.RED + "\nERROR. No introdujo ningún valor. Introduzca un número." + Color.RESET + "\n");
+                return -1;
+            }
+            return Integer.parseInt(linea);
+        } catch (NumberFormatException e) {
+            System.out.println("\n" + Color.RED + "\nERROR. Entrada no válida. Introduzca un número" + Color.RESET + "\n");
+            return -1;
+        }
     }
 }
