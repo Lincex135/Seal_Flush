@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sealFlush fechaActualizacion="2026-05-28 19:25:28">
+    <resumen>
+        <partidasJugadas>2</partidasJugadas>
+        <boteMaximoHistorico valor="1500" fechaHora="2026-05-28 19:04:03" ganador="lincex" />
+        <jugadorConMasFichas nombre="lincex" fichas="1500" fechaHora="2026-05-28 19:04:03" />
+        <partidaMasLarga rondas="3" fechaHora="2026-05-28 19:25:28" ganador="adripan" />
+    </resumen>
+    <hallFama>
+        <entrada posicion="1" jugador="lincex" fichas="1500" fechaHora="2026-05-28 19:04:03" rondas="1" />
+        <entrada posicion="2" jugador="adripan" fichas="1475" fechaHora="2026-05-28 19:25:28" rondas="3" />
+    </hallFama>
+    <partidas>
+        <partida id="1" fechaHora="2026-05-28 19:04:03">
+            <ganador>lincex</ganador>
+            <fichasGanador>1500</fichasGanador>
+            <rondasJugadas>1</rondasJugadas>
+            <boteMaximo>1500</boteMaximo>
+            <numJugadores>3</numJugadores>
+            <jugadores>
+                <jugador nombre="lincex" fichasFinales="1500" estado="ALL_IN" />
+                <jugador nombre="adripan" fichasFinales="0" estado="ALL_IN" />
+                <jugador nombre="hisui" fichasFinales="0" estado="ALL_IN" />
+            </jugadores>
+        </partida>
+        <partida id="2" fechaHora="2026-05-28 19:25:28">
+            <ganador>adripan</ganador>
+            <fichasGanador>1475</fichasGanador>
+            <rondasJugadas>3</rondasJugadas>
+            <boteMaximo>1470</boteMaximo>
+            <numJugadores>3</numJugadores>
+            <jugadores>
+                <jugador nombre="lincex" fichasFinales="0" estado="ELIMINADO" />
+                <jugador nombre="adripan" fichasFinales="1475" estado="ACTIVO" />
+                <jugador nombre="hisui" fichasFinales="25" estado="RETIRADO" />
+            </jugadores>
+        </partida>
+    </partidas>
+</sealFlush>
