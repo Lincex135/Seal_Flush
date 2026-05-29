@@ -297,8 +297,9 @@ sealFlush
 ## 🗣️ Disclaimer
 
 This was us during the proyect btw
-
-<img src="https://c.tenor.com/vPMFS9UZx2oAAAAd/tenor.gif" style="display:block; margin:auto;" width="200">
+<p align="center">
+  <img src="https://c.tenor.com/vPMFS9UZx2oAAAAd/tenor.gif" style="display:block; margin:auto;" width="250">
+</p>
 
 ## 📚 Bibliografía
 
