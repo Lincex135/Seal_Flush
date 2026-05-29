@@ -243,7 +243,7 @@ public class Main {
                         }
                     }
                     if (Util.soloQuedaUnJugador(listaJugadores) || numFase == 4) {
-                        Util.resolverShowdown(listaJugadores, tablero, bote, paloDominante);
+                        Util.resolverShowdown(listaJugadores, tablero, bote, paloDominante, teclado);
                         rondaAcabada = true;
                     }
                 }
@@ -260,12 +260,12 @@ public class Main {
                     }
                 }
                 if (jugadoresNoEliminados == 1) {
-                    System.out.println(Color.CYAN + "El ganador de la partida ha sido: " + Color.PINK + nomJugadorGanadorPartida + Color.CYAN + " con " + Color.YELLOW + numFichasGanadoras + Color.CYAN + " fichas." + Color.RESET);
+                    System.out.println(Color.CYAN + "El ganador de la partida ha sido: " + Color.PINK + nomJugadorGanadorPartida + Color.CYAN + " con " + Color.YELLOW + numFichasGanadoras + Color.CYAN + " fichas." + Color.RESET + "\n");
                     GestorEstadisticas.guardarPartida(new EstadisticasPartida(nomJugadorGanadorPartida, numFichasGanadoras, rondaActual, boteMaximoPartida, listaJugadores));
                     partidaAcabada = true;
                 } else if (respuestaModo == 1) {
                     if (rondaActual == numRondas) {
-                        System.out.println(Color.CYAN + "El ganador de la partida ha sido: " + Color.PINK + nomJugadorGanadorPartida + Color.CYAN + " con " + Color.YELLOW + numFichasGanadoras + Color.CYAN + " fichas." + Color.RESET);
+                        System.out.println(Color.CYAN + "El ganador de la partida ha sido: " + Color.PINK + nomJugadorGanadorPartida + Color.CYAN + " con " + Color.YELLOW + numFichasGanadoras + Color.CYAN + " fichas." + Color.RESET+ "\n");
                         GestorEstadisticas.guardarPartida(new EstadisticasPartida(nomJugadorGanadorPartida, numFichasGanadoras, rondaActual, boteMaximoPartida, listaJugadores));
                         partidaAcabada = true;
                     }

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sealFlush fechaActualizacion="2026-05-29 12:25:55">
+<sealFlush fechaActualizacion="2026-05-29 12:53:21">
     <resumen>
-        <partidasJugadas>4</partidasJugadas>
+        <partidasJugadas>3</partidasJugadas>
         <boteMaximoHistorico valor="1500" fechaHora="2026-05-28 19:04:03" ganador="lincex" />
         <jugadorConMasFichas nombre="lincex" fichas="1500" fechaHora="2026-05-28 19:04:03" />
-        <partidaMasLarga rondas="3" fechaHora="2026-05-28 19:25:28" ganador="adripan" />
+        <partidaMasLarga rondas="4" fechaHora="2026-05-29 12:53:21" ganador="eliseo" />
     </resumen>
     <hallFama>
         <entrada posicion="1" jugador="lincex" fichas="1500" fechaHora="2026-05-28 19:04:03" rondas="1" />
-        <entrada posicion="2" jugador="adripan" fichas="1475" fechaHora="2026-05-28 19:25:28" rondas="3" />
-        <entrada posicion="3" jugador="adri" fichas="1000" fechaHora="2026-05-29 12:25:55" rondas="1" />
-        <entrada posicion="4" jugador="adiran" fichas="500" fechaHora="2026-05-29 12:22:47" rondas="3" />
+        <entrada posicion="2" jugador="eliseo" fichas="1480" fechaHora="2026-05-29 12:53:21" rondas="4" />
+        <entrada posicion="3" jugador="adripan" fichas="1475" fechaHora="2026-05-28 19:25:28" rondas="3" />
     </hallFama>
     <partidas>
         <partida id="1" fechaHora="2026-05-28 19:04:03">
@@ -35,6 +34,17 @@
                 <jugador nombre="lincex" fichasFinales="0" estado="ELIMINADO" />
                 <jugador nombre="adripan" fichasFinales="1475" estado="ACTIVO" />
                 <jugador nombre="hisui" fichasFinales="25" estado="RETIRADO" />
+            </jugadores>
+        </partida>
+        <partida id="3" fechaHora="2026-05-29 12:53:21">
+            <ganador>eliseo</ganador>
+            <fichasGanador>1480</fichasGanador>
+            <rondasJugadas>4</rondasJugadas>
+            <boteMaximo>1485</boteMaximo>
+            <numJugadores>3</numJugadores>
+            <jugadores>
+                <jugador nombre="ximena" fichasFinales="20" estado="ELIMINADO" />
+                <jugador nombre="eliseo" fichasFinales="1480" estado="ACTIVO" />
             </jugadores>
         </partida>
     </partidas>

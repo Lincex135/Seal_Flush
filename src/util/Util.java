@@ -461,14 +461,14 @@ public class Util {
      * @param bote objeto Bote
      * @param paloDominante integer del paloDominante
      */
-    public static void resolverShowdown(ArrayList<Jugador> listaJugadores, Tablero tablero, Bote bote, int paloDominante) {
+    public static void resolverShowdown(ArrayList<Jugador> listaJugadores, Tablero tablero, Bote bote, int paloDominante, Scanner teclado) {
 
         int resto = 0; // El resto del bote (puede no ser 0)
         // Recopilar solo los jugadores que siguen activos (no se han retirado)
         ArrayList<Jugador> jugadoresActivos = obtenerJugadoresActivos(listaJugadores);
 
         System.out.println();
-        System.out.println(Color.CYAN + "══════════════  SHOWDOWN  ══════════════" + Color.RESET + "\n");
+        System.out.println(Color.CYAN + "                                                                                          ══════════════  SHOWDOWN  ══════════════" + Color.RESET + "\n");
         Carta[] cartasTablero = tablero.getCartas();
         for (Carta carta : cartasTablero) {
             carta.setVuelta(false);
@@ -493,7 +493,7 @@ public class Util {
             System.out.println();
             pintarCartas(jugadorActual.getMano());
             TipoMano manoJugador = jugadoresYTipoMano.get(jugadorActual);
-            System.out.println(Color.YELLOW + manoJugador.getDescripcion() + Color.RESET);
+            System.out.println(Color.YELLOW + manoJugador.getDescripcion() + Color.RESET + "\n\n");
         }
 
         int valorManoGanadora = obtenerValorManoGanadora(jugadoresYEvaluacion, jugadoresActivos);
@@ -512,10 +512,11 @@ public class Util {
             boolean tieneFlushDominante = UtilEventosEspeciales.esFlushDominante(evaluacionGanadora, paloDominante);
 
             System.out.println(Color.GREEN + "Ganador: " + Color.PINK + jugadorGanador.getNomJugador() + Color.GREEN
-                    + " gana " + cantidadDelBote + " fichas con "
-                    + Color.YELLOW + tipoManoGanadora.getDescripcion() + Color.RESET);
+                    + " gana " + Color.YELLOW + cantidadDelBote + " fichas " + Color.GREEN + "con "
+                    + Color.YELLOW + tipoManoGanadora.getDescripcion() + Color.RESET + "\n");
             entregarBote(jugadorGanador, cantidadDelBote, tieneFlushDominante);
-
+            System.out.print("Pulse enter para pasar a la siguiente ronda ");
+            String continuar = teclado.nextLine();
         } else {
             // Empate: repartir el bote en partes iguales
             int numGanadores = listaGanadores.size();
@@ -533,7 +534,7 @@ public class Util {
                 }
             }
             System.out.println();
-            System.out.println("Cada uno recibe " + fichasPorJugador + " fichas." + Color.RESET);
+            System.out.println("\nCada uno recibe " + fichasPorJugador + " fichas." + Color.RESET);
             // tras repartir fichas del bote, marcar como eliminado quien tenga 0
             for (Jugador jugador : listaJugadores) {
                 if (jugador.getFichas() == 0 && !jugador.estaEliminado()) {

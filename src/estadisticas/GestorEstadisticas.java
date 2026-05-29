@@ -31,7 +31,7 @@ public class GestorEstadisticas {
             partidaNueva.setId(partidas.size() + 1);
             partidas.add(partidaNueva);
             escribirXml(partidas);
-            System.out.println(Color.GREEN + "Estadisticas guardadas en " + RUTA_XML + Color.RESET);
+            System.out.println(Color.GREEN + "Estadísticas guardadas en " + RUTA_XML + Color.RESET + "\n");
         } catch (IOException e) {
             System.out.println(Color.RED + "ERROR. No se han podido guardar las estadisticas." + Color.RESET);
         }
